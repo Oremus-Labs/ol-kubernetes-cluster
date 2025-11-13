@@ -1,0 +1,14 @@
+# 1Password Connect + Operator (on-premises defaults)
+connect:
+  create: true
+  credentialsName: op-credentials
+  credentialsKey: 1password-credentials.json
+  serviceType: ClusterIP
+
+operator:
+  create: true
+  authMethod: connect
+  autoRestart: true
+  token:
+    name: onepassword-connect-token
+    key: token

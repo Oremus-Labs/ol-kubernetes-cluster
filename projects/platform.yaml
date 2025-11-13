@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Platform (cluster infrastructure + shared services)
+  sourceRepos:
+    - 'https://github.com/Oremus-Labs/ol-kubernetes-cluster'
+    - 'https://charts.jetstack.io'
+    - 'https://traefik.github.io/charts'
+  destinations:
+    - server: '*'
+      namespace: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceBlacklist: []

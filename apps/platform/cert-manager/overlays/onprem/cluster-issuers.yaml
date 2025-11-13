@@ -1,0 +1,39 @@
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: cloudflare-api-token-secret
+  namespace: cert-manager
+spec:
+  # Mirrors op://oremuslabs.app/cloudflare-api-token/credential
+  itemPath: "vaults/oremuslabs.app/items/cloudflare-api-token"
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-cloudflare
+spec:
+  acme:
+    email: ops@oremuslabs.app
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-cloudflare-account-key
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: credential
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-oremuslabs-app
+  namespace: cert-manager
+spec:
+  secretName: wildcard-oremuslabs-app-tls
+  issuerRef:
+    name: letsencrypt-cloudflare
+    kind: ClusterIssuer
+  dnsNames:
+    - oremuslabs.app
+    - '*.oremuslabs.app'

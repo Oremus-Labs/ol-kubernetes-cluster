@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: traefik
+  namespace: argocd
+spec:
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: '{{name}}-traefik'
+    spec:
+      project: platform
+      destination:
+        server: '{{server}}'
+        namespace: traefik-v3
+      source:
+        repoURL: https://traefik.github.io/charts
+        chart: traefik
+        targetRevision: 35.2.0
+        helm:
+          values: |
+            ingressRoute:
+              dashboard:
+                enabled: true
+                matchRule: "Host(`traefik.oremuslabs.app`)"
+                entryPoints: ["websecure"]
+            tlsStore:
+              default:
+                defaultCertificate:
+                  secretName: wildcard-oremuslabs-app-tls
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

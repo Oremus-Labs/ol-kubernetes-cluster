@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: onepassword-connect
+  namespace: onepassword
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`op.oremuslabs.app`)
+      services:
+        - name: onepassword-connect
+          port: 8080

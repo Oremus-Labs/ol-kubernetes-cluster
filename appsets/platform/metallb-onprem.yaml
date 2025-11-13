@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: metallb-onprem
+  namespace: argocd
+spec:
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            provider: onprem
+  template:
+    metadata:
+      name: '{{name}}-metallb'
+    spec:
+      project: platform
+      destination:
+        server: '{{server}}'
+        namespace: metallb-system
+      source:
+        repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster
+        targetRevision: HEAD
+        path: apps/platform/metallb/overlays/onprem
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

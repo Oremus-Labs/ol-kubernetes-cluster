@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: workloads
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Business / application workloads
+  sourceRepos:
+    - 'https://github.com/Oremus-Labs/ol-kubernetes-cluster'
+  destinations:
+    - server: '*'
+      namespace: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: Namespace
+  namespaceResourceBlacklist: []

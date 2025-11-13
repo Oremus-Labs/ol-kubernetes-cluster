@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-vip
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: kube-vip
+  template:
+    metadata:
+      labels:
+        app: kube-vip
+    spec:
+      hostNetwork: true
+      containers:
+        - name: kube-vip
+          image: ghcr.io/kube-vip/kube-vip:v0.7.2
+          args:
+            - manager
+          env:
+            - name: vip_interface
+              value: eth0
+            - name: address
+              value: 10.10.10.50
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN", "NET_RAW"]
