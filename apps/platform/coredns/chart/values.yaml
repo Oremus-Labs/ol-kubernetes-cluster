@@ -1,0 +1,37 @@
+coredns:
+  isClusterService: false
+  serviceAccount:
+    create: true
+  serviceType: LoadBalancer
+  service:
+    loadBalancerIP: 10.10.10.55
+    annotations:
+      metallb.universe.tf/address-pool: first-pool
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+  servers:
+    - zones:
+        - zone: oremuslabs.app.
+          use_tcp: true
+      port: 53
+      plugins:
+        - name: log
+        - name: errors
+        - name: health
+          configBlock: |-
+            lameduck 10s
+        - name: ready
+        - name: hosts
+          configBlock: |-
+            10.10.10.52 argocd.oremuslabs.app
+            fallthrough
+        - name: forward
+          parameters: . 1.1.1.1 1.0.0.1
+        - name: cache
+          parameters: 120
+        - name: reload

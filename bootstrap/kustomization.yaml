@@ -4,6 +4,7 @@ resources:
   - ../projects/platform.yaml
   - ../projects/workloads.yaml
   - ../apps/platform/argocd/application.yaml
+  - ../apps/platform/coredns/application.yaml
   - ../appsets/platform/metallb-onprem.yaml
   - ../appsets/platform/kube-vip-onprem.yaml
   - ../appsets/platform/cert-manager.yaml
