@@ -10,7 +10,7 @@ argo-cd:
     service:
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/address-pool: first-pool
+        kube-vip.io/loadbalancerIPs: "10.10.10.51"
     ingress:
       enabled: false
   controller:

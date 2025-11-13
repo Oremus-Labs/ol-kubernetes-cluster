@@ -6,7 +6,7 @@ resources:
   - ../apps/platform/argocd/application.yaml
   - ../apps/platform/cert-manager/application.yaml
   - ../apps/platform/coredns-config/application.yaml
-  - ../appsets/platform/metallb-onprem.yaml
+  - ../apps/platform/kube-vip/application.yaml
   - ../appsets/platform/kube-vip-onprem.yaml
   - ../appsets/platform/cert-manager.yaml
   - ../appsets/platform/traefik.yaml

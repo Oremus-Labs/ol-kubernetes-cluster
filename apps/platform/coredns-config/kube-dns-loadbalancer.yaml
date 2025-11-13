@@ -4,10 +4,9 @@ metadata:
   name: kube-dns-lb
   namespace: kube-system
   annotations:
-    metallb.universe.tf/address-pool: first-pool
+    kube-vip.io/loadbalancerIPs: "10.10.10.55"
 spec:
   type: LoadBalancer
-  loadBalancerIP: 10.10.10.55
   ports:
     - name: udp-53
       port: 53

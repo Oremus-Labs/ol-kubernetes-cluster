@@ -25,6 +25,9 @@ spec:
                 enabled: true
                 matchRule: "Host(`traefik.oremuslabs.app`)"
                 entryPoints: ["websecure"]
+            service:
+              annotations:
+                kube-vip.io/loadbalancerIPs: "10.10.10.52"
             tlsStore:
               default:
                 defaultCertificate:
