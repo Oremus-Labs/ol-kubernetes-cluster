@@ -15,3 +15,33 @@ data:
         forward . 1.1.1.1 1.0.0.1
         cache 60
     }
+
+    oremuslabs.app.cluster.local:53 {
+        log
+        errors
+        hosts {
+            10.10.10.52 argocd.oremuslabs.app.cluster.local
+            fallthrough
+        }
+        cache 60
+    }
+
+    oremuslabs.app.svc.cluster.local:53 {
+        log
+        errors
+        hosts {
+            10.10.10.52 argocd.oremuslabs.app.svc.cluster.local
+            fallthrough
+        }
+        cache 60
+    }
+
+    oremuslabs.app.default.svc.cluster.local:53 {
+        log
+        errors
+        hosts {
+            10.10.10.52 argocd.oremuslabs.app.default.svc.cluster.local
+            fallthrough
+        }
+        cache 60
+    }
