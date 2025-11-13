@@ -26,9 +26,6 @@ spec:
               speaker:
                 frr:
                   enabled: false
-                arp:
-                  enabled: true
-                  strict: true
         - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster
           targetRevision: HEAD
           path: apps/platform/metallb/config
