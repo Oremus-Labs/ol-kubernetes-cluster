@@ -6,9 +6,9 @@ This scaffold introduces an industry-standard Argo CD + ApplicationSet layout su
 - ApplicationSets fan out platform + workload apps to every matching cluster.
 - Cluster labels drive targeting: `provider=onprem|cloud`; currently only production clusters are in use (optional future label: `env=prod`).
 - Platform vs workloads isolation with separate AppProjects.
-- On-prem only components: MetalLB, kube-vip (excluded from cloud by label selector).
+- On-prem only components: kube-vip (excluded from cloud by label selector).
 - Helm charts consumed directly (traefik, cert-manager) to avoid vendoring.
-- Kustomize overlays for provider or environment-specific differences (metallb IP ranges, 1Password env overlays, etc.).
+- Kustomize overlays for provider or environment-specific differences (kube-vip IP ranges, 1Password env overlays, etc.).
 
 ## Bootstrap Flow
 1. Install Argo CD (namespace `argocd`) since the live cluster currently has no Argo CD:
