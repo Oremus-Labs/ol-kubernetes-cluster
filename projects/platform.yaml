@@ -11,6 +11,7 @@ spec:
     - 'https://github.com/Oremus-Labs/ol-kubernetes-cluster'
     - 'https://charts.jetstack.io'
     - 'https://traefik.github.io/charts'
+    - 'https://metallb.github.io/metallb'
   destinations:
     - server: '*'
       namespace: '*'
