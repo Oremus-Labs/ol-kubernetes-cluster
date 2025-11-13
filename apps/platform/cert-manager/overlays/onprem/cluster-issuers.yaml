@@ -28,7 +28,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: wildcard-oremuslabs-app
-  namespace: cert-manager
+  namespace: traefik-v3
 spec:
   secretName: wildcard-oremuslabs-app-tls
   issuerRef:
