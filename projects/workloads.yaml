@@ -9,10 +9,17 @@ spec:
   description: Business / application workloads
   sourceRepos:
     - 'https://github.com/Oremus-Labs/ol-kubernetes-cluster'
+    - 'https://1password.github.io/connect-helm-charts/'
   destinations:
     - server: '*'
       namespace: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: Namespace
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
   namespaceResourceBlacklist: []
