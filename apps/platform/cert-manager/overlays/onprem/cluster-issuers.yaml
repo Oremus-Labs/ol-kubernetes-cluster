@@ -4,8 +4,9 @@ metadata:
   name: cloudflare-api-token-secret
   namespace: cert-manager
 spec:
-  # Mirrors op://oremuslabs.app/cloudflare-api-token/credential
-  itemPath: "vaults/oremuslabs.app/items/cloudflare-api-token"
+  # Mirrors op://oremuslabs.app/cloudflare-api-token /credential
+  # Item has a trailing space in the title, so use the stable item UUID.
+  itemPath: "vaults/oremuslabs.app/items/uoehc7luujcnyehrqz5enroisi"
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
