@@ -1,0 +1,51 @@
+affinity: {}
+config:
+  address: 10.10.10.50
+env:
+  cp_enable: "true"
+  lb_enable: "true"
+  lb_port: "16443"
+  svc_election: "false"
+  svc_enable: "false"
+  vip_arp: "true"
+  vip_cidr: "32"
+  vip_interface: eth0
+  vip_leaderelection: "true"
+envFrom: []
+envValueFrom: {}
+extraArgs: {}
+extraLabels: {}
+fullnameOverride: ""
+hostAliases: []
+image:
+  pullPolicy: IfNotPresent
+  repository: ghcr.io/kube-vip/kube-vip
+imagePullSecrets: []
+nameOverride: ""
+namespaceOverride: ""
+nodeSelector: {}
+podAnnotations: {}
+podMonitor:
+  annotations: {}
+  enabled: false
+  labels: {}
+podSecurityContext: {}
+priorityClassName: ""
+resources: {}
+securityContext:
+  capabilities:
+    add:
+    - NET_ADMIN
+    - NET_RAW
+    drop:
+    - ALL
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+tolerations:
+- effect: NoSchedule
+  key: node-role.kubernetes.io/control-plane
+  operator: Exists
+volumeMounts: []
+volumes: []

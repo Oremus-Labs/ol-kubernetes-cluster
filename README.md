@@ -8,6 +8,11 @@ This repository codifies the full state of the Oremus-Labs management cluster by
 - `clusters/oremus-labs/mgmt/root/` – Argo CD synchronizes this path. It defines projects and the ApplicationSets that orchestrate platform/workload components.
 - `apps/` – Helm value overlays for every component managed by Argo CD (platform or workload).
 
+## Managed components
+
+- Argo CD (platform GitOps control plane) – Helm chart `argo-cd` pinned at `5.34.3`.
+- Kube-VIP (control-plane virtual IP / load-balancer) – Helm chart `kube-vip` pinned at `0.9.1`.
+
 ## Bootstrap
 
 ```bash
