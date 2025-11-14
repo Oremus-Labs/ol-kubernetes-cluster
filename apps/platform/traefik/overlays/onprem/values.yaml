@@ -1,7 +1,0 @@
-# On-prem Traefik overrides
-# Replace host domains as needed
-ingressRoute:
-  dashboard:
-    enabled: true
-    matchRule: "Host(`traefik.onprem.oremuslabs.app`)"
-    entryPoints: [websecure]

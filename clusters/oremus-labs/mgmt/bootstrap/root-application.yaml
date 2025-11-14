@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oremus-labs-mgmt-root
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: oremus-labs-mgmt-root
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+    targetRevision: main
+    path: clusters/oremus-labs/mgmt/root
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

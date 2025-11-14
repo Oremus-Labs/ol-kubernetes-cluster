@@ -1,0 +1,70 @@
+global:
+  revisionHistoryLimit: 5
+
+configs:
+  params:
+    controller.operation.processors: "10"
+    controller.status.processors: "20"
+    applicationsetcontroller.log.format: json
+  cm:
+    timeout.reconciliation: 60s
+    resource.customizations.health.apps_Deployment: |
+      hs = {}
+      hs.status = "Healthy" if obj.status.availableReplicas == obj.status.replicas else "Progressing"
+  repositories:
+    ol-kubernetes-cluster:
+      url: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+  secret:
+    argocdServerAdminPassword: "$2a$10$qeqK7rh0hcSKU4bAYmw5mOZES04LSWaPufAkOJFDeZB.WsuMSmlZ6"
+    argocdServerAdminPasswordMtime: "2025-11-14T06:47:47Z"
+
+controller:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+repoServer:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+applicationSet:
+  replicaCount: 1
+  podAnnotations:
+    oremus-labs.com/component: applicationset
+
+server:
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  service:
+    type: ClusterIP
+  autoscaling:
+    enabled: false
+
+notifications:
+  metrics:
+    enabled: true
+
+redis:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi

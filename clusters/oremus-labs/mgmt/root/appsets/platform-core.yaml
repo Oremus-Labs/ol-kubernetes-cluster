@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: oremus-labs-platform
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - name: argocd
+        namespace: argocd
+        project: platform
+        chart: argo-cd
+        repoURL: https://argoproj.github.io/argo-helm
+        targetRevision: 5.34.3
+        releaseName: argo-cd
+        valuesFile: apps/platform/argocd/values/mgmt.yaml
+  template:
+    metadata:
+      name: platform-{{name}}
+      labels:
+        oremus-labs.com/tier: platform
+    spec:
+      project: '{{project}}'
+      sources:
+      - repoURL: '{{repoURL}}'
+        chart: '{{chart}}'
+        targetRevision: '{{targetRevision}}'
+        helm:
+          releaseName: '{{releaseName}}'
+          valueFiles:
+          - $values/{{valuesFile}}
+      - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+        targetRevision: main
+        ref: values
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
