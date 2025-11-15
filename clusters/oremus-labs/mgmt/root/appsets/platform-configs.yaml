@@ -31,6 +31,18 @@ spec:
         path: apps/platform/argocd/resources
         targetRevision: main
         syncWave: "1"
+      - name: minio-resources
+        namespace: minio
+        project: platform
+        path: apps/platform/minio/resources
+        targetRevision: main
+        syncWave: "1"
+      - name: longhorn-resources
+        namespace: longhorn-system
+        project: platform
+        path: apps/platform/longhorn/resources
+        targetRevision: main
+        syncWave: "1"
       - name: coredns-resources
         namespace: kube-system
         project: platform

@@ -18,6 +18,7 @@ This repository codifies the full state of the Oremus-Labs management cluster by
 - CoreDNS (cluster DNS) – Helm chart `coredns` pinned at `1.45.0`, configured for MicroK8s defaults.
 - 1Password Connect + Operator (secret automation) – Helm chart `1password/connect` pinned at `2.0.5`, deployed in namespace `1password` and exposed via Traefik at `op.oremuslabs.app`.
 - Longhorn (distributed block storage) – Helm chart `longhorn` pinned at `1.10.1`, exposed through Traefik at `longhorn.oremuslabs.app`.
+- MinIO (S3-compatible object storage) – Helm chart `minio` pinned at `5.4.0`, scheduled on node `sun` with Longhorn-backed storage from `/mnt/ol` and reachable at `s3.oremuslabs.app` (API) and `minio.oremuslabs.app` (console).
 
 ## DNS
 

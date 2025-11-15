@@ -70,6 +70,15 @@ spec:
         releaseName: longhorn
         valuesFile: apps/platform/longhorn/values/mgmt.yaml
         extraCompareOptions: ""
+      - name: minio
+        namespace: minio
+        project: platform
+        chart: minio
+        repoURL: https://charts.min.io
+        targetRevision: 5.4.0
+        releaseName: minio
+        valuesFile: apps/platform/minio/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: traefik
         namespace: traefik
         project: platform

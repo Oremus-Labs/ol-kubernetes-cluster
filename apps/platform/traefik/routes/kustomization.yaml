@@ -4,3 +4,5 @@ resources:
   - argocd.yaml
   - longhorn.yaml
   - op-connect.yaml
+  - minio-api.yaml
+  - minio-console.yaml

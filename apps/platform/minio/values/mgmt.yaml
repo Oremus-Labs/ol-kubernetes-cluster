@@ -1,0 +1,30 @@
+mode: standalone
+replicas: 1
+pools: 1
+drivesPerNode: 1
+existingSecret: minio-root-credentials
+rootUser: ""
+rootPassword: ""
+nodeSelector:
+  kubernetes.io/hostname: sun
+persistence:
+  enabled: true
+  storageClass: longhorn-minio
+  accessMode: ReadWriteOnce
+  size: 5Ti
+resources:
+  requests:
+    cpu: 500m
+    memory: 2Gi
+  limits:
+    cpu: 1000m
+    memory: 4Gi
+service:
+  type: ClusterIP
+consoleService:
+  type: ClusterIP
+metrics:
+  serviceMonitor:
+    enabled: false
+extraArgs:
+  - --console-address=:9001
