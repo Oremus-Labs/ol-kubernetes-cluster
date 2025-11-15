@@ -7,7 +7,12 @@ configs:
     controller.status.processors: "20"
     applicationsetcontroller.log.format: json
   cm:
+    url: https://argocd.oremuslabs.app
     timeout.reconciliation: 60s
+    admin.enabled: "false"
+    accounts.olfa: apiKey, login
+    policy.csv: |
+      g, olfa, role:admin
     resource.customizations.health.apps_Deployment: |
       hs = {}
       if obj.status ~= nil and obj.status.availableReplicas ~= nil and obj.status.replicas ~= nil and obj.status.availableReplicas == obj.status.replicas then
@@ -16,15 +21,33 @@ configs:
         hs.status = "Progressing"
       end
       return hs
-    admin.enabled: "false"
-    accounts.olfa: apiKey, login
-    policy.csv: |
-      g, olfa, role:admin
     dex.config: |
+      issuer: https://argo-cd-argocd-dex-server.argocd.svc.cluster.local:5556/dex
+      storage:
+        type: kubernetes
+        config:
+          inCluster: true
+      web:
+        http: 0.0.0.0:5556
+      telemetry:
+        http: 0.0.0.0:5558
+      grpc:
+        addr: 0.0.0.0:5557
+        tlsCert: /shared/tls/tls.crt
+        tlsKey: /shared/tls/tls.key
+      connectors: []
+      oauth2:
+        skipApprovalScreen: true
+      staticClients:
+      - id: argo-cd
+        redirectURIs:
+        - /auth/callback
+        name: Argo CD
+        secretEnv: ARGOCD_DEX_SERVER_CLIENT_SECRET
       enablePasswordDB: true
       staticPasswords:
       - email: olfa@oremuslabs.app
-        hash: $2b$10$ah.OqEEh8hrH0FkS8P97zuXVmkWXGroKpLzkv4HFR8bbeq0wk64Xi
+        hash: $argocd-olfa-password:password
         username: olfa
         userID: "1"
   repositories:
