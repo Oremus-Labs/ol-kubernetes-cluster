@@ -5,3 +5,4 @@ resources:
   - projects/workloads.yaml
   - appsets/platform-core.yaml
   - appsets/platform-kustomize.yaml
+  - appsets/workloads.yaml

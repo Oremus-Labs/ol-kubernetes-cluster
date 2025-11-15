@@ -15,6 +15,7 @@ This repository codifies the full state of the Oremus-Labs management cluster by
 - MetalLB (in-cluster load balancer) – Helm chart `metallb` pinned at `0.14.5`.
 - Metrics Server (resource usage API) – Helm chart `metrics-server` pinned at `3.12.1`.
 - CoreDNS (cluster DNS) – declarative manifests mirroring the kubeadm defaults (image `coredns/coredns:1.12.1`).
+- 1Password Connect + Operator (secret automation) – Helm chart `1password/connect` pinned at `2.0.5`, deployed in namespace `1password`.
 
 ## Bootstrap
 

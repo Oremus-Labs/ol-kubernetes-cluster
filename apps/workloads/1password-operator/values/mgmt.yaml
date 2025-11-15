@@ -1,0 +1,12 @@
+connect:
+  create: true
+  credentialsName: op-credentials
+  credentialsKey: 1password-credentials.json
+  serviceType: ClusterIP
+
+operator:
+  create: true
+  authMethod: connect
+  replicas: 1
+  autoRestart: true
+  pollingInterval: 300

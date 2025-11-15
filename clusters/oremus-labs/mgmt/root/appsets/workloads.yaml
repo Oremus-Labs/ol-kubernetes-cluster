@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: oremus-labs-workloads
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - name: 1password-operator
+        namespace: 1password
+        project: workloads
+        chart: connect
+        repoURL: https://1password.github.io/connect-helm-charts
+        targetRevision: 2.0.5
+        releaseName: 1password-operator
+        valuesFile: apps/workloads/1password-operator/values/mgmt.yaml
+  template:
+    metadata:
+      name: workloads-{{name}}
+      labels:
+        oremus-labs.com/tier: workloads
+    spec:
+      project: '{{project}}'
+      sources:
+      - repoURL: '{{repoURL}}'
+        chart: '{{chart}}'
+        targetRevision: '{{targetRevision}}'
+        helm:
+          releaseName: '{{releaseName}}'
+          valueFiles:
+          - $values/{{valuesFile}}
+      - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+        targetRevision: main
+        ref: values
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
