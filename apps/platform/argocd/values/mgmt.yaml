@@ -16,12 +16,19 @@ configs:
         hs.status = "Progressing"
       end
       return hs
+    admin.enabled: "false"
+    accounts.olfa: apiKey, login
+    policy.csv: |
+      g, olfa, role:admin
+    dex.config: |
+      staticPasswords:
+      - email: olfa@oremuslabs.app
+        hash: $argocd-olfa-password:password
+        username: olfa
+        userID: "1"
   repositories:
     ol-kubernetes-cluster:
       url: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
-  secret:
-    argocdServerAdminPassword: "$2a$10$qeqK7rh0hcSKU4bAYmw5mOZES04LSWaPufAkOJFDeZB.WsuMSmlZ6"
-    argocdServerAdminPasswordMtime: "2025-11-14T06:47:47Z"
 
 controller:
   replicas: 1
