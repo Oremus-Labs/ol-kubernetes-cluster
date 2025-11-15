@@ -13,6 +13,12 @@ spec:
         path: apps/platform/cert-manager
         targetRevision: main
         syncWave: "1"
+      - name: metallb-resources
+        namespace: metallb-system
+        project: platform
+        path: apps/platform/metallb/resources
+        targetRevision: main
+        syncWave: "0"
   template:
     metadata:
       name: platform-{{name}}
