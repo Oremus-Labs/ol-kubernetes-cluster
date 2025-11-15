@@ -13,6 +13,7 @@ configs:
     accounts.olfa: apiKey, login
     policy.csv: |
       g, olfa, role:admin
+      g, olfa@oremuslabs.app, role:admin
       p, role:admin, projects, *, *, allow
     resource.customizations.health.apps_Deployment: |
       hs = {}
