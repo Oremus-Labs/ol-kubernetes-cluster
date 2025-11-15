@@ -25,6 +25,12 @@ spec:
         path: apps/platform/metallb/resources
         targetRevision: main
         syncWave: "0"
+      - name: coredns-resources
+        namespace: kube-system
+        project: platform
+        path: apps/platform/coredns/resources
+        targetRevision: main
+        syncWave: "1"
   template:
     metadata:
       name: platform-{{name}}
