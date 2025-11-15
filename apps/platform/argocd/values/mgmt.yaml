@@ -47,7 +47,9 @@ configs:
       enablePasswordDB: true
       staticPasswords:
       - email: olfa@oremuslabs.app
-        hash: $argocd-olfa-password:password
+        # Dex treats bcrypt hashes that start with "$" as additional secret refs,
+        # so keep the plaintext in 1Password and let Dex hash it internally.
+        password: $argocd-olfa-password:password
         username: olfa
         userID: "1"
   repositories:
