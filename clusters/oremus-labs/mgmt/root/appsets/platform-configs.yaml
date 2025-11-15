@@ -13,6 +13,12 @@ spec:
         path: apps/platform/cert-manager
         targetRevision: main
         syncWave: "1"
+      - name: argocd-resources
+        namespace: argocd
+        project: platform
+        path: apps/platform/argocd/resources
+        targetRevision: main
+        syncWave: "1"
       - name: metallb-resources
         namespace: metallb-system
         project: platform

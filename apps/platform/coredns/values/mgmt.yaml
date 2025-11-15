@@ -20,6 +20,8 @@ resources:
 service:
   name: kube-dns
   clusterIP: 10.152.183.10
+  type: LoadBalancer
+  loadBalancerIP: 10.10.10.53
   annotations:
     addonmanager.kubernetes.io/mode: Reconcile
     prometheus.io/scrape: "true"
@@ -49,8 +51,14 @@ servers:
       ttl 30
   - name: prometheus
     parameters: 0.0.0.0:9153
+  - name: template
+    configBlock: |-
+      template IN A oremuslabs.app {
+        match ^(?:.*\.)?oremuslabs\.app\.$
+        answer "{{ .Name }} 30 IN A 10.10.10.52"
+      }
   - name: forward
-    parameters: . /etc/resolv.conf
+    parameters: . 1.1.1.1 1.0.0.1
   - name: cache
     parameters: 30
   - name: loop
