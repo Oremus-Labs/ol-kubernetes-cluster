@@ -70,6 +70,9 @@ server:
     type: ClusterIP
   autoscaling:
     enabled: false
+  ingress:
+    enabled: false
+    tls: []
 
 notifications:
   metrics:
