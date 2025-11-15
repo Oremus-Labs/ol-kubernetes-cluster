@@ -61,6 +61,15 @@ spec:
         releaseName: metrics-server
         valuesFile: apps/platform/metrics-server/values/mgmt.yaml
         extraCompareOptions: ""
+      - name: longhorn
+        namespace: longhorn-system
+        project: platform
+        chart: longhorn
+        repoURL: https://charts.longhorn.io
+        targetRevision: 1.10.1
+        releaseName: longhorn
+        valuesFile: apps/platform/longhorn/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: traefik
         namespace: traefik
         project: platform

@@ -1,0 +1,58 @@
+global:
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+
+persistence:
+  defaultClass: true
+  defaultFsType: ext4
+  defaultClassReplicaCount: 2
+  volumeBindingMode: WaitForFirstConsumer
+  reclaimPolicy: Delete
+
+preUpgradeChecker:
+  jobEnabled: false
+
+defaultSettings:
+  defaultDataPath: /var/lib/longhorn
+  defaultDataLocality: best-effort
+  replicaSoftAntiAffinity: true
+  replicaAutoBalance: best-effort
+  storageOverProvisioningPercentage: 150
+  storageMinimalAvailablePercentage: 10
+  taintToleration: "node-role.kubernetes.io/control-plane:NoSchedule;node-role.kubernetes.io/master:NoSchedule"
+  defaultReplicaCount:
+    v1: "2"
+    v2: "2"
+
+longhornManager:
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+
+longhornDriver:
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+
+longhornUI:
+  replicas: 2
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
