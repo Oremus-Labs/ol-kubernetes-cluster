@@ -7,6 +7,11 @@ spec:
   generators:
   - list:
       elements:
+      - name: calico-crds
+        namespace: tigera-operator
+        project: platform
+        path: apps/platform/calico/crds
+        targetRevision: main
       - name: coredns
         namespace: kube-system
         project: platform
