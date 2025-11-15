@@ -70,8 +70,8 @@ spec:
       labels:
         oremus-labs.com/tier: platform
       annotations:
-        argocd.argoproj.io/sync-wave: '{{default "0" syncWave}}'
-        argocd.argoproj.io/compare-options: '{{default "" extraCompareOptions}}'
+        argocd.argoproj.io/sync-wave: '{{if syncWave}}{{syncWave}}{{else}}0{{end}}'
+        argocd.argoproj.io/compare-options: '{{if extraCompareOptions}}{{extraCompareOptions}}{{end}}'
     spec:
       project: '{{project}}'
       sources:
