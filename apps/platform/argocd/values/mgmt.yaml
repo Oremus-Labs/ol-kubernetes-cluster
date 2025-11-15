@@ -48,7 +48,7 @@ configs:
       staticPasswords:
       - email: olfa@oremuslabs.app
         hash: "$2b$10$N3dhDxVhVTA6V75AK4xTzeiSwQmDZXygUWySojtYF5Ao.64Dp4n1."
-        username: olfa
+        username: olfa@oremuslabs.app
         userID: "1"
   repositories:
     ol-kubernetes-cluster:
