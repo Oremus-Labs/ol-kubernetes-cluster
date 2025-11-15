@@ -1,0 +1,47 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: cloudflare-dns
+spec:
+  acme:
+    email: certificates@oremuslabs.app
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: cloudflare-dns-issuer-account-key
+    solvers:
+    - dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            name: cloudflare-api-token
+            key: token
+      selector:
+        dnsZones:
+        - "oremuslabs.app"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: orsemuslabs-app-wildcard
+  namespace: cert-manager
+spec:
+  secretName: orsemuslabs-app-wildcard-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  commonName: "*.oremuslabs.app"
+  dnsNames:
+  - "*.oremuslabs.app"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: oremuslabs-app-root
+  namespace: cert-manager
+spec:
+  secretName: oremuslabs-app-root-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  commonName: "oremuslabs.app"
+  dnsNames:
+  - "oremuslabs.app"

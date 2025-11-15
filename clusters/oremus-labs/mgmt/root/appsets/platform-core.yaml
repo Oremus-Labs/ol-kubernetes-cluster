@@ -31,6 +31,14 @@ spec:
         targetRevision: 1.45.0
         releaseName: coredns
         valuesFile: apps/platform/coredns/values/mgmt.yaml
+      - name: cert-manager
+        namespace: cert-manager
+        project: platform
+        chart: cert-manager
+        repoURL: https://charts.jetstack.io
+        targetRevision: v1.19.1
+        releaseName: cert-manager
+        valuesFile: apps/platform/cert-manager/values/mgmt.yaml
       - name: metallb
         namespace: metallb-system
         project: platform
@@ -52,6 +60,8 @@ spec:
       name: platform-{{name}}
       labels:
         oremus-labs.com/tier: platform
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{default "0" syncWave}}'
     spec:
       project: '{{project}}'
       sources:

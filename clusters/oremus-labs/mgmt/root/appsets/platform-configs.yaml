@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: oremus-labs-platform-configs
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - name: cert-manager-resources
+        namespace: cert-manager
+        project: platform
+        path: apps/platform/cert-manager
+        targetRevision: main
+        syncWave: "1"
+  template:
+    metadata:
+      name: platform-{{name}}
+      labels:
+        oremus-labs.com/tier: platform
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{default "0" syncWave}}'
+    spec:
+      project: '{{project}}'
+      source:
+        repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+        targetRevision: '{{targetRevision}}'
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
