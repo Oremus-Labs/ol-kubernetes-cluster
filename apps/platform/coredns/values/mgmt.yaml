@@ -56,6 +56,11 @@ servers:
     configBlock: |-
       match ^(?:.*\.)?oremuslabs\.app\.$
       answer "{{ .Name }} 30 IN A 10.10.10.52"
+  - name: template
+    parameters: IN AAAA oremuslabs.app
+    configBlock: |-
+      match ^(?:.*\.)?oremuslabs\.app\.$
+      answer "{{ .Name }} 30 IN AAAA ::ffff:10.10.10.52"
   - name: forward
     parameters: . 1.1.1.1 1.0.0.1
   - name: cache
