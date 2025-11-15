@@ -23,14 +23,6 @@ spec:
         targetRevision: 0.9.1
         releaseName: kube-vip
         valuesFile: apps/platform/kube-vip/values/mgmt.yaml
-      - name: calico
-        namespace: tigera-operator
-        project: platform
-        chart: tigera-operator
-        repoURL: https://projectcalico.docs.tigera.io/charts
-        targetRevision: 3.29.3
-        releaseName: calico
-        valuesFile: apps/platform/calico/values/mgmt.yaml
   template:
     metadata:
       name: platform-{{name}}
@@ -44,7 +36,6 @@ spec:
         targetRevision: '{{targetRevision}}'
         helm:
           releaseName: '{{releaseName}}'
-          skipCrds: true
           valueFiles:
           - $values/{{valuesFile}}
       - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
@@ -59,5 +50,3 @@ spec:
           selfHeal: true
         syncOptions:
         - CreateNamespace=true
-        - ServerSideApply=true
-        - CRDReplace=true

@@ -7,10 +7,10 @@ spec:
   generators:
   - list:
       elements:
-      - name: calico-crds
-        namespace: tigera-operator
+      - name: calico
+        namespace: kube-system
         project: platform
-        path: apps/platform/calico/crds
+        path: apps/platform/calico
         targetRevision: main
       - name: coredns
         namespace: kube-system
@@ -37,4 +37,3 @@ spec:
           selfHeal: true
         syncOptions:
         - CreateNamespace=true
-        - ServerSideApply=true
