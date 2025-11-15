@@ -6,14 +6,15 @@ terraform {
     bucket                      = "workspaces"
     key                         = "infra/entra-oidc/terraform.tfstate"
     region                      = "us-east-1"
-    endpoint                    = "https://minio.oremuslabs.app"
+    endpoints = {
+      s3 = "https://s3.oremuslabs.app"
+    }
     skip_credentials_validation = true
     skip_region_validation      = true
     skip_metadata_api_check     = true
-    force_path_style            = true
-
-    # Optional: use shared credentials file & profile instead of env AWS_ACCESS_KEY_ID/SECRET
-    # shared_credentials_file = "~/.aws/credentials"
-    # profile                 = "default"
+    skip_requesting_account_id  = true
+    use_path_style              = true
+    shared_credentials_file     = "~/.aws/credentials"
+    profile                     = "default"
   }
 }

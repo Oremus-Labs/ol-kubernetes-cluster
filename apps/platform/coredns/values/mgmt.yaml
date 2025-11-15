@@ -52,6 +52,16 @@ servers:
   - name: prometheus
     parameters: 0.0.0.0:9153
   - name: template
+    parameters: IN A k8s.oremuslabs.app
+    configBlock: |-
+      match ^k8s\.oremuslabs\.app\.$
+      answer "{{ .Name }} 30 IN A 10.10.10.50"
+  - name: template
+    parameters: IN AAAA k8s.oremuslabs.app
+    configBlock: |-
+      match ^k8s\.oremuslabs\.app\.$
+      answer "{{ .Name }} 30 IN AAAA ::ffff:10.10.10.50"  
+  - name: template
     parameters: IN A smb.oremuslabs.app
     configBlock: |-
       match ^smb\.oremuslabs\.app\.$
@@ -71,16 +81,6 @@ servers:
     configBlock: |-
       match ^(?:.*\.)?oremuslabs\.app\.$
       answer "{{ .Name }} 30 IN AAAA ::ffff:10.10.10.52"
-  - name: template
-    parameters: IN A k8s.oremuslabs.app
-    configBlock: |-
-      match ^k8s\.oremuslabs\.app\.$
-      answer "{{ .Name }} 30 IN A 10.10.10.50"
-  - name: template
-    parameters: IN AAAA k8s.oremuslabs.app
-    configBlock: |-
-      match ^k8s\.oremuslabs\.app\.$
-      answer "{{ .Name }} 30 IN AAAA ::ffff:10.10.10.50"
   - name: forward
     parameters: . 1.1.1.1 1.0.0.1
   - name: cache
