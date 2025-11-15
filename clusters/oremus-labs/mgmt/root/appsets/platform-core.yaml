@@ -23,6 +23,14 @@ spec:
         targetRevision: 0.9.1
         releaseName: kube-vip
         valuesFile: apps/platform/kube-vip/values/mgmt.yaml
+      - name: metallb
+        namespace: metallb-system
+        project: platform
+        chart: metallb
+        repoURL: https://metallb.github.io/metallb
+        targetRevision: 0.14.5
+        releaseName: metallb
+        valuesFile: apps/platform/metallb/values/mgmt.yaml
   template:
     metadata:
       name: platform-{{name}}
