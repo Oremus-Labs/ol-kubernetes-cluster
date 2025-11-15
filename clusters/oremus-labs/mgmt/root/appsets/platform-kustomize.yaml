@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: oremus-labs-platform-kustomize
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - name: calico
+        namespace: kube-system
+        project: platform
+        path: apps/platform/calico
+        targetRevision: main
+      - name: coredns
+        namespace: kube-system
+        project: platform
+        path: apps/platform/coredns
+        targetRevision: main
+  template:
+    metadata:
+      name: platform-{{name}}
+      labels:
+        oremus-labs.com/tier: platform
+    spec:
+      project: '{{project}}'
+      source:
+        repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+        targetRevision: '{{targetRevision}}'
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
