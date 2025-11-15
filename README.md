@@ -16,7 +16,7 @@ This repository codifies the full state of the Oremus-Labs management cluster by
 - Metrics Server (resource usage API) – Helm chart `metrics-server` pinned at `3.12.1`.
 - cert-manager (automated TLS) – Helm chart `cert-manager` pinned at `v1.19.1` with ClusterIssuer + Cloudflare DNS01 for `oremuslabs.app`.
 - CoreDNS (cluster DNS) – Helm chart `coredns` pinned at `1.45.0`, configured for MicroK8s defaults.
-- 1Password Connect + Operator (secret automation) – Helm chart `1password/connect` pinned at `2.0.5`, deployed in namespace `1password`.
+- 1Password Connect + Operator (secret automation) – Helm chart `1password/connect` pinned at `2.0.5`, deployed in namespace `1password` and exposed via Traefik at `op.oremuslabs.app`.
 - Longhorn (distributed block storage) – Helm chart `longhorn` pinned at `1.10.1`, exposed through Traefik at `longhorn.oremuslabs.app`.
 
 ## DNS
