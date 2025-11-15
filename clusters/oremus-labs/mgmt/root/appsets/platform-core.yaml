@@ -55,6 +55,14 @@ spec:
         targetRevision: 3.12.1
         releaseName: metrics-server
         valuesFile: apps/platform/metrics-server/values/mgmt.yaml
+      - name: traefik
+        namespace: traefik
+        project: platform
+        chart: traefik
+        repoURL: https://helm.traefik.io/traefik
+        targetRevision: 37.3.0
+        releaseName: traefik
+        valuesFile: apps/platform/traefik/values/mgmt.yaml
   template:
     metadata:
       name: platform-{{name}}

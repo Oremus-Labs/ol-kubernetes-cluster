@@ -1,0 +1,41 @@
+deployment:
+  replicas: 2
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9100"
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+  name: traefik
+
+providers:
+  kubernetesCRD:
+    ingressClass: traefik
+  kubernetesIngress:
+    ingressClass: traefik
+    publishedService:
+      enabled: true
+
+ports:
+  web:
+    redirections:
+      entryPoint:
+        to: websecure
+        scheme: https
+        permanent: true
+  websecure:
+    http3:
+      enabled: false
+
+service:
+  type: LoadBalancer
+  spec:
+    loadBalancerIP: 10.10.10.52
+
+logs:
+  general:
+    level: INFO
+  access:
+    enabled: true
+    format: json
