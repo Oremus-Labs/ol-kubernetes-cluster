@@ -25,6 +25,7 @@ module "headlamp_oidc" {
 Then:
 ```
 cd terraform/entra-oidc
+cp backend.tf.example backend.tf   # edit endpoint/bucket/key if needed
 terraform init
 terraform apply -var="tenant_id=<your-tenant-id>"
 ```
@@ -34,6 +35,16 @@ Outputs:
 - `client_secret` (sensitive)
 - `redirect_uris`
 - `tenant_id`
+
+## Remote state on MinIO
+The included `backend.tf.example` is preconfigured for a MinIO backend at `https://minio.oremuslabs.app` with bucket `workspaces` and key `infra/entra-oidc/terraform.tfstate`. Export your MinIO creds before `terraform init`:
+```
+export AWS_ACCESS_KEY_ID=<minio-access-key>
+export AWS_SECRET_ACCESS_KEY=<minio-secret-key>
+cd terraform/entra-oidc
+cp backend.tf.example backend.tf   # adjust if needed
+terraform init
+```
 
 ## MicroK8s API server flags (set on each control-plane)
 - `--oidc-issuer-url=https://login.microsoftonline.com/<tenant-id>/v2.0`
