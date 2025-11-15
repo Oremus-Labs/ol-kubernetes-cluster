@@ -20,13 +20,13 @@ configs:
     accounts.olfa: apiKey, login
     policy.csv: |
       g, olfa, role:admin
-  dex.config: |
-    enablePasswordDB: true
-    staticPasswords:
-    - email: olfa@oremuslabs.app
-      hash: $argocd-olfa-password:password
-      username: olfa
-      userID: "1"
+    dex.config: |
+      enablePasswordDB: true
+      staticPasswords:
+      - email: olfa@oremuslabs.app
+        hash: $argocd-olfa-password:password
+        username: olfa
+        userID: "1"
   repositories:
     ol-kubernetes-cluster:
       url: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
