@@ -16,7 +16,6 @@ spec:
         releaseName: argo-cd
         valuesFile: apps/platform/argocd/values/mgmt.yaml
         extraCompareOptions: ""
-        orphanedResourcesWarn: true
       - name: kube-vip
         namespace: kube-system
         project: platform
@@ -26,7 +25,6 @@ spec:
         releaseName: kube-vip
         valuesFile: apps/platform/kube-vip/values/mgmt.yaml
         extraCompareOptions: ""
-        orphanedResourcesWarn: true
       - name: coredns
         namespace: kube-system
         project: platform
@@ -36,7 +34,6 @@ spec:
         releaseName: coredns
         valuesFile: apps/platform/coredns/values/mgmt.yaml
         extraCompareOptions: ""
-        orphanedResourcesWarn: true
       - name: cert-manager
         namespace: cert-manager
         project: platform
@@ -46,7 +43,6 @@ spec:
         releaseName: cert-manager
         valuesFile: apps/platform/cert-manager/values/mgmt.yaml
         extraCompareOptions: ""
-        orphanedResourcesWarn: true
       - name: metallb
         namespace: metallb-system
         project: platform
@@ -56,7 +52,6 @@ spec:
         releaseName: metallb
         valuesFile: apps/platform/metallb/values/mgmt.yaml
         extraCompareOptions: ""
-        orphanedResourcesWarn: true
       - name: metrics-server
         namespace: kube-system
         project: platform
@@ -66,7 +61,6 @@ spec:
         releaseName: metrics-server
         valuesFile: apps/platform/metrics-server/values/mgmt.yaml
         extraCompareOptions: ""
-        orphanedResourcesWarn: true
       - name: traefik
         namespace: traefik
         project: platform
@@ -76,7 +70,6 @@ spec:
         releaseName: traefik
         valuesFile: apps/platform/traefik/values/mgmt.yaml
         extraCompareOptions: IgnoreExtraneous
-        orphanedResourcesWarn: false
   template:
     metadata:
       name: platform-{{name}}
@@ -100,8 +93,6 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
-      orphanedResources:
-        warn: {{orphanedResourcesWarn}}
       syncPolicy:
         automated:
           prune: true
