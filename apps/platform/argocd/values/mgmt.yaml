@@ -49,6 +49,8 @@ applicationSet:
     oremus-labs.com/component: applicationset
 
 server:
+  extraArgs:
+  - --insecure
   resources:
     requests:
       cpu: 250m
