@@ -5,6 +5,11 @@ service:
 ingress:
   enabled: false
 
+auth:
+  oauth:
+    enabled: true
+    provider: generic
+
 extraEnv:
   - name: HEADLAMP_TENANT_ID
     valueFrom:
@@ -35,4 +40,6 @@ extraEnv:
   - name: HEADLAMP_CONFIG_OIDC_VALIDATOR_CLIENT_ID
     value: 6dae42f8-4368-4678-94ff-3960e28e3630
   - name: HEADLAMP_CONFIG_OIDC_USE_ACCESS_TOKEN
+    value: "true"
+  - name: HEADLAMP_CONFIG_OIDC_ENABLED
     value: "true"
