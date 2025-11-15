@@ -19,6 +19,10 @@ This repository codifies the full state of the Oremus-Labs management cluster by
 - 1Password Connect + Operator (secret automation) – Helm chart `1password/connect` pinned at `2.0.5`, deployed in namespace `1password`.
 - Longhorn (distributed block storage) – Helm chart `longhorn` pinned at `1.10.1`, exposed through Traefik at `longhorn.oremuslabs.app`.
 
+## DNS
+
+All platform entrypoints terminate on Traefik's LoadBalancer at `10.10.10.52`. Whenever a new route is added, create/verify matching DNS `A` (and optional `AAAA`) records that point to this address (for example, `longhorn.oremuslabs.app -> 10.10.10.52`) so the hostname resolves externally.
+
 ## Bootstrap
 
 ```bash
