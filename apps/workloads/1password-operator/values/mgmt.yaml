@@ -1,5 +1,9 @@
 connect:
   create: true
+  # MicroK8s kubelets currently point Pods at the host DNS (10.10.10.1), so the
+  # operator cannot resolve the in-cluster service name. Use the stable ClusterIP
+  # for now so OP_CONNECT_HOST resolves without cluster DNS.
+  host: 10.152.183.234
   credentialsName: op-credentials
   credentialsKey: 1password-credentials.json
   serviceType: ClusterIP
