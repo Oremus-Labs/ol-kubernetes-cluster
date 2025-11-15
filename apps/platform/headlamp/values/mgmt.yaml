@@ -10,21 +10,8 @@ auth:
     enabled: true
     provider: generic
 
-env:
-  - name: OIDC_CLIENT_ID
-    value: a9c2b807-718a-4aff-ab9c-a683a27bf7f9
-  - name: OIDC_CLIENT_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: headlamp-oidc
-        key: secret-value
-  - name: OIDC_ISSUER_URL
-    value: https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0
-  - name: OIDC_SCOPES
-    value: 6dae42f8-4368-4678-94ff-3960e28e3630/user.read,openid,email,profile
-  - name: OIDC_VALIDATOR_CLIENT_ID
-    value: 6dae42f8-4368-4678-94ff-3960e28e3630
-  - name: OIDC_VALIDATOR_ISSUER_URL
-    value: https://sts.windows.net/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/
-  - name: OIDC_USE_ACCESS_TOKEN
-    value: "true"
+config:
+  oidc:
+    secret:
+      create: false
+      name: headlamp-oidc
