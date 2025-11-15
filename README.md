@@ -12,7 +12,6 @@ This repository codifies the full state of the Oremus-Labs management cluster by
 
 - Argo CD (platform GitOps control plane) – Helm chart `argo-cd` pinned at `5.34.3`.
 - Kube-VIP (control-plane virtual IP / load-balancer) – Helm chart `kube-vip` pinned at `0.9.1`.
-- Calico networking (CNI / network policy) – upstream manifest for `v3.29.3`.
 - CoreDNS (cluster DNS) – declarative manifests mirroring the kubeadm defaults (image `coredns/coredns:1.12.1`).
 
 ## Bootstrap

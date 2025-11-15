@@ -7,11 +7,6 @@ spec:
   generators:
   - list:
       elements:
-      - name: calico
-        namespace: kube-system
-        project: platform
-        path: apps/platform/calico
-        targetRevision: main
       - name: coredns
         namespace: kube-system
         project: platform
