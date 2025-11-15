@@ -15,7 +15,6 @@ spec:
         targetRevision: 5.34.3
         releaseName: argo-cd
         valuesFile: apps/platform/argocd/values/mgmt.yaml
-        skipCrds: false
       - name: kube-vip
         namespace: kube-system
         project: platform
@@ -24,7 +23,6 @@ spec:
         targetRevision: 0.9.1
         releaseName: kube-vip
         valuesFile: apps/platform/kube-vip/values/mgmt.yaml
-        skipCrds: false
       - name: calico
         namespace: tigera-operator
         project: platform
@@ -33,7 +31,6 @@ spec:
         targetRevision: 3.29.3
         releaseName: calico
         valuesFile: apps/platform/calico/values/mgmt.yaml
-        skipCrds: true
   template:
     metadata:
       name: platform-{{name}}
@@ -47,7 +44,7 @@ spec:
         targetRevision: '{{targetRevision}}'
         helm:
           releaseName: '{{releaseName}}'
-          skipCrds: {{skipCrds}}
+          skipCrds: true
           valueFiles:
           - $values/{{valuesFile}}
       - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
