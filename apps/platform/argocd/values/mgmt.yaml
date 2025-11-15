@@ -77,3 +77,10 @@ redis:
     limits:
       cpu: 250m
       memory: 256Mi
+  volumeMounts:
+  - name: redis-data
+    mountPath: /data
+  volumes:
+  - name: redis-data
+    persistentVolumeClaim:
+      claimName: argocd-redis

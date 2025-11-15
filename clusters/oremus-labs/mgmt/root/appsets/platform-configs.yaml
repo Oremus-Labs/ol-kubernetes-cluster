@@ -25,6 +25,12 @@ spec:
         path: apps/platform/metallb/resources
         targetRevision: main
         syncWave: "0"
+      - name: argocd-resources
+        namespace: argocd
+        project: platform
+        path: apps/platform/argocd/resources
+        targetRevision: main
+        syncWave: "1"
       - name: coredns-resources
         namespace: kube-system
         project: platform
