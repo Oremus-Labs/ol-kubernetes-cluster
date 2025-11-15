@@ -77,7 +77,7 @@ spec:
         repoURL: https://1password.github.io/connect-helm-charts
         targetRevision: 2.0.5
         releaseName: 1password-operator
-        valuesFile: apps/workloads/1password-operator/values/mgmt.yaml
+        valuesFile: apps/platform/1password-operator/values/mgmt.yaml
         extraCompareOptions: ""
   template:
     metadata:
