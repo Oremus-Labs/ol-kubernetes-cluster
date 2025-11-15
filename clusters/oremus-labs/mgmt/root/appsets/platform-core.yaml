@@ -15,6 +15,7 @@ spec:
         targetRevision: 5.34.3
         releaseName: argo-cd
         valuesFile: apps/platform/argocd/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: kube-vip
         namespace: kube-system
         project: platform
@@ -23,6 +24,7 @@ spec:
         targetRevision: 0.9.1
         releaseName: kube-vip
         valuesFile: apps/platform/kube-vip/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: coredns
         namespace: kube-system
         project: platform
@@ -31,6 +33,7 @@ spec:
         targetRevision: 1.45.0
         releaseName: coredns
         valuesFile: apps/platform/coredns/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: cert-manager
         namespace: cert-manager
         project: platform
@@ -39,6 +42,7 @@ spec:
         targetRevision: v1.19.1
         releaseName: cert-manager
         valuesFile: apps/platform/cert-manager/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: metallb
         namespace: metallb-system
         project: platform
@@ -47,6 +51,7 @@ spec:
         targetRevision: 0.14.5
         releaseName: metallb
         valuesFile: apps/platform/metallb/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: metrics-server
         namespace: kube-system
         project: platform
@@ -55,6 +60,7 @@ spec:
         targetRevision: 3.12.1
         releaseName: metrics-server
         valuesFile: apps/platform/metrics-server/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: traefik
         namespace: traefik
         project: platform
@@ -70,8 +76,7 @@ spec:
       labels:
         oremus-labs.com/tier: platform
       annotations:
-        argocd.argoproj.io/sync-wave: '{{if syncWave}}{{syncWave}}{{else}}0{{end}}'
-        argocd.argoproj.io/compare-options: '{{if extraCompareOptions}}{{extraCompareOptions}}{{end}}'
+        argocd.argoproj.io/compare-options: '{{extraCompareOptions}}'
     spec:
       project: '{{project}}'
       sources:
