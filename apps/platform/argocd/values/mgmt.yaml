@@ -13,6 +13,7 @@ configs:
     accounts.olfa: apiKey, login
     policy.csv: |
       g, olfa, role:admin
+      p, role:admin, projects, *, *, allow
     resource.customizations.health.apps_Deployment: |
       hs = {}
       if obj.status ~= nil and obj.status.availableReplicas ~= nil and obj.status.replicas ~= nil and obj.status.availableReplicas == obj.status.replicas then
