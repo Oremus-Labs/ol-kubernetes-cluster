@@ -16,9 +16,11 @@ speaker:
     operator: Exists
     effect: NoSchedule
 
-configInline:
-  address-pools:
-  - name: default
-    protocol: layer2
-    addresses:
-    - 10.10.10.51-10.10.10.61
+ipAddressPools:
+- name: default
+  addresses:
+  - 10.10.10.51-10.10.10.61
+
+l2Advertisements:
+- ipAddressPools:
+  - default
