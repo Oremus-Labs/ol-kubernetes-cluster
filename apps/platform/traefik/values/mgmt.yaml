@@ -12,6 +12,7 @@ ingressClass:
 providers:
   kubernetesCRD:
     ingressClass: traefik
+    allowCrossNamespace: true
   kubernetesIngress:
     ingressClass: traefik
     publishedService:
