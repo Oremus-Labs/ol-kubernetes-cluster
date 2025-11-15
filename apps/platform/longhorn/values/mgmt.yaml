@@ -17,6 +17,9 @@ persistence:
 preUpgradeChecker:
   jobEnabled: false
 
+csi:
+  kubeletRootDir: /var/snap/microk8s/common/var/lib/kubelet
+
 defaultSettings:
   defaultDataPath: /var/lib/longhorn
   defaultDataLocality: best-effort
