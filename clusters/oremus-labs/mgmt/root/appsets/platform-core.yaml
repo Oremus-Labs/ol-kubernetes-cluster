@@ -63,10 +63,7 @@ spec:
         targetRevision: 37.3.0
         releaseName: traefik
         valuesFile: apps/platform/traefik/values/mgmt.yaml
-        orphanedResources:
-        - kind: Endpoints
-        - kind: EndpointSlice
-          group: discovery.k8s.io
+        extraCompareOptions: IgnoreExtraneous
   template:
     metadata:
       name: platform-{{name}}
@@ -74,6 +71,7 @@ spec:
         oremus-labs.com/tier: platform
       annotations:
         argocd.argoproj.io/sync-wave: '{{default "0" syncWave}}'
+        argocd.argoproj.io/compare-options: '{{default "" extraCompareOptions}}'
     spec:
       project: '{{project}}'
       sources:
@@ -90,23 +88,6 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
-      orphanedResources:
-        warn: true
-        {{- if .orphanedResources }}
-        ignore:
-        {{- range .orphanedResources }}
-        - kind: {{ .kind }}
-          {{- if .group }}
-          group: {{ .group }}
-          {{- end }}
-          {{- if .name }}
-          name: {{ .name }}
-          {{- end }}
-          {{- if .namespace }}
-          namespace: {{ .namespace }}
-          {{- end }}
-        {{- end }}
-        {{- end }}
       syncPolicy:
         automated:
           prune: true
