@@ -1,0 +1,17 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd
+  namespace: traefik
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`argocd.oremuslabs.app`)
+    services:
+    - name: argo-cd-argocd-server
+      namespace: argocd
+      port: https
+  tls:
+    secretName: oremuslabs-app-wildcard-tls

@@ -13,10 +13,10 @@ spec:
         path: apps/platform/cert-manager
         targetRevision: main
         syncWave: "1"
-      - name: argocd-resources
-        namespace: argocd
+      - name: traefik-routes
+        namespace: traefik
         project: platform
-        path: apps/platform/argocd/resources
+        path: apps/platform/traefik/routes
         targetRevision: main
         syncWave: "1"
       - name: metallb-resources

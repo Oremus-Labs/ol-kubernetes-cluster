@@ -61,16 +61,7 @@ server:
   autoscaling:
     enabled: false
   ingress:
-    enabled: true
-    ingressClassName: traefik
-    hostname: argocd.oremuslabs.app
-    tls: true
-    annotations:
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    extraTls:
-    - hosts:
-      - argocd.oremuslabs.app
-      secretName: argocd-server-tls
+    enabled: false
 
 notifications:
   metrics:

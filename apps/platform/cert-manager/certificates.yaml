@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: oremuslabs-app-wildcard
-  namespace: cert-manager
+  namespace: traefik
 spec:
   secretName: oremuslabs-app-wildcard-tls
   issuerRef:
@@ -11,17 +11,4 @@ spec:
   commonName: "*.oremuslabs.app"
   dnsNames:
   - "*.oremuslabs.app"
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: oremuslabs-app-root
-  namespace: cert-manager
-spec:
-  secretName: oremuslabs-app-root-tls
-  issuerRef:
-    name: cloudflare-dns
-    kind: ClusterIssuer
-  commonName: "oremuslabs.app"
-  dnsNames:
-  - "oremuslabs.app"
+  - oremuslabs.app
