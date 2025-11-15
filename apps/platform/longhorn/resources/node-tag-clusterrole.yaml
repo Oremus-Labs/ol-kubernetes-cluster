@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: longhorn-node-tag-role
+rules:
+- apiGroups:
+  - longhorn.io
+  resources:
+  - nodes
+  verbs:
+  - get
+  - patch
