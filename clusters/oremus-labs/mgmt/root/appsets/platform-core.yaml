@@ -31,6 +31,14 @@ spec:
         targetRevision: 0.14.5
         releaseName: metallb
         valuesFile: apps/platform/metallb/values/mgmt.yaml
+      - name: metrics-server
+        namespace: kube-system
+        project: platform
+        chart: metrics-server
+        repoURL: https://kubernetes-sigs.github.io/metrics-server/
+        targetRevision: 3.12.1
+        releaseName: metrics-server
+        valuesFile: apps/platform/metrics-server/values/mgmt.yaml
   template:
     metadata:
       name: platform-{{name}}
