@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smb-server
+  namespace: smb
+  labels:
+    app: smb-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smb-server
+  template:
+    metadata:
+      labels:
+        app: smb-server
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: sun
+      containers:
+      - name: samba
+        image: dperson/samba:latest
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh","-c"]
+        args:
+        - |
+          /usr/bin/samba.sh -p -u "$SMB_USER;$SMB_PASS" -s "share;/share;yes;no;yes;all;none"
+        env:
+        - name: SMB_USER
+          valueFrom:
+            secretKeyRef:
+              name: smb-credentials
+              key: username
+        - name: SMB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: smb-credentials
+              key: password
+        ports:
+        - containerPort: 445
+          name: smb
+        - containerPort: 139
+          name: netbios
+        volumeMounts:
+        - name: data
+          mountPath: /share
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: smb-data

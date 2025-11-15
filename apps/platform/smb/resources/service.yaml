@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: smb-server
+  namespace: smb
+spec:
+  type: LoadBalancer
+  selector:
+    app: smb-server
+  ports:
+  - name: smb
+    port: 445
+    targetPort: 445
+  - name: netbios
+    port: 139
+    targetPort: 139

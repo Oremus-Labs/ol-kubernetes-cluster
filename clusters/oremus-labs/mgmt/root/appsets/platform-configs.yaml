@@ -37,6 +37,12 @@ spec:
         path: apps/platform/minio/resources
         targetRevision: main
         syncWave: "1"
+      - name: smb-resources
+        namespace: smb
+        project: platform
+        path: apps/platform/smb/resources
+        targetRevision: main
+        syncWave: "1"
       - name: longhorn-resources
         namespace: longhorn-system
         project: platform
