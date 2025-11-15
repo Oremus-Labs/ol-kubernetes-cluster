@@ -70,6 +70,7 @@ spec:
         releaseName: longhorn
         valuesFile: apps/platform/longhorn/values/mgmt.yaml
         extraCompareOptions: ""
+        skipSchemaValidation: false
       - name: minio
         namespace: minio
         project: platform
@@ -79,6 +80,7 @@ spec:
         releaseName: minio
         valuesFile: apps/platform/minio/values/mgmt.yaml
         extraCompareOptions: ""
+        skipSchemaValidation: false
       - name: headlamp
         namespace: headlamp
         project: platform
@@ -88,6 +90,7 @@ spec:
         releaseName: headlamp
         valuesFile: apps/platform/headlamp/values/mgmt.yaml
         extraCompareOptions: ""
+        skipSchemaValidation: true
       - name: traefik
         namespace: traefik
         project: platform
@@ -97,6 +100,7 @@ spec:
         releaseName: traefik
         valuesFile: apps/platform/traefik/values/mgmt.yaml
         extraCompareOptions: IgnoreExtraneous
+        skipSchemaValidation: false
       - name: 1password-operator
         namespace: 1password
         project: platform
@@ -106,6 +110,7 @@ spec:
         releaseName: 1password-operator
         valuesFile: apps/platform/1password-operator/values/mgmt.yaml
         extraCompareOptions: ""
+        skipSchemaValidation: false
   template:
     metadata:
       name: platform-{{name}}
@@ -121,6 +126,7 @@ spec:
         targetRevision: '{{targetRevision}}'
         helm:
           releaseName: '{{releaseName}}'
+          skipSchemaValidation: '{{skipSchemaValidation}}'
           valueFiles:
           - $values/{{valuesFile}}
       - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
