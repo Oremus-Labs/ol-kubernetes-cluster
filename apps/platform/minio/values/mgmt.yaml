@@ -9,7 +9,7 @@ nodeSelector:
   kubernetes.io/hostname: sun
 persistence:
   enabled: true
-  storageClass: longhorn-minio
+  storageClass: longhorn-minio-xfs
   accessMode: ReadWriteOnce
   size: 5Ti
 resources:
