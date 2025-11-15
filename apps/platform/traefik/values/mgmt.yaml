@@ -39,3 +39,8 @@ logs:
   access:
     enabled: true
     format: json
+
+tlsStore:
+  default:
+    defaultCertificate:
+      secretName: oremuslabs-app-wildcard-tls
