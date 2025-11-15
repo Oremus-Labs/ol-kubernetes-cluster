@@ -52,6 +52,16 @@ servers:
   - name: prometheus
     parameters: 0.0.0.0:9153
   - name: template
+    parameters: IN A smb.oremuslabs.app
+    configBlock: |-
+      match ^smb\.oremuslabs\.app\.$
+      answer "{{ .Name }} 30 IN A 10.10.10.51"
+  - name: template
+    parameters: IN AAAA smb.oremuslabs.app
+    configBlock: |-
+      match ^smb\.oremuslabs\.app\.$
+      answer "{{ .Name }} 30 IN AAAA ::ffff:10.10.10.51"
+  - name: template
     parameters: IN A oremuslabs.app
     configBlock: |-
       match ^(?:.*\.)?oremuslabs\.app\.$

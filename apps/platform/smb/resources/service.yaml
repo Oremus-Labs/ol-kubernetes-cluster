@@ -5,6 +5,7 @@ metadata:
   namespace: smb
 spec:
   type: LoadBalancer
+  loadBalancerIP: 10.10.10.51
   selector:
     app: smb-server
   ports:
