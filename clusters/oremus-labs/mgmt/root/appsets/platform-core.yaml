@@ -23,6 +23,14 @@ spec:
         targetRevision: 0.9.1
         releaseName: kube-vip
         valuesFile: apps/platform/kube-vip/values/mgmt.yaml
+      - name: coredns
+        namespace: kube-system
+        project: platform
+        chart: coredns
+        repoURL: https://coredns.github.io/helm
+        targetRevision: 1.45.0
+        releaseName: coredns
+        valuesFile: apps/platform/coredns/values/mgmt.yaml
       - name: metallb
         namespace: metallb-system
         project: platform

@@ -1,0 +1,61 @@
+fullnameOverride: coredns
+image:
+  repository: coredns/coredns
+replicaCount: 1
+priorityClassName: system-cluster-critical
+serviceAccount:
+  create: true
+  name: coredns
+  annotations:
+    addonmanager.kubernetes.io/mode: Reconcile
+podAnnotations:
+  addonmanager.kubernetes.io/mode: Reconcile
+resources:
+  limits:
+    cpu: 100m
+    memory: 170Mi
+  requests:
+    cpu: 100m
+    memory: 70Mi
+service:
+  name: kube-dns
+  clusterIP: 10.152.183.10
+  annotations:
+    addonmanager.kubernetes.io/mode: Reconcile
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9153"
+  selector:
+    k8s-app: coredns
+isClusterService: true
+prometheus:
+  service:
+    enabled: false
+servers:
+- zones:
+  - zone: .
+    use_tcp: true
+  port: 53
+  plugins:
+  - name: errors
+  - name: health
+    configBlock: |-
+      lameduck 5s
+  - name: ready
+  - name: kubernetes
+    parameters: cluster.local in-addr.arpa ip6.arpa
+    configBlock: |-
+      pods insecure
+      fallthrough in-addr.arpa ip6.arpa
+      ttl 30
+  - name: prometheus
+    parameters: 0.0.0.0:9153
+  - name: forward
+    parameters: . /etc/resolv.conf
+  - name: cache
+    parameters: 30
+  - name: loop
+  - name: reload
+  - name: loadbalance
+tolerations:
+- key: "CriticalAddonsOnly"
+  operator: "Exists"

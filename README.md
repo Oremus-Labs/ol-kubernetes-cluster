@@ -14,7 +14,7 @@ This repository codifies the full state of the Oremus-Labs management cluster by
 - Kube-VIP (control-plane virtual IP / load-balancer) – Helm chart `kube-vip` pinned at `0.9.1`.
 - MetalLB (in-cluster load balancer) – Helm chart `metallb` pinned at `0.14.5`.
 - Metrics Server (resource usage API) – Helm chart `metrics-server` pinned at `3.12.1`.
-- CoreDNS (cluster DNS) – declarative manifests mirroring the kubeadm defaults (image `coredns/coredns:1.12.1`).
+- CoreDNS (cluster DNS) – Helm chart `coredns` pinned at `1.45.0`, configured for MicroK8s defaults.
 - 1Password Connect + Operator (secret automation) – Helm chart `1password/connect` pinned at `2.0.5`, deployed in namespace `1password`.
 
 ## Bootstrap
