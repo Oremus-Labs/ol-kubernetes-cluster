@@ -15,41 +15,6 @@ config:
     secret:
       create: false
       name: headlamp-oidc
-    callbackURL: https://headlamp.oremuslabs.app/oidc-callback
-
-env:
-  - name: OIDC_CLIENT_ID
-    valueFrom:
-      secretKeyRef:
-        name: headlamp-oidc
-        key: clientID
-  - name: OIDC_CLIENT_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: headlamp-oidc
-        key: clientSecret
-  - name: OIDC_ISSUER_URL
-    valueFrom:
-      secretKeyRef:
-        name: headlamp-oidc
-        key: issuerURL
-  - name: OIDC_SCOPES
-    valueFrom:
-      secretKeyRef:
-        name: headlamp-oidc
-        key: scopes
-  - name: OIDC_VALIDATOR_CLIENT_ID
-    valueFrom:
-      secretKeyRef:
-        name: headlamp-oidc
-        key: validatorClientID
-  - name: OIDC_VALIDATOR_ISSUER_URL
-    valueFrom:
-      secretKeyRef:
-        name: headlamp-oidc
-        key: validatorIssuerURL
-  - name: OIDC_USE_ACCESS_TOKEN
-    valueFrom:
-      secretKeyRef:
-        name: headlamp-oidc
-        key: useAccessToken
+    externalSecret:
+      enabled: true
+      name: headlamp-oidc-env
