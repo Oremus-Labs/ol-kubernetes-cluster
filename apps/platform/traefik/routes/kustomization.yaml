@@ -6,3 +6,4 @@ resources:
   - op-connect.yaml
   - minio-api.yaml
   - minio-console.yaml
+  - headlamp.yaml

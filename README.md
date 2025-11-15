@@ -20,6 +20,7 @@ This repository codifies the full state of the Oremus-Labs management cluster by
 - Longhorn (distributed block storage) – Helm chart `longhorn` pinned at `1.10.1`, exposed through Traefik at `longhorn.oremuslabs.app`.
 - MinIO (S3-compatible object storage) – Helm chart `minio` pinned at `5.4.0`, scheduled on node `sun` with Longhorn-backed storage from `/mnt/ol` and reachable at `s3.oremuslabs.app` (API) and `minio.oremuslabs.app` (console).
 - SMB share (Windows file storage) – custom Samba deployment backed by Longhorn storage on `sun`, providing a 2 TiB share exposed via the in-cluster LoadBalancer.
+- Headlamp (Kubernetes dashboard) – Helm chart `headlamp` pinned at `0.38.0`, exposed through Traefik at `headlamp.oremuslabs.app`.
 
 ## DNS
 

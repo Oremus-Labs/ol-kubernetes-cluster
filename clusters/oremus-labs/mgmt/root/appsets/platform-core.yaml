@@ -79,6 +79,15 @@ spec:
         releaseName: minio
         valuesFile: apps/platform/minio/values/mgmt.yaml
         extraCompareOptions: ""
+      - name: headlamp
+        namespace: headlamp
+        project: platform
+        chart: headlamp
+        repoURL: https://kubernetes-sigs.github.io/headlamp/
+        targetRevision: 0.38.0
+        releaseName: headlamp
+        valuesFile: apps/platform/headlamp/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: traefik
         namespace: traefik
         project: platform
