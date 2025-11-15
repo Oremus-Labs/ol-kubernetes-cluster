@@ -9,12 +9,7 @@ configs:
   cm:
     url: https://argocd.oremuslabs.app
     timeout.reconciliation: 60s
-    admin.enabled: "false"
-    accounts.olfa: apiKey, login
-    policy.csv: |
-      g, olfa, role:admin
-      g, olfa@oremuslabs.app, role:admin
-      p, role:admin, projects, *, *, allow
+    admin.enabled: "true"
     resource.customizations.health.apps_Deployment: |
       hs = {}
       if obj.status ~= nil and obj.status.availableReplicas ~= nil and obj.status.replicas ~= nil and obj.status.availableReplicas == obj.status.replicas then
@@ -23,39 +18,6 @@ configs:
         hs.status = "Progressing"
       end
       return hs
-    dex.config: |
-      issuer: https://argo-cd-argocd-dex-server.argocd.svc.cluster.local:5556/dex
-      storage:
-        type: kubernetes
-        config:
-          inCluster: true
-      web:
-        http: 0.0.0.0:5556
-      telemetry:
-        http: 0.0.0.0:5558
-      grpc:
-        addr: 0.0.0.0:5557
-        tlsCert: /shared/tls/tls.crt
-        tlsKey: /shared/tls/tls.key
-      connectors: []
-      oauth2:
-        skipApprovalScreen: true
-      staticClients:
-      - id: argo-cd
-        redirectURIs:
-        - /auth/callback
-        name: Argo CD
-        secretEnv: ARGOCD_DEX_SERVER_CLIENT_SECRET
-      enablePasswordDB: true
-      staticPasswords:
-      - email: olfa@oremuslabs.app
-        hash: "$2b$10$N3dhDxVhVTA6V75AK4xTzeiSwQmDZXygUWySojtYF5Ao.64Dp4n1."
-        username: olfa@oremuslabs.app
-        userID: "1"
-  secret:
-    extra:
-      server.secretkey: FDQvuQE+X6k9DJoT5QYs2ofCtWftbQNpe5dWR56rs8Q=
-      accounts.olfa.password: $2b$10$N3dhDxVhVTA6V75AK4xTzeiSwQmDZXygUWySojtYF5Ao.64Dp4n1.
   repositories:
     ol-kubernetes-cluster:
       url: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git

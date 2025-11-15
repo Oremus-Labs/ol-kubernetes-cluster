@@ -19,12 +19,6 @@ spec:
         path: apps/platform/traefik/routes
         targetRevision: main
         syncWave: "1"
-      - name: argocd-secrets
-        namespace: argocd
-        project: platform
-        path: apps/platform/argocd/secrets
-        targetRevision: main
-        syncWave: "1"
       - name: metallb-resources
         namespace: metallb-system
         project: platform
