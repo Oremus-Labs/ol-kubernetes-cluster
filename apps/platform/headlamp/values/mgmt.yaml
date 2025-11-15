@@ -4,3 +4,35 @@ service:
 
 ingress:
   enabled: false
+
+extraEnv:
+  - name: HEADLAMP_TENANT_ID
+    valueFrom:
+      secretKeyRef:
+        name: headlamp-oidc
+        key: tenant-id
+  - name: HEADLAMP_DIRECTORY_ID
+    valueFrom:
+      secretKeyRef:
+        name: headlamp-oidc
+        key: directory-id
+  - name: HEADLAMP_CONFIG_OIDC_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: headlamp-oidc
+        key: client-id
+  - name: HEADLAMP_CONFIG_OIDC_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: headlamp-oidc
+        key: secret-value
+  - name: HEADLAMP_CONFIG_OIDC_IDP_ISSUER_URL
+    value: https://login.microsoftonline.com/$(HEADLAMP_TENANT_ID)/v2.0
+  - name: HEADLAMP_CONFIG_OIDC_SCOPES
+    value: 6dae42f8-4368-4678-94ff-3960e28e3630/user.read,openid,email,profile
+  - name: HEADLAMP_CONFIG_OIDC_VALIDATOR_IDP_ISSUER_URL
+    value: https://sts.windows.net/$(HEADLAMP_DIRECTORY_ID)/
+  - name: HEADLAMP_CONFIG_OIDC_VALIDATOR_CLIENT_ID
+    value: 6dae42f8-4368-4678-94ff-3960e28e3630
+  - name: HEADLAMP_CONFIG_OIDC_USE_ACCESS_TOKEN
+    value: "true"
