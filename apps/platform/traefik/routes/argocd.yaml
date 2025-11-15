@@ -6,6 +6,7 @@ metadata:
   annotations:
     traefik.io/ingress-controller: traefik
 spec:
+  ingressClassName: traefik
   entryPoints:
   - websecure
   routes:
