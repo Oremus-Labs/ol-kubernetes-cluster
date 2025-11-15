@@ -15,7 +15,7 @@ spec:
     services:
     - name: argo-cd-argocd-server
       namespace: argocd
-      port: https
+      port: 443
       scheme: https
   tls:
     secretName: oremuslabs-app-wildcard-tls
