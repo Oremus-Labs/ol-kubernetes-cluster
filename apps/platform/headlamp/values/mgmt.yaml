@@ -18,3 +18,8 @@ config:
     externalSecret:
       enabled: true
       name: headlamp-oidc-env
+  extraArgs:
+    - "-oidc-callback-url=$(OIDC_CALLBACK_URL)"
+    - "-oidc-validator-client-id=$(OIDC_VALIDATOR_CLIENT_ID)"
+    - "-oidc-validator-idp-issuer-url=$(OIDC_VALIDATOR_ISSUER_URL)"
+    - "-oidc-use-access-token=$(OIDC_USE_ACCESS_TOKEN)"
