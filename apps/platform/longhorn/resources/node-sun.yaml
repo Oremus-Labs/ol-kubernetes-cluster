@@ -1,0 +1,31 @@
+apiVersion: longhorn.io/v1beta2
+kind: Node
+metadata:
+  name: sun
+  namespace: longhorn-system
+spec:
+  allowScheduling: true
+  instanceManagerCPURequest: 0
+  disks:
+    default-disk-9ad582d46ce90ee9:
+      allowScheduling: true
+      diskDriver: ""
+      diskType: filesystem
+      evictionRequested: false
+      path: /var/lib/longhorn
+      storageReserved: 303931361280
+      tags: []
+    ol-raid:
+      allowScheduling: true
+      diskType: filesystem
+      evictionRequested: false
+      path: /mnt/ol
+      storageReserved: 0
+      tags:
+      - minio
+      - smb
+  evictionRequested: false
+  name: sun
+  tags:
+  - minio
+  - smb

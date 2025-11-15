@@ -3,7 +3,4 @@ kind: Kustomization
 resources:
   - storageclass-minio.yaml
   - storageclass-smb.yaml
-  - node-tag-sa.yaml
-  - node-tag-clusterrole.yaml
-  - node-tag-clusterrolebinding.yaml
-  - node-tag-job.yaml
+  - node-sun.yaml
