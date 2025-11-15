@@ -190,6 +190,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -373,6 +374,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -514,6 +516,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -575,6 +578,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -838,6 +842,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -902,6 +907,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -1885,6 +1891,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -2761,6 +2768,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -2814,6 +2822,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -2922,6 +2931,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -3041,6 +3051,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -3099,6 +3110,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -3155,6 +3167,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -3264,6 +3277,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -3318,6 +3332,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -3571,6 +3586,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -4428,6 +4444,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -4479,6 +4496,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -4542,6 +4560,7 @@ status:
   conditions: []
   storedVersions: []
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -5625,6 +5644,7 @@ status:
   conditions: null
   storedVersions: null
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -7008,6 +7028,7 @@ spec:
     subresources:
       status: {}
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -7084,6 +7105,7 @@ spec:
     subresources:
       status: {}
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -22091,6 +22113,7 @@ spec:
     subresources:
       status: {}
 
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
