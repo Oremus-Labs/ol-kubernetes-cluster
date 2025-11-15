@@ -70,6 +70,15 @@ spec:
         releaseName: traefik
         valuesFile: apps/platform/traefik/values/mgmt.yaml
         extraCompareOptions: IgnoreExtraneous
+      - name: 1password-operator
+        namespace: 1password
+        project: platform
+        chart: connect
+        repoURL: https://1password.github.io/connect-helm-charts
+        targetRevision: 2.0.5
+        releaseName: 1password-operator
+        valuesFile: apps/workloads/1password-operator/values/mgmt.yaml
+        extraCompareOptions: ""
   template:
     metadata:
       name: platform-{{name}}
