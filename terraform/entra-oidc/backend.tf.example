@@ -11,5 +11,9 @@ terraform {
     skip_region_validation      = true
     skip_metadata_api_check     = true
     force_path_style            = true
+
+    # Optional: use shared credentials file & profile instead of env AWS_ACCESS_KEY_ID/SECRET
+    # shared_credentials_file = "~/.aws/credentials"
+    # profile                 = "default"
   }
 }
