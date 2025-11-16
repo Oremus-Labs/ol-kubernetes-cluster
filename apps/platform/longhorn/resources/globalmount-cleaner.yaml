@@ -26,24 +26,27 @@ spec:
         env:
         - name: ROOT
           value: /host/var/snap/microk8s/common/var/lib/kubelet/plugins/kubernetes.io/csi/driver.longhorn.io
+        - name: INTERVAL_SECONDS
+          value: "600"
         command:
         - /bin/sh
         - -c
         - |
           set -eu
-          if [ -d "$ROOT" ]; then
-            find "$ROOT" -maxdepth 2 -type d -name globalmount | while read gm; do
-              if mountpoint -q "$gm"; then
-                continue
-              fi
-              echo "$(date -Iseconds) cleaning stale globalmount $gm"
-              rm -rf "$gm" || true
-              mkdir -p "$gm"
-              chmod 0755 "$gm"
-            done
-          fi
-          # Sleep indefinitely to stay running; cleanup runs once on pod start (e.g., node reboot/restart)
-          sleep 3155760000
+          while true; do
+            if [ -d "$ROOT" ]; then
+              find "$ROOT" -maxdepth 2 -type d -name globalmount | while read gm; do
+                if mountpoint -q "$gm"; then
+                  continue
+                fi
+                echo "$(date -Iseconds) cleaning stale globalmount $gm"
+                rm -rf "$gm" || true
+                mkdir -p "$gm"
+                chmod 0755 "$gm"
+              done
+            fi
+            sleep "${INTERVAL_SECONDS}"
+          done
         volumeMounts:
         - name: host-root
           mountPath: /host
