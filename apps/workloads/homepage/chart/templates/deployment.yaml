@@ -24,6 +24,8 @@ spec:
         env:
         - name: HOMEPAGE_ALLOWED_HOSTS
           value: {{ join "," .Values.allowedHosts | quote }}
+        - name: HOMEPAGE_CONFIG_DIR
+          value: /app/config
         volumeMounts:
         - name: config
           mountPath: /app/config
