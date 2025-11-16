@@ -70,19 +70,11 @@ config:
             icon: 1password
   bookmarks: |
     - GitOps:
-        - Repo:
-            href: https://github.com/Oremus-Labs/ol-kubernetes-cluster
-            icon: github
-        - Argo CD Docs:
-            href: https://argo-cd.readthedocs.io/en/stable/
-            icon: argo-cd
-        - Traefik Docs:
-            href: https://doc.traefik.io/traefik/
-            icon: traefik
+        - Repo: https://github.com/Oremus-Labs/ol-kubernetes-cluster
+        - Argo CD Docs: https://argo-cd.readthedocs.io/en/stable/
+        - Traefik Docs: https://doc.traefik.io/traefik/
     - Ops:
-        - Router:
-            href: http://router.oremuslabs.app
-            icon: router
+        - Router: http://router.oremuslabs.app
   kubernetes: |
     providers: []
   widgets: |
