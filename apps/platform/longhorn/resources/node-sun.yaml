@@ -21,11 +21,7 @@ spec:
       evictionRequested: false
       path: /mnt/ol
       storageReserved: 0
-      tags:
-      - minio
-      - smb
+      tags: []
   evictionRequested: false
   name: sun
-  tags:
-  - minio
-  - smb
+  tags: []

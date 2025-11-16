@@ -55,6 +55,12 @@ spec:
         path: apps/platform/longhorn/resources
         targetRevision: main
         syncWave: "1"
+      - name: local-pv-resources
+        namespace: kube-system
+        project: platform
+        path: apps/platform/local-pv/resources
+        targetRevision: main
+        syncWave: "1"
       - name: coredns-resources
         namespace: kube-system
         project: platform

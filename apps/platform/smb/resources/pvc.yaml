@@ -10,5 +10,5 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 2Ti
-  storageClassName: longhorn-smb-xfs
+      storage: 1Ti
+  storageClassName: sun-local-smb
