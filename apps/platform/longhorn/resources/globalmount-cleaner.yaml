@@ -26,27 +26,27 @@ spec:
         env:
         - name: ROOT
           value: /host/var/snap/microk8s/common/var/lib/kubelet/plugins/kubernetes.io/csi/driver.longhorn.io
-        - name: INTERVAL_SECONDS
-          value: "600"
         command:
         - /bin/sh
         - -c
         - |
           set -eu
-          while true; do
-            if [ -d "$ROOT" ]; then
-              find "$ROOT" -maxdepth 2 -type d -name globalmount 2>/dev/null | while read gm; do
-                if mountpoint -q "$gm"; then
-                  continue
-                fi
-                echo "$(date -Iseconds) cleaning stale globalmount $gm"
-                rm -rf "$gm" 2>/dev/null || true
-                mkdir -p "$gm"
-                chmod 0755 "$gm"
-              done
-            fi
-            sleep "${INTERVAL_SECONDS}"
-          done
+          if [ -d "$ROOT" ]; then
+            find "$ROOT" -maxdepth 2 -type d -name globalmount 2>/dev/null | while read gm; do
+              # If it's mounted, try to unmount it (e.g., after kubelet/node restart).
+              if mountpoint -q "$gm"; then
+                dev=$(mount | awk '$3=="'"$gm"'" {print $1}')
+                echo "$(date -Iseconds) unmounting $gm (device $dev)"
+                umount "$gm" 2>/dev/null || umount -l "$gm" 2>/dev/null || true
+              fi
+              echo "$(date -Iseconds) cleaning stale globalmount $gm"
+              rm -rf "$gm" 2>/dev/null || true
+              mkdir -p "$gm"
+              chmod 0755 "$gm"
+            done
+          fi
+          # One-shot; stay running but idle.
+          sleep 3155760000
         volumeMounts:
         - name: host-root
           mountPath: /host
