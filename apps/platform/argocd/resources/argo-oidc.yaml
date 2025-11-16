@@ -5,9 +5,3 @@ metadata:
   namespace: argocd
 spec:
   itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/pl4edb3kj6wcbbjvdvzhne3ski"
-
-
-## This OnePasswordItem Will Create a Kuberenetes Secret with the Following Keys:
-# application_id
-# tenant_id
-# client_secret
