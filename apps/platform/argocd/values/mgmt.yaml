@@ -21,7 +21,6 @@ configs:
         - profile
         - email
         - offline_access
-        - groups
       requestedIDTokenClaims:
         groups:
           essential: true
