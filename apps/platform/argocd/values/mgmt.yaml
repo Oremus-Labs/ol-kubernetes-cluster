@@ -14,8 +14,8 @@ configs:
       name: EntraID
       issuer: https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0
       # Load client ID/secret via env vars sourced from argocd-secret
-      clientID: $OIDC_AZURE_CLIENT_ID
-      clientSecret: $OIDC_AZURE_CLIENT_SECRET
+      clientID: ${OIDC_AZURE_CLIENT_ID}
+      clientSecret: ${OIDC_AZURE_CLIENT_SECRET}
       requestedScopes:
         - openid
         - profile
@@ -25,7 +25,7 @@ configs:
       requestedIDTokenClaims:
         groups:
           essential: true
-      cliClientID: $OIDC_AZURE_CLIENT_ID
+      cliClientID: ${OIDC_AZURE_CLIENT_ID}
     resource.customizations.health.apps_Deployment: |
       hs = {}
       if obj.status ~= nil and obj.status.availableReplicas ~= nil and obj.status.replicas ~= nil and obj.status.availableReplicas == obj.status.replicas then
@@ -36,44 +36,44 @@ configs:
       return hs
     resource.customizations: |
       "*":
-        ignoreDifferences:
+        ignoreDifferences: |
           jsonPointers:
             - /status
       ConfigMap:
-        ignoreDifferences:
+        ignoreDifferences: |
           jqPathExpressions:
             - '.metadata.annotations."cluster-autoscaler.kubernetes.io/last-updated"'
             - '.metadata.annotations."control-plane.alpha.kubernetes.io/leader"'
       Endpoints:
-        ignoreDifferences:
+        ignoreDifferences: |
           jsonPointers:
             - /metadata
             - /subsets
       discovery.k8s.io/EndpointSlice:
-        ignoreDifferences:
+        ignoreDifferences: |
           jsonPointers:
             - /metadata
             - /endpoints
             - /ports
       apps/ReplicaSet:
-        ignoreDifferences:
+        ignoreDifferences: |
           jqPathExpressions:
             - '.metadata.annotations."deployment.kubernetes.io/desired-replicas"'
             - '.metadata.annotations."deployment.kubernetes.io/max-replicas"'
             - '.metadata.annotations."rollout.argoproj.io/desired-replicas"'
       argoproj.io/Application:
-        ignoreDifferences:
+        ignoreDifferences: |
           jqPathExpressions:
             - '.metadata.annotations."notified.notifications.argoproj.io"'
             - '.metadata.annotations."argocd.argoproj.io/refresh"'
             - '.metadata.annotations."argocd.argoproj.io/hydrate"'
             - '.operation'
       argoproj.io/Rollout:
-        ignoreDifferences:
+        ignoreDifferences: |
           jqPathExpressions:
             - '.metadata.annotations."notified.notifications.argoproj.io"'
       autoscaling/HorizontalPodAutoscaler:
-        ignoreDifferences:
+        ignoreDifferences: |
           jqPathExpressions:
             - '.metadata.annotations."autoscaling.alpha.kubernetes.io/behavior"'
             - '.metadata.annotations."autoscaling.alpha.kubernetes.io/conditions"'
