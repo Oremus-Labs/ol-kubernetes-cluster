@@ -3,5 +3,3 @@ kind: Kustomization
 namespace: headlamp
 resources:
   - oidc-secret.yaml
-patchesStrategicMerge:
-  - deployment-patch.yaml

@@ -14,7 +14,7 @@ config:
   oidc:
     secret:
       create: false
-      name: headlamp-oidc
+      name: headlamp-oidc       # provided by 1Password
     externalSecret:
       enabled: true
-      name: headlamp-oidc
+      name: headlamp-oidc       # keys: clientID, clientSecret, issuerURL, scopes (already present)
