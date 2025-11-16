@@ -2,6 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: headlamp
 resources:
-  - oidc-secret-raw.yaml
-  - oidc-secret-sync-job.yaml
-  - oidc-secret-sync-job.yaml
+  - oidc-secret.yaml
+patchesStrategicMerge:
+  - deployment-patch.yaml
