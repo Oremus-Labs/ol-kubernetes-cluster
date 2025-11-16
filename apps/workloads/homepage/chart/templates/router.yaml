@@ -17,7 +17,7 @@ metadata:
   namespace: traefik
 subsets:
   - addresses:
-      - ip: 10.10.10.1
+      - ip: {{ .Values.router.ip }}
     ports:
       - name: http
         port: 80
@@ -32,9 +32,10 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match: Host(`router.oremuslabs.app`)
+    match: Host(`{{ .Values.router.host }}`)
     services:
     - name: router-upstream
       namespace: traefik
       port: 80
-  tls: {}
+  tls:
+    secretName: {{ .Values.router.tlsSecret }}

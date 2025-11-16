@@ -10,8 +10,9 @@ spec:
       - name: homepage
         namespace: homepage
         project: workloads
-        path: apps/workloads/homepage
+        path: apps/workloads/homepage/chart
         targetRevision: main
+        imageTag: latest
   template:
     metadata:
       name: workloads-{{name}}
@@ -23,6 +24,12 @@ spec:
         repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
         targetRevision: '{{targetRevision}}'
         path: '{{path}}'
+        helm:
+          valueFiles:
+          - values.yaml
+          parameters:
+          - name: image.tag
+            value: '{{imageTag}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'

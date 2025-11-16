@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: homepage
-  namespace: homepage
   labels:
     app: homepage
 spec:
@@ -17,11 +16,14 @@ spec:
     spec:
       containers:
       - name: homepage
-        image: ghcr.io/gethomepage/homepage:latest
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
           name: http
+        env:
+        - name: HOMEPAGE_ALLOWED_HOSTS
+          value: "{{ join \",\" .Values.allowedHosts }}"
         volumeMounts:
         - name: config
           mountPath: /app/config

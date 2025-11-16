@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  labels:
+    app: homepage
+data:
+  settings.yaml: |
+{{ .Values.config.settings | indent 4 }}
+  services.yaml: |
+{{ .Values.config.services | indent 4 }}
+  bookmarks.yaml: |
+{{ .Values.config.bookmarks | indent 4 }}
+  kubernetes.yaml: |
+{{ .Values.config.kubernetes | indent 4 }}
