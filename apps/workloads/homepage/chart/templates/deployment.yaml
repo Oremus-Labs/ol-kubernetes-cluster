@@ -31,9 +31,23 @@ spec:
           mountPath: /app/config
         - name: logs
           mountPath: /app/config/logs
+      initContainers:
+      - name: homepage-config-init
+        image: busybox:1.36
+        command: ["/bin/sh","-c"]
+        args:
+        - |
+          cp -a /config-src/* /config
+        volumeMounts:
+        - name: config-src
+          mountPath: /config-src
+        - name: config
+          mountPath: /config
       volumes:
-      - name: config
-        configMap:
-          name: homepage-config
       - name: logs
         emptyDir: {}
+      - name: config
+        emptyDir: {}
+      - name: config-src
+        configMap:
+          name: homepage-config

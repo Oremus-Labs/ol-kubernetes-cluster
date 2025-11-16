@@ -13,6 +13,10 @@ router:
 
 allowedHosts:
   - homepage.oremuslabs.app
+  - homepage
+  - homepage.homepage
+  - homepage.homepage.svc
+  - homepage.homepage.svc.cluster.local
   - localhost
   - 127.0.0.1
 
