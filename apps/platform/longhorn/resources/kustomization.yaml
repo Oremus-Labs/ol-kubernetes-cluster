@@ -4,3 +4,4 @@ resources:
   - storageclass-minio.yaml
   - storageclass-smb.yaml
   - node-sun.yaml
+  - globalmount-cleaner.yaml

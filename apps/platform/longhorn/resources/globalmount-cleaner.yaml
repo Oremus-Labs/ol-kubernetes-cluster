@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: longhorn-globalmount-cleaner
+  namespace: longhorn-system
+  labels:
+    app: longhorn-globalmount-cleaner
+spec:
+  selector:
+    matchLabels:
+      app: longhorn-globalmount-cleaner
+  template:
+    metadata:
+      labels:
+        app: longhorn-globalmount-cleaner
+    spec:
+      hostPID: true
+      hostNetwork: false
+      tolerations:
+      - operator: "Exists"
+      containers:
+      - name: cleaner
+        image: busybox:1.36
+        securityContext:
+          privileged: true
+        env:
+        - name: ROOT
+          value: /host/var/snap/microk8s/common/var/lib/kubelet/plugins/kubernetes.io/csi/driver.longhorn.io
+        command:
+        - /bin/sh
+        - -c
+        - |
+          set -eu
+          while true; do
+            if [ -d "$ROOT" ]; then
+              find "$ROOT" -maxdepth 2 -type d -name globalmount | while read gm; do
+                if mountpoint -q "$gm"; then
+                  continue
+                fi
+                echo "$(date -Iseconds) cleaning stale globalmount $gm"
+                rm -rf "$gm" || true
+                mkdir -p "$gm"
+                chmod 0755 "$gm"
+              done
+            fi
+            sleep 300
+          done
+        volumeMounts:
+        - name: host-root
+          mountPath: /host
+      volumes:
+      - name: host-root
+        hostPath:
+          path: /
+          type: Directory
