@@ -14,7 +14,7 @@ config:
   oidc:
     secret:
       create: false
-      name: headlamp-oidc
+      name: headlamp-oidc-env
     externalSecret:
       enabled: false
   extraArgs:
