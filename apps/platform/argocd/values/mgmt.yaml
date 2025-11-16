@@ -34,6 +34,51 @@ configs:
         hs.status = "Progressing"
       end
       return hs
+    resource.customizations: |
+      "*":
+        ignoreDifferences:
+          jsonPointers:
+            - /status
+      ConfigMap:
+        ignoreDifferences:
+          jqPathExpressions:
+            - '.metadata.annotations."cluster-autoscaler.kubernetes.io/last-updated"'
+            - '.metadata.annotations."control-plane.alpha.kubernetes.io/leader"'
+      Endpoints:
+        ignoreDifferences:
+          jsonPointers:
+            - /metadata
+            - /subsets
+      discovery.k8s.io/EndpointSlice:
+        ignoreDifferences:
+          jsonPointers:
+            - /metadata
+            - /endpoints
+            - /ports
+      apps/ReplicaSet:
+        ignoreDifferences:
+          jqPathExpressions:
+            - '.metadata.annotations."deployment.kubernetes.io/desired-replicas"'
+            - '.metadata.annotations."deployment.kubernetes.io/max-replicas"'
+            - '.metadata.annotations."rollout.argoproj.io/desired-replicas"'
+      argoproj.io/Application:
+        ignoreDifferences:
+          jqPathExpressions:
+            - '.metadata.annotations."notified.notifications.argoproj.io"'
+            - '.metadata.annotations."argocd.argoproj.io/refresh"'
+            - '.metadata.annotations."argocd.argoproj.io/hydrate"'
+            - '.operation'
+      argoproj.io/Rollout:
+        ignoreDifferences:
+          jqPathExpressions:
+            - '.metadata.annotations."notified.notifications.argoproj.io"'
+      autoscaling/HorizontalPodAutoscaler:
+        ignoreDifferences:
+          jqPathExpressions:
+            - '.metadata.annotations."autoscaling.alpha.kubernetes.io/behavior"'
+            - '.metadata.annotations."autoscaling.alpha.kubernetes.io/conditions"'
+            - '.metadata.annotations."autoscaling.alpha.kubernetes.io/metrics"'
+            - '.metadata.annotations."autoscaling.alpha.kubernetes.io/current-metrics"'
   repositories:
     ol-kubernetes-cluster:
       url: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
