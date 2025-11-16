@@ -4,4 +4,4 @@ metadata:
   name: argo-oidc
   namespace: argocd
 spec:
-  itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/pl4edb3kj6wcbbjvdvzhne3ski"
+  itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/6nwqovm6ajtq6xbqpsij4kigw4"

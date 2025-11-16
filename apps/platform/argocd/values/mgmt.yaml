@@ -13,9 +13,9 @@ configs:
     oidc.config: |
       name: EntraID
       issuer: https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0
-      # clientID/clientSecret are pulled from the 1Password-synced Secret argo-oidc
-      clientID: $argo-oidc:application_id
-      clientSecret: $argo-oidc:client_secret
+      # clientID/clientSecret must be present as keys in argocd-secret for envsubst to work
+      clientID: $oidc.azure.clientId
+      clientSecret: $oidc.azure.clientSecret
       requestedScopes:
         - openid
         - profile
@@ -25,7 +25,7 @@ configs:
       requestedIDTokenClaims:
         groups:
           essential: true
-      cliClientID: $argo-oidc:application_id
+      cliClientID: $oidc.azure.clientId
     resource.customizations.health.apps_Deployment: |
       hs = {}
       if obj.status ~= nil and obj.status.availableReplicas ~= nil and obj.status.replicas ~= nil and obj.status.availableReplicas == obj.status.replicas then
