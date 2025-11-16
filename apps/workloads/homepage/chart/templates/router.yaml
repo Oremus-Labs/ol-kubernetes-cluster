@@ -37,5 +37,7 @@ spec:
     - name: router-upstream
       namespace: traefik
       port: 80
+  {{- if .Values.router.tlsSecret }}
   tls:
     secretName: {{ .Values.router.tlsSecret }}
+  {{- end }}
