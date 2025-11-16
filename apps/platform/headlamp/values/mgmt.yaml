@@ -14,10 +14,9 @@ config:
   oidc:
     secret:
       create: false
-      name: headlamp-oidc
+      name: headlamp-oidc-env
     externalSecret:
-      enabled: true
-      name: headlamp-oidc
+      enabled: false
   extraArgs:
     - "-oidc-callback-url=https://headlamp.oremuslabs.app/oidc-callback"
     - "-oidc-validator-client-id=af4fe910-bb07-4613-a3ba-5f51540aadad"
