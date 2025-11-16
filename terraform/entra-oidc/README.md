@@ -8,30 +8,13 @@ This module provisions an Azure Entra (Azure AD) application for Headlamp and co
 
 ## Usage
 
-```hcl
-provider "azuread" {
-  tenant_id = var.tenant_id
-}
-
-module "headlamp_oidc" {
-  source        = "./terraform/entra-oidc"
-  tenant_id     = var.tenant_id
-  app_name      = "k8s.oremuslabs.app"
-  redirect_uris = [
-    "https://headlamp.oremuslabs.app/oidc-callback",
-    "http://localhost:8000", # common CLI/exec callback
-  ]
-  # identifier_uri = "api://k8s.oremuslabs.app" # optional audience if you want a custom API URI
-  # include_groups = true                      # enable groups claim in tokens
-}
-```
-
-Then:
+### Quickstart
 ```
 cd terraform/entra-oidc
-cp backend.tf.example backend.tf   # edit endpoint/bucket/key if needed
+# ensure backend.tf points at your remote state (MinIO/S3-compatible)
 terraform init
-terraform apply -var="tenant_id=<your-tenant-id>"
+terraform plan  -var-file=envs/prod.tfvars
+# terraform apply -var-file=envs/prod.tfvars
 ```
 
 Outputs:
@@ -39,6 +22,20 @@ Outputs:
 - `client_secret` (sensitive)
 - `redirect_uris`
 - `tenant_id`
+
+### MicroK8s apiserver OIDC flags
+- Set on each control-plane node (persist in `/var/snap/microk8s/current/args/kube-apiserver`):
+  - `--oidc-issuer-url=https://login.microsoftonline.com/<tenant-id>/v2.0`
+  - `--oidc-client-id=af4fe910-bb07-4613-a3ba-5f51540aadad`
+  - `--oidc-username-claim=email`   ← use `email` because the ID token does not include `upn`
+  - `--oidc-groups-claim=groups`
+- Restart kubelite after editing: `sudo systemctl restart snap.microk8s.daemon-kubelite.service`
+
+### Structure
+- `main.tf` / `variables.tf` / `outputs.tf` / `providers.tf`: core app definition (Entra application + secret).
+- `backend.tf`: remote state (currently MinIO/S3-compatible).
+- `envs/prod.tfvars`: environment-specific inputs (tenant ID, app name, redirects). Add more env files as needed.
+- Add future resources (e.g., additional apps, service principals, federated credentials) alongside the existing resources. Keep app-specific inputs in env tfvars.
 
 ## Remote state on MinIO
 The included `backend.tf.example` is preconfigured for a MinIO backend at `https://minio.oremuslabs.app` with bucket `workspaces` and key `infra/entra-oidc/terraform.tfstate`. Export your MinIO creds before `terraform init`:
