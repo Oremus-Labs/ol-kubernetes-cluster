@@ -21,7 +21,8 @@ module "headlamp_oidc" {
     "https://headlamp.oremuslabs.app/oidc-callback",
     "http://localhost:8000", # common CLI/exec callback
   ]
-  # identifier_uri = "api://a9c2b807-718a-4aff-ab9c-a683a27bf7f9" # optional
+  # identifier_uri = "api://k8s.oremuslabs.app" # optional audience if you want a custom API URI
+  # include_groups = true                      # enable groups claim in tokens
 }
 ```
 

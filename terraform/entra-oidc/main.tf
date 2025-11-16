@@ -2,7 +2,7 @@ locals {
   expose_api = length(trim(var.identifier_uri)) > 0
 }
 
-resource "azuread_application" "headlamp" {
+resource "azuread_application" "oidc_app" {
   display_name = var.app_name
 
   # Configure Web platform with redirect URIs and enable ID/Access tokens.
@@ -27,9 +27,18 @@ resource "azuread_application" "headlamp" {
     access_token {
       name = "preferred_username"
     }
-    # Add groups if you plan to use group-based RBAC.
-    # access_token { name = "groups" }
-    # id_token     { name = "groups" }
+    dynamic "access_token" {
+      for_each = var.include_groups ? [true] : []
+      content {
+        name = "groups"
+      }
+    }
+    dynamic "id_token" {
+      for_each = var.include_groups ? [true] : []
+      content {
+        name = "groups"
+      }
+    }
   }
 
   dynamic "api" {
@@ -37,12 +46,12 @@ resource "azuread_application" "headlamp" {
     content {
       requested_access_token_version = 2
       oauth2_permission_scope {
-        admin_consent_description  = "Access Headlamp API"
-        admin_consent_display_name = "Access Headlamp API"
+        admin_consent_description  = var.api_scope_admin_consent_description
+        admin_consent_display_name = var.api_scope_admin_consent_display_name
         enabled                    = true
         id                         = uuid()
         type                       = "User"
-        value                      = "app.full"
+        value                      = var.api_scope_name
       }
     }
   }
@@ -53,8 +62,8 @@ resource "azuread_application" "headlamp" {
   }
 }
 
-resource "azuread_application_password" "headlamp" {
-  application_object_id = azuread_application.headlamp.object_id
+resource "azuread_application_password" "oidc_app" {
+  application_object_id = azuread_application.oidc_app.object_id
   display_name          = "terraform-managed"
   end_date              = var.secret_end_date != "" ? var.secret_end_date : null
 }

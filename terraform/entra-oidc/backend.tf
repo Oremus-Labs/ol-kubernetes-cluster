@@ -14,7 +14,7 @@ terraform {
     skip_metadata_api_check     = true
     skip_requesting_account_id  = true
     use_path_style              = true
-    shared_credentials_file     = "~/.aws/credentials"
+    shared_credentials_files    = ["~/.aws/credentials"]
     profile                     = "default"
   }
 }
