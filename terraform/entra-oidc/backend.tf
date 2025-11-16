@@ -4,7 +4,7 @@
 terraform {
   backend "s3" {
     bucket                      = "workspaces"
-    key                         = "infra/entra-oidc/terraform.tfstate"
+    key                         = "ol-kubernetes-cluster/entra-oidc/terraform.tfstate"
     region                      = "us-east-1"
     endpoints = {
       s3 = "https://s3.oremuslabs.app"

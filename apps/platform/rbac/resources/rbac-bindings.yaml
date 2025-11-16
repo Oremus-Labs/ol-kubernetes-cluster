@@ -1,0 +1,42 @@
+---
+# Admins -> cluster-admin
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: entra-k8s-admins
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: Group
+  apiGroup: rbac.authorization.k8s.io
+  name: cc878aef-3307-40f8-862b-07b26cedf6cd
+---
+# Developers -> edit (namespaced workloads)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: entra-k8s-developers
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- kind: Group
+  apiGroup: rbac.authorization.k8s.io
+  name: f30d366c-0e05-403e-b5d6-66b9f8133d93
+---
+# Readonly -> view
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: entra-k8s-readonly
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+- kind: Group
+  apiGroup: rbac.authorization.k8s.io
+  name: 144a37fa-cc9d-4fc9-bf8a-a09999818504

@@ -1,33 +1,33 @@
-variable "tenant_id" {
-  description = "Azure AD tenant ID that owns the Headlamp OIDC app."
-  type        = string
-}
-
 variable "app_name" {
-  description = "Display name for the Headlamp OIDC application."
+  description = "Display name for the Entra application."
   type        = string
-  default     = "k8s.oremuslabs.app"
 }
 
 variable "redirect_uris" {
-  description = "List of redirect URIs for the Web platform (e.g., Headlamp callback URLs)."
+  description = "List of redirect URIs for the Web platform."
   type        = list(string)
-  default     = [
-    "https://headlamp.oremuslabs.app/oidc-callback",
-    "http://localhost:8000/"
-  ]
 }
 
 variable "public_redirect_uris" {
-  description = "Redirect URIs for the public client (PKCE/device flows)."
+  description = "List of redirect URIs for the public client (PKCE/device flows)."
   type        = list(string)
-  default     = [
-    "http://localhost:8000/"
-  ]
+  default     = ["http://localhost:8000/"]
+}
+
+variable "spa_redirect_uris" {
+  description = "List of redirect URIs for single-page application flows."
+  type        = list(string)
+  default     = []
+}
+
+variable "group_membership_claims" {
+  description = "Requested group membership claims (e.g., SecurityGroup)."
+  type        = list(string)
+  default     = ["SecurityGroup"]
 }
 
 variable "identifier_uri" {
-  description = "Optional Application ID URI to expose an API (e.g., api://<app-id>). Leave empty to skip exposing an API."
+  description = "Optional Application ID URI to expose an API. Leave empty to skip."
   type        = string
   default     = ""
 }
@@ -60,20 +60,4 @@ variable "secret_end_date" {
   description = "RFC3339 timestamp for when the client secret should expire."
   type        = string
   default     = ""
-}
-
-variable "group_names" {
-  description = "Map of RBAC groups to create in Entra."
-  type        = map(string)
-  default = {
-    admins     = "k8s-admins"
-    developers = "k8s-developers"
-    readonly   = "k8s-readonly"
-  }
-}
-
-variable "group_members" {
-  description = "Map of group key -> list of member object IDs to add. Leave empty to manage membership outside Terraform."
-  type        = map(list(string))
-  default     = {}
 }

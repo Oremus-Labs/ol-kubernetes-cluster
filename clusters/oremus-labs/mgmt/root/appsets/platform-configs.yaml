@@ -49,6 +49,12 @@ spec:
         path: apps/platform/smb/resources
         targetRevision: main
         syncWave: "1"
+      - name: rbac-resources
+        namespace: kube-system
+        project: platform
+        path: apps/platform/rbac/resources
+        targetRevision: main
+        syncWave: "1"
       - name: longhorn-resources
         namespace: longhorn-system
         project: platform
