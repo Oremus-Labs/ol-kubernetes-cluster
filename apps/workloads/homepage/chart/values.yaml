@@ -86,3 +86,11 @@ config:
     - search:
         provider: duckduckgo
         target: _blank
+  docker: |
+    containers: []
+  releases: |
+    sources: []
+  customCss: |
+    /* custom styles */
+  customJs: |
+    // custom scripts

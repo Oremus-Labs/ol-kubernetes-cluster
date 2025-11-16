@@ -15,3 +15,11 @@ data:
 {{ .Values.config.kubernetes | indent 4 }}
   widgets.yaml: |
 {{ .Values.config.widgets | indent 4 }}
+  docker.yaml: |
+{{ .Values.config.docker | indent 4 }}
+  releases.yaml: |
+{{ .Values.config.releases | indent 4 }}
+  custom.css: |
+{{ .Values.config.customCss | indent 4 }}
+  custom.js: |
+{{ .Values.config.customJs | indent 4 }}
