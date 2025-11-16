@@ -37,7 +37,7 @@ spec:
         command: ["/bin/sh","-c"]
         args:
         - |
-          cp -a /config-src/* /config
+          cp -aL /config-src/* /config
         volumeMounts:
         - name: config-src
           mountPath: /config-src
