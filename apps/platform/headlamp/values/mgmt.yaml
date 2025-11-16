@@ -18,7 +18,7 @@ config:
     externalSecret:
       enabled: false
   extraArgs:
-    - "-oidc-callback-url=https://headlamp.oremuslabs.app/oidc-callback"
-    - "-oidc-validator-client-id=af4fe910-bb07-4613-a3ba-5f51540aadad"
-    - "-oidc-validator-idp-issuer-url=https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0"
-    - "-oidc-use-access-token=false"
+    - "-oidc-callback-url=$(OIDC_CALLBACK_URL)"
+    - "-oidc-validator-client-id=$(OIDC_VALIDATOR_CLIENT_ID)"
+    - "-oidc-validator-idp-issuer-url=$(OIDC_VALIDATOR_ISSUER_URL)"
+    - "-oidc-use-access-token=$(OIDC_USE_ACCESS_TOKEN)"

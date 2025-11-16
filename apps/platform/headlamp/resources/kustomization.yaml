@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: headlamp
 resources:
   - oidc-secret.yaml
-
+  - oidc-secret-sync-job.yaml
