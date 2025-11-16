@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: homepage
+data:
+  settings.yaml: |
+    title: Oremus Labs
+    headerStyle: boxed
+    theme: dark
+    base: https://homepage.oremuslabs.app
+    layout:
+      - Platform
+      - Storage
+      - Networking
+      - Security
+    useEqualHeights: true
+  services.yaml: |
+    - Platform:
+        - Argo CD:
+            href: https://argocd.oremuslabs.app
+            description: GitOps control plane
+            icon: argo
+        - Headlamp:
+            href: https://headlamp.oremuslabs.app
+            description: Kubernetes dashboard
+            icon: kubernetes
+        - Traefik:
+            href: https://traefik.oremuslabs.app
+            description: Ingress controller
+            icon: traefik
+        - Router UI:
+            href: https://router.oremuslabs.app
+            description: Edge router
+            icon: router
+    - Storage:
+        - Longhorn:
+            href: https://longhorn.oremuslabs.app
+            description: CSI block storage
+            icon: longhorn
+        - MinIO Console:
+            href: https://minio.oremuslabs.app
+            description: Object storage console
+            icon: minio
+        - S3 API:
+            href: https://s3.oremuslabs.app
+            description: S3-compatible endpoint
+            icon: minio
+    - Security:
+        - 1Password:
+            href: https://op.oremuslabs.app
+            description: Secrets manager
+            icon: 1password
+  bookmarks.yaml: |
+    - Docs:
+        - GitOps Repo:
+            - https://github.com/Oremus-Labs/ol-kubernetes-cluster
+        - Argo CD Docs:
+            - https://argo-cd.readthedocs.io/en/stable/
+        - Traefik Docs:
+            - https://doc.traefik.io/traefik/
+  kubernetes.yaml: |
+    providers: []
