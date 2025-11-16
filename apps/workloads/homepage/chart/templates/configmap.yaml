@@ -23,3 +23,5 @@ data:
 {{ .Values.config.customCss | indent 4 }}
   custom.js: |
 {{ .Values.config.customJs | indent 4 }}
+  proxmox.yaml: |
+{{ .Values.config.proxmox | indent 4 }}

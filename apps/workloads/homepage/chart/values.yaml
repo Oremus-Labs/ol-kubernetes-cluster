@@ -91,10 +91,12 @@ config:
         provider: duckduckgo
         target: _blank
   docker: |
-    containers: []
+    providers: []
   releases: |
     sources: []
   customCss: |
     /* custom styles */
   customJs: |
     // custom scripts
+  proxmox: |
+    servers: []
