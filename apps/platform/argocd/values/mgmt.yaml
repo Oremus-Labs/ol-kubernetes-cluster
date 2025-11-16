@@ -78,15 +78,6 @@ configs:
             - '.metadata.annotations."autoscaling.alpha.kubernetes.io/conditions"'
             - '.metadata.annotations."autoscaling.alpha.kubernetes.io/metrics"'
             - '.metadata.annotations."autoscaling.alpha.kubernetes.io/current-metrics"'
-    # Override chart defaults that add unsupported ignoreResourceUpdates entries (not supported by this Argo CD version)
-    resource.customizations.ignoreResourceUpdates.all: ""
-    resource.customizations.ignoreResourceUpdates.ConfigMap: ""
-    resource.customizations.ignoreResourceUpdates.Endpoints: ""
-    resource.customizations.ignoreResourceUpdates.apps_ReplicaSet: ""
-    resource.customizations.ignoreResourceUpdates.argoproj.io_Application: ""
-    resource.customizations.ignoreResourceUpdates.argoproj.io_Rollout: ""
-    resource.customizations.ignoreResourceUpdates.autoscaling_HorizontalPodAutoscaler: ""
-    resource.customizations.ignoreResourceUpdates.discovery.k8s.io_EndpointSlice: ""
   repositories:
     ol-kubernetes-cluster:
       url: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
