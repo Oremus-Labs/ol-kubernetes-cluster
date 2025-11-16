@@ -10,6 +10,22 @@ configs:
     url: https://argocd.oremuslabs.app
     timeout.reconciliation: 60s
     admin.enabled: "true"
+    oidc.config: |
+      name: EntraID
+      issuer: https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0
+      # clientID/clientSecret are pulled from the 1Password-synced Secret argo-oidc
+      clientID: $argo-oidc:application_id
+      clientSecret: $argo-oidc:client_secret
+      requestedScopes:
+        - openid
+        - profile
+        - email
+        - offline_access
+        - groups
+      requestedIDTokenClaims:
+        groups:
+          essential: true
+      cliClientID: $argo-oidc:application_id
     resource.customizations.health.apps_Deployment: |
       hs = {}
       if obj.status ~= nil and obj.status.availableReplicas ~= nil and obj.status.replicas ~= nil and obj.status.availableReplicas == obj.status.replicas then
@@ -21,6 +37,24 @@ configs:
   repositories:
     ol-kubernetes-cluster:
       url: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+  rbac:
+    policy.default: role:readonly
+    policy.csv: |
+      # Admins -> ArgoCD admin
+      g, cc878aef-3307-40f8-862b-07b26cedf6cd, role:admin
+      # Developers -> ArgoCD developer
+      p, role:developer, applications, get, */*, allow
+      p, role:developer, applications, create, */*, allow
+      p, role:developer, applications, update, */*, allow
+      p, role:developer, applications, delete, */*, allow
+      p, role:developer, applications, sync, */*, allow
+      p, role:developer, projects, get, */*, allow
+      g, f30d366c-0e05-403e-b5d6-66b9f8133d93, role:developer
+      # Readonly -> ArgoCD read-only
+      p, role:readonly, applications, get, */*, allow
+      p, role:readonly, clusters, get, *, allow
+      p, role:readonly, repositories, get, *, allow
+      g, 144a37fa-cc9d-4fc9-bf8a-a09999818504, role:readonly
 
 controller:
   replicas: 1
