@@ -4,12 +4,12 @@ image:
 
 ingress:
   host: homepage.oremuslabs.app
-  tlsSecret: ""
+  tlsSecret: oremuslabs-app-wildcard-tls
 
 router:
   host: router.oremuslabs.app
   ip: 10.10.10.1
-  tlsSecret: ""
+  tlsSecret: oremuslabs-app-wildcard-tls
 
 allowedHosts:
   - homepage.oremuslabs.app
@@ -72,17 +72,16 @@ config:
     - GitOps:
         - Repo:
             href: https://github.com/Oremus-Labs/ol-kubernetes-cluster
-            abbr: GH
             icon: github
         - Argo CD Docs:
             href: https://argo-cd.readthedocs.io/en/stable/
-            icon: argo
+            icon: argo-cd
         - Traefik Docs:
             href: https://doc.traefik.io/traefik/
             icon: traefik
     - Ops:
         - Router:
-            href: https://router.oremuslabs.app
+            href: http://router.oremuslabs.app
             icon: router
   kubernetes: |
     providers: []
