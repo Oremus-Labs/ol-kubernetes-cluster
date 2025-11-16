@@ -35,12 +35,12 @@ spec:
           set -eu
           while true; do
             if [ -d "$ROOT" ]; then
-              find "$ROOT" -maxdepth 2 -type d -name globalmount | while read gm; do
+              find "$ROOT" -maxdepth 2 -type d -name globalmount 2>/dev/null | while read gm; do
                 if mountpoint -q "$gm"; then
                   continue
                 fi
                 echo "$(date -Iseconds) cleaning stale globalmount $gm"
-                rm -rf "$gm" || true
+                rm -rf "$gm" 2>/dev/null || true
                 mkdir -p "$gm"
                 chmod 0755 "$gm"
               done
