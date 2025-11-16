@@ -16,8 +16,11 @@ provider "azuread" {
 module "headlamp_oidc" {
   source        = "./terraform/entra-oidc"
   tenant_id     = var.tenant_id
-  app_name      = "Headlamp"
-  redirect_uris = ["https://headlamp.oremuslabs.app/oidc-callback"]
+  app_name      = "k8s.oremuslabs.app"
+  redirect_uris = [
+    "https://headlamp.oremuslabs.app/oidc-callback",
+    "http://localhost:8000", # common CLI/exec callback
+  ]
   # identifier_uri = "api://a9c2b807-718a-4aff-ab9c-a683a27bf7f9" # optional
 }
 ```

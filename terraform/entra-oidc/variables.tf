@@ -6,13 +6,16 @@ variable "tenant_id" {
 variable "app_name" {
   description = "Display name for the Headlamp OIDC application."
   type        = string
-  default     = "Headlamp"
+  default     = "k8s.oremuslabs.app"
 }
 
 variable "redirect_uris" {
   description = "List of redirect URIs for the Web platform (e.g., Headlamp callback URLs)."
   type        = list(string)
-  default     = ["https://headlamp.oremuslabs.app/oidc-callback"]
+  default     = [
+    "https://headlamp.oremuslabs.app/oidc-callback",
+    "http://localhost:8000"
+  ]
 }
 
 variable "identifier_uri" {
