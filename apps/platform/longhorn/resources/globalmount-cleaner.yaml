@@ -31,13 +31,14 @@ spec:
         - -c
         - |
           set -eu
+          NSENTER="nsenter --mount=/proc/1/ns/mnt --"
           if [ -d "$ROOT" ]; then
             find "$ROOT" -maxdepth 2 -type d -name globalmount 2>/dev/null | while read gm; do
-              # If it's mounted, try to unmount it (e.g., after kubelet/node restart).
+              # If it's mounted, try to unmount it via the host mount namespace (normal then lazy then force).
               if mountpoint -q "$gm"; then
-                dev=$(mount | awk '$3=="'"$gm"'" {print $1}')
+                dev=$($NSENTER mount | awk '$3=="'"$gm"'" {print $1}')
                 echo "$(date -Iseconds) unmounting $gm (device $dev)"
-                umount "$gm" 2>/dev/null || umount -l "$gm" 2>/dev/null || true
+                $NSENTER umount "$gm" 2>/dev/null || $NSENTER umount -l "$gm" 2>/dev/null || $NSENTER umount -f -l "$gm" 2>/dev/null || true
               fi
               echo "$(date -Iseconds) cleaning stale globalmount $gm"
               rm -rf "$gm" 2>/dev/null || true
