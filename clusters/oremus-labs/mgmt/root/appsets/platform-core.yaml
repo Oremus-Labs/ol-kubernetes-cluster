@@ -12,7 +12,7 @@ spec:
         project: platform
         chart: argo-cd
         repoURL: https://argoproj.github.io/argo-helm
-        targetRevision: 5.34.3
+        targetRevision: 9.1.3
         releaseName: argo-cd
         valuesFile: apps/platform/argocd/values/mgmt.yaml
         extraCompareOptions: ""
