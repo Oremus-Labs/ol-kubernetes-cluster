@@ -77,3 +77,12 @@ config:
             - https://router.oremuslabs.app
   kubernetes: |
     providers: []
+  widgets: |
+    - resources:
+        backend: resources
+        expanded: true
+        cpu: true
+        memory: true
+    - search:
+        provider: duckduckgo
+        target: _blank

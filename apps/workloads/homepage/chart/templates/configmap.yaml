@@ -13,3 +13,5 @@ data:
 {{ .Values.config.bookmarks | indent 4 }}
   kubernetes.yaml: |
 {{ .Values.config.kubernetes | indent 4 }}
+  widgets.yaml: |
+{{ .Values.config.widgets | indent 4 }}
