@@ -79,17 +79,17 @@ configs:
             - '.metadata.annotations."autoscaling.alpha.kubernetes.io/metrics"'
             - '.metadata.annotations."autoscaling.alpha.kubernetes.io/current-metrics"'
   repositories:
-    ol-kubernetes-cluster:
-      url: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+      ol-kubernetes-cluster:
+        url: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
   rbac:
     policy.default: role:readonly
     policy.matchMode: glob
     scopes: '[groups]'
     policy.csv: |
       # Admins -> ArgoCD admin
-      p, role:admin, applicationsets, *, */*, allow
-      p, role:admin, applicationsets/*, *, */*, allow
-      p, role:admin, applicationset, *, */*, allow
+      p, role:admin, applicationsets, *, *, allow
+      p, role:admin, applicationsets/*, *, *, allow
+      p, role:admin, applicationset, *, *, allow
       g, cc878aef-3307-40f8-862b-07b26cedf6cd, role:admin
       # Developers -> ArgoCD developer
       p, role:developer, applications, get, */*, allow
@@ -98,21 +98,21 @@ configs:
       p, role:developer, applications, delete, */*, allow
       p, role:developer, applications, sync, */*, allow
       p, role:developer, projects, get, */*, allow
-      p, role:developer, applicationsets, get, */*, allow
-      p, role:developer, applicationsets, list, */*, allow
-      p, role:developer, applicationsets, watch, */*, allow
-      p, role:developer, applicationsets/*, get, */*, allow
-      p, role:developer, applicationset, get, */*, allow
+      p, role:developer, applicationsets, get, *, allow
+      p, role:developer, applicationsets, list, *, allow
+      p, role:developer, applicationsets, watch, *, allow
+      p, role:developer, applicationsets/*, get, *, allow
+      p, role:developer, applicationset, get, *, allow
       g, f30d366c-0e05-403e-b5d6-66b9f8133d93, role:developer
       # Readonly -> ArgoCD read-only
       p, role:readonly, applications, get, */*, allow
       p, role:readonly, clusters, get, *, allow
       p, role:readonly, repositories, get, *, allow
-      p, role:readonly, applicationsets, get, */*, allow
-      p, role:readonly, applicationsets, list, */*, allow
-      p, role:readonly, applicationsets, watch, */*, allow
-      p, role:readonly, applicationsets/*, get, */*, allow
-      p, role:readonly, applicationset, get, */*, allow
+      p, role:readonly, applicationsets, get, *, allow
+      p, role:readonly, applicationsets, list, *, allow
+      p, role:readonly, applicationsets, watch, *, allow
+      p, role:readonly, applicationsets/*, get, *, allow
+      p, role:readonly, applicationset, get, *, allow
       g, 144a37fa-cc9d-4fc9-bf8a-a09999818504, role:readonly
 
 controller:
