@@ -10,6 +10,7 @@ configs:
     url: https://argocd.oremuslabs.app
     timeout.reconciliation: 60s
     admin.enabled: "true"
+    ui.applicationset.enabled: "true"
     oidc.config: |
       name: EntraID
       issuer: https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0
