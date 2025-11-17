@@ -24,23 +24,7 @@ config:
   cookie:
     samesite: lax
     secure: true
-
-extraEnv:
-  - name: OAUTH2_PROXY_CLIENT_ID
-    valueFrom:
-      secretKeyRef:
-        name: oauth2-proxy-secret
-        key: oidc.azure.clientId
-  - name: OAUTH2_PROXY_CLIENT_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: oauth2-proxy-secret
-        key: oidc.azure.clientSecret
-  - name: OAUTH2_PROXY_COOKIE_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: oauth2-proxy-secret
-        key: server.secretkey
+  existingSecret: oauth2-proxy-secret
 
 extraArgs:
   set-xauthrequest: "true"
