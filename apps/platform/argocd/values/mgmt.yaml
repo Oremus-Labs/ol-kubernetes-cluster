@@ -83,6 +83,8 @@ configs:
       url: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
   rbac:
     policy.default: role:readonly
+    policy.matchMode: glob
+    scopes: '[groups]'
     policy.csv: |
       # Admins -> ArgoCD admin
       p, role:admin, applicationsets, *, */*, allow
