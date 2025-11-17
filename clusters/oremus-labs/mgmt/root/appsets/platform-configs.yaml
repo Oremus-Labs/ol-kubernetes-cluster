@@ -73,6 +73,12 @@ spec:
         path: apps/platform/coredns/resources
         targetRevision: main
         syncWave: "1"
+      - name: oauth2-proxy-resources
+        namespace: traefik
+        project: platform
+        path: apps/platform/oauth2-proxy/resources
+        targetRevision: main
+        syncWave: "1"
   template:
     metadata:
       name: platform-{{name}}
