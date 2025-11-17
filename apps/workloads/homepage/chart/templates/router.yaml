@@ -10,6 +10,23 @@ spec:
     port: 80
     targetPort: 80
 ---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: router-upstream
+  namespace: traefik
+  labels:
+    kubernetes.io/service-name: router-upstream
+addressType: IPv4
+ports:
+  - name: http
+    port: 80
+endpoints:
+  - addresses:
+      - {{ .Values.router.ip }}
+    conditions:
+      ready: true
+---
 apiVersion: v1
 kind: Endpoints
 metadata:
