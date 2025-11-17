@@ -44,3 +44,6 @@ tlsStore:
   default:
     defaultCertificate:
       secretName: oremuslabs-app-wildcard-tls
+
+api:
+  dashboard: true

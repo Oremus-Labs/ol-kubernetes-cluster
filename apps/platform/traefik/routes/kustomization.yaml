@@ -7,3 +7,4 @@ resources:
   - minio-api.yaml
   - minio-console.yaml
   - headlamp.yaml
+  - traefik-dashboard.yaml

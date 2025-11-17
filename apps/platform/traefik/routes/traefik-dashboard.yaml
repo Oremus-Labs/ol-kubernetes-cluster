@@ -1,0 +1,31 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-dashboard-whitelist
+  namespace: traefik
+spec:
+  ipWhiteList:
+    sourceRange:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: traefik
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`traefik.oremuslabs.app`)
+    middlewares:
+    - name: traefik-dashboard-whitelist
+      namespace: traefik
+    services:
+    - kind: TraefikService
+      name: api@internal
+  tls:
+    secretName: oremuslabs-app-wildcard-tls
