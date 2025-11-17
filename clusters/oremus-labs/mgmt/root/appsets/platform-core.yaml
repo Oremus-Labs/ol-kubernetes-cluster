@@ -109,9 +109,9 @@ spec:
       - name: oauth2-proxy
         namespace: traefik
         project: platform
-        chart: apps/platform/oauth2-proxy/chart
         repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
         targetRevision: main
+        path: apps/platform/oauth2-proxy/chart
         releaseName: oauth2-proxy
         valuesFile: apps/platform/oauth2-proxy/values/mgmt.yaml
         extraCompareOptions: ""
