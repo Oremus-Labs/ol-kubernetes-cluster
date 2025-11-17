@@ -14,17 +14,16 @@ secret:
   enabled: false
 
 config:
-  provider: oidc
-  oidcIssuerUrl: https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0
-  redirectUrl: https://auth.oremuslabs.app/oauth2/callback
-  emailDomains:
-    - "*"
-  upstreams:
-    - file:///dev/null
-  cookie:
-    samesite: lax
-    secure: true
   existingSecret: oauth2-proxy
+  # Full oauth2-proxy.cfg rendered into the ConfigMap
+  configFile: |-
+    provider = "oidc"
+    oidc_issuer_url = "https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0"
+    redirect_url = "https://traefik.oremuslabs.app/oauth2/callback"
+    email_domains = [ "*" ]
+    upstreams = [ "file:///dev/null" ]
+    cookie_secure = true
+    cookie_samesite = "lax"
 
 extraArgs:
   set-xauthrequest: "true"
