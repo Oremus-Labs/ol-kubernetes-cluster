@@ -26,7 +26,6 @@ config:
     cookie_samesite = "lax"
     whitelist_domains = [ ".oremuslabs.app" ]
     cookie_domains = [ ".oremuslabs.app" ]
-    session_cookie_minimal = true
 
 extraArgs:
   set-xauthrequest: "true"
