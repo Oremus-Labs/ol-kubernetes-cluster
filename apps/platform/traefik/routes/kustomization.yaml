@@ -8,5 +8,4 @@ resources:
   - minio-console.yaml
   - headlamp.yaml
   - oauth2-proxy-middleware.yaml
-  - oauth2-proxy-error-redirect.yaml
   - traefik-dashboard.yaml
