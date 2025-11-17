@@ -7,4 +7,5 @@ resources:
   - minio-api.yaml
   - minio-console.yaml
   - headlamp.yaml
+  - oauth2-proxy-middleware.yaml
   - traefik-dashboard.yaml
