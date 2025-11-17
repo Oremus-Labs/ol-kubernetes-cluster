@@ -19,7 +19,7 @@ config:
   configFile: |-
     provider = "oidc"
     oidc_issuer_url = "https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0"
-    redirect_url = "https://traefik.oremuslabs.app/oauth2/callback"
+    redirect_url = "https://auth.oremuslabs.app/oauth2/callback"
     email_domains = [ "*" ]
     upstreams = [ "static://200" ]
     reverse_proxy = true

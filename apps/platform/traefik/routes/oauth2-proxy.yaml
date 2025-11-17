@@ -1,0 +1,17 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: oauth2-proxy
+  namespace: traefik
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`auth.oremuslabs.app`)
+    services:
+    - name: oauth2-proxy
+      namespace: traefik
+      port: 4180
+  tls:
+    secretName: oremuslabs-app-wildcard-tls
