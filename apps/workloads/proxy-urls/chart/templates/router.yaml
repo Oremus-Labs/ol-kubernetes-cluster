@@ -1,14 +1,27 @@
 {{- range .Values.proxies }}
-apiVersion: traefik.io/v1alpha1
-kind: TraefikService
+apiVersion: v1
+kind: Service
 metadata:
-  name: {{ .name }}-proxy
+  name: {{ .name }}-proxy-upstream
   namespace: traefik
 spec:
-  loadBalancer:
-    passHostHeader: true
-    servers:
-      - url: {{ .url | quote }}
+  clusterIP: None
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: {{ .name }}-proxy-upstream
+  namespace: traefik
+subsets:
+  - addresses:
+      - ip: {{ .url | trimPrefix "http://" | trimPrefix "https://" | trimSuffix "/" }}
+    ports:
+      - name: http
+        port: 80
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -22,9 +35,9 @@ spec:
   - kind: Rule
     match: Host(`{{ .host }}`)
     services:
-    - name: {{ .name }}-proxy
+    - name: {{ .name }}-proxy-upstream
       namespace: traefik
-      kind: TraefikService
+      port: 80
   tls:
     secretName: {{ .tlsSecret }}
 ---
