@@ -87,6 +87,7 @@ configs:
     scopes: '[groups]'
     policy.csv: |
       # Admins -> ArgoCD admin
+      p, role:admin, *, *, *, allow
       p, role:admin, applicationsets, *, *, allow
       p, role:admin, applicationsets/*, *, *, allow
       p, role:admin, applicationset, *, *, allow
