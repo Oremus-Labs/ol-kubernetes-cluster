@@ -28,7 +28,7 @@ spec:
     - kind: TraefikService
       name: api@internal
   - kind: Rule
-    match: Host(`traefik.oremuslabs.app`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`)) && HeadersRegexp(`Cookie`, `_oauth2_proxy=|authsession=|oauth2_proxy=`)
+    match: Host(`traefik.oremuslabs.app`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`)) && HeadersRegexp(`Cookie`, `_oauth2_proxy`)
     middlewares:
     - name: oauth2-proxy-auth
       namespace: traefik
