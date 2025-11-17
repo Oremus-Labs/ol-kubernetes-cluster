@@ -24,6 +24,7 @@ config:
     upstreams = [ "file:///dev/null" ]
     cookie_secure = true
     cookie_samesite = "lax"
+    whitelist_domains = [ ".oremuslabs.app" ]
 
 extraArgs:
   set-xauthrequest: "true"
