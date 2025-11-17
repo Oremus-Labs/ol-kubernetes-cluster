@@ -48,3 +48,7 @@ tlsStore:
 api:
   dashboard: true
   insecure: true
+
+additionalArguments:
+  - --api=true
+  - --api.insecure=true
