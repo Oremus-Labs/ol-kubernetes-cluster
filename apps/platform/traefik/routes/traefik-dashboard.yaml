@@ -37,6 +37,12 @@ spec:
     services:
     - kind: TraefikService
       name: api@internal
+  - kind: Rule
+    match: Host(`traefik.oremuslabs.app`) && PathPrefix(`/oauth2`)
+    services:
+    - name: oauth2-proxy
+      namespace: traefik
+      port: 4180
   tls:
     secretName: oremuslabs-app-wildcard-tls
 ---
