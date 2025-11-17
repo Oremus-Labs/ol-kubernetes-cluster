@@ -106,6 +106,15 @@ spec:
         releaseName: 1password-operator
         valuesFile: apps/platform/1password-operator/values/mgmt.yaml
         extraCompareOptions: ""
+      - name: oauth2-proxy
+        namespace: traefik
+        project: platform
+        chart: apps/platform/oauth2-proxy/chart
+        repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+        targetRevision: main
+        releaseName: oauth2-proxy
+        valuesFile: apps/platform/oauth2-proxy/values/mgmt.yaml
+        extraCompareOptions: ""
   template:
     metadata:
       name: platform-{{name}}
