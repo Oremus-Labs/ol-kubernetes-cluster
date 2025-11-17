@@ -24,7 +24,7 @@ config:
   cookie:
     samesite: lax
     secure: true
-  existingSecret: oauth2-proxy-secret
+  existingSecret: oauth2-proxy
 
 extraArgs:
   set-xauthrequest: "true"
