@@ -2,5 +2,4 @@ proxies:
   - name: router
     host: router.oremuslabs.app
     url: http://10.10.10.1
-    externalName: 10.10.10.1.nip.io
     tlsSecret: oremuslabs-app-wildcard-tls
