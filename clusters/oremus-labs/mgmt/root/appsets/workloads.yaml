@@ -18,6 +18,7 @@ spec:
         project: workloads
         path: apps/workloads/proxy-urls/chart
         targetRevision: main
+        imageTag: latest
   template:
     metadata:
       name: workloads-{{name}}
