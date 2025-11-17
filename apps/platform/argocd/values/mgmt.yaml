@@ -85,6 +85,7 @@ configs:
     policy.default: role:readonly
     policy.csv: |
       # Admins -> ArgoCD admin
+      p, role:admin, applicationsets, *, */*, allow
       g, cc878aef-3307-40f8-862b-07b26cedf6cd, role:admin
       # Developers -> ArgoCD developer
       p, role:developer, applications, get, */*, allow
@@ -95,6 +96,7 @@ configs:
       p, role:developer, projects, get, */*, allow
       p, role:developer, applicationsets, get, */*, allow
       p, role:developer, applicationsets, list, *, allow
+      p, role:developer, applicationsets, watch, *, allow
       g, f30d366c-0e05-403e-b5d6-66b9f8133d93, role:developer
       # Readonly -> ArgoCD read-only
       p, role:readonly, applications, get, */*, allow
@@ -102,6 +104,7 @@ configs:
       p, role:readonly, repositories, get, *, allow
       p, role:readonly, applicationsets, get, */*, allow
       p, role:readonly, applicationsets, list, *, allow
+      p, role:readonly, applicationsets, watch, *, allow
       g, 144a37fa-cc9d-4fc9-bf8a-a09999818504, role:readonly
 
 controller:
