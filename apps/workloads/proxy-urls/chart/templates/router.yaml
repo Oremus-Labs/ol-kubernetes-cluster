@@ -18,7 +18,7 @@ metadata:
   namespace: traefik
 subsets:
   - addresses:
-      - ip: {{ trimPrefix "http://" (trimPrefix "https://" .url) | trimSuffix "/" }}
+      - ip: {{ .url | trimPrefix "http://" | trimPrefix "https://" | trimSuffix "/" }}
     ports:
       - name: http
         port: 80
