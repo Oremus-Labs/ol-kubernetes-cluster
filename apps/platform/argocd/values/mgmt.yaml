@@ -93,11 +93,15 @@ configs:
       p, role:developer, applications, delete, */*, allow
       p, role:developer, applications, sync, */*, allow
       p, role:developer, projects, get, */*, allow
+      p, role:developer, applicationsets, get, */*, allow
+      p, role:developer, applicationsets, list, *, allow
       g, f30d366c-0e05-403e-b5d6-66b9f8133d93, role:developer
       # Readonly -> ArgoCD read-only
       p, role:readonly, applications, get, */*, allow
       p, role:readonly, clusters, get, *, allow
       p, role:readonly, repositories, get, *, allow
+      p, role:readonly, applicationsets, get, */*, allow
+      p, role:readonly, applicationsets, list, *, allow
       g, 144a37fa-cc9d-4fc9-bf8a-a09999818504, role:readonly
 
 controller:
