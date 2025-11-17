@@ -18,6 +18,7 @@ metadata:
 spec:
   entryPoints:
   - websecure
+  - traefik
   routes:
   - kind: Rule
     match: Host(`traefik.oremuslabs.app`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
