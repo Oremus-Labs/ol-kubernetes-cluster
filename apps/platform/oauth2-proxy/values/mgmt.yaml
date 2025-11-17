@@ -37,6 +37,8 @@ oauth2-proxy:
         secretKeyRef:
           name: oauth2-proxy-secret
           key: server.secretkey
+    - name: OAUTH2_PROXY_COOKIE_SECRET
+      value: 233ezClTkRtYFhAQeCZgReB3B7M7R+Hi8fIK1MmlM3c=
   extraArgs:
     provider: "oidc"
     oidc-issuer-url: "https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0"
