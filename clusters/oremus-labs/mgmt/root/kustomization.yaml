@@ -6,4 +6,3 @@ resources:
   - appsets/platform-core.yaml
   - appsets/platform-configs.yaml
   - appsets/workloads.yaml
-  - appsets/platform-oauth2-proxy.yaml
