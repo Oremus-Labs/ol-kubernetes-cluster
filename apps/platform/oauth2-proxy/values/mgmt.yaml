@@ -21,16 +21,20 @@ config:
     oidc_issuer_url = "https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0"
     redirect_url = "https://traefik.oremuslabs.app/oauth2/callback"
     email_domains = [ "*" ]
-    upstreams = [ "file:///dev/null" ]
+    upstreams = [ "static://202" ]
+    reverse_proxy = true
+    set_authorization_header = true
+    set_xauthrequest = true
+    silence_ping_logging = true
+    skip_jwt_bearer_tokens = true
+    skip_provider_button = true
+    cookie_refresh = "1h"
     cookie_secure = true
     cookie_samesite = "lax"
-    whitelist_domains = [ ".oremuslabs.app" ]
+    whitelist_domains = [ ".oremuslabs.app:*" ]
     cookie_domains = [ ".oremuslabs.app" ]
 
 extraArgs:
-  set-xauthrequest: "true"
-  pass-authorization-header: "true"
-  skip-jwt-bearer-tokens: "true"
   scope: "openid profile email offline_access"
   oidc-groups-claim: "groups"
 

@@ -30,6 +30,8 @@ spec:
   - kind: Rule
     match: Host(`traefik.oremuslabs.app`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
     middlewares:
+    - name: oauth2-proxy-errors
+      namespace: traefik
     - name: oauth2-proxy-auth
       namespace: traefik
     services:
