@@ -38,6 +38,12 @@ oauth2-proxy:
           name: oauth2-proxy-secret
           key: server.secretkey
   extraArgs:
+    provider: "oidc"
+    oidc-issuer-url: "https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0"
+    redirect-url: "https://auth.oremuslabs.app/oauth2/callback"
+    email-domain: "*"
+    upstream: "file:///dev/null"
+    cookie-samesite: "lax"
     set-xauthrequest: "true"
     pass-authorization-header: "true"
     skip-jwt-bearer-tokens: "true"
