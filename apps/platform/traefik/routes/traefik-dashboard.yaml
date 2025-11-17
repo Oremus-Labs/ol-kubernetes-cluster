@@ -20,7 +20,7 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match: Host(`traefik.oremuslabs.app`)
+    match: Host(`traefik.oremuslabs.app`) && PathPrefix(`/`)
     middlewares:
     - name: oauth2-proxy-auth
       namespace: traefik
