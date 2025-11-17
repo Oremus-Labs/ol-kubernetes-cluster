@@ -5,7 +5,7 @@ metadata:
   namespace: traefik
 spec:
   forwardAuth:
-    address: https://traefik.oremuslabs.app/oauth2/start?rd=https://traefik.oremuslabs.app/dashboard/
+    address: https://traefik.oremuslabs.app/oauth2/auth
     trustForwardHeader: true
     authResponseHeaders:
       - X-Auth-Request-User
