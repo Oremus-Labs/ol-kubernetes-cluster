@@ -46,6 +46,7 @@ oauth2-proxy:
     email-domain: "*"
     upstream: "file:///dev/null"
     cookie-samesite: "lax"
+    cookie-secret: "4LA0fDJ89W8dSE6FONWYzrMoeuLRq0ii"
     set-xauthrequest: "true"
     pass-authorization-header: "true"
     skip-jwt-bearer-tokens: "true"
