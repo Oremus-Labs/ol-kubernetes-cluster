@@ -9,5 +9,4 @@ resources:
   - headlamp.yaml
   - oauth2-proxy-middleware.yaml
   - oauth2-proxy-headers.yaml
-  - oauth2-proxy-error-redirect.yaml
   - traefik-dashboard.yaml

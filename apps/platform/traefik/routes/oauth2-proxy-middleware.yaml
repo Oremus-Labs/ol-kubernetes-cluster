@@ -1,7 +1,7 @@
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: oauth2-proxy-auth
+  name: oauth2proxy-forwardauth
   namespace: traefik
 spec:
   forwardAuth:
@@ -14,4 +14,5 @@ spec:
       - X-Auth-Request-Email
       - X-Auth-Request-Groups
       - X-Auth-Request-Redirect
+      - X-Auth-Request-Username
       - Set-Cookie
