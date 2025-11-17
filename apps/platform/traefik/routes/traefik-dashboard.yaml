@@ -22,7 +22,7 @@ spec:
   - kind: Rule
     match: Host(`traefik.oremuslabs.app`)
     middlewares:
-    - name: traefik-dashboard-whitelist
+    - name: oauth2-proxy-auth
       namespace: traefik
     services:
     - kind: TraefikService
