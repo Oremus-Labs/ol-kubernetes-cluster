@@ -5,12 +5,18 @@ metadata:
   name: {{ .name }}-proxy-upstream
   namespace: traefik
 spec:
+  {{- if .externalName }}
+  type: ExternalName
+  externalName: {{ .externalName }}
+  {{- else }}
   clusterIP: None
   ports:
   - name: http
     port: 80
     targetPort: 80
+  {{- end }}
 ---
+{{- if not .externalName }}
 apiVersion: v1
 kind: Endpoints
 metadata:
@@ -23,6 +29,7 @@ subsets:
       - name: http
         port: 80
 ---
+{{- end }}
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
