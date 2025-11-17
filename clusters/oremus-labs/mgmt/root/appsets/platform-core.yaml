@@ -126,8 +126,12 @@ spec:
       project: '{{project}}'
       sources:
       - repoURL: '{{repoURL}}'
-        chart: '{{chart}}'
         targetRevision: '{{targetRevision}}'
+        {{- if .chart }}
+        chart: '{{chart}}'
+        {{- else if .path }}
+        path: '{{path}}'
+        {{- end }}
         helm:
           releaseName: '{{releaseName}}'
           valueFiles:
