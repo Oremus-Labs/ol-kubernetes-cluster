@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-oauth2-proxy
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: platform
+  destination:
+    namespace: traefik
+    server: https://kubernetes.default.svc
+  sources:
+  - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+    targetRevision: main
+    path: apps/platform/oauth2-proxy/chart
+    helm:
+      releaseName: oauth2-proxy
+      valueFiles:
+        - $values/apps/platform/oauth2-proxy/values/mgmt.yaml
+  - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+    targetRevision: main
+    ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
