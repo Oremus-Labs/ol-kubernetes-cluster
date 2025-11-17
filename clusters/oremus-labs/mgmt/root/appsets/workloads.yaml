@@ -13,6 +13,11 @@ spec:
         path: apps/workloads/homepage/chart
         targetRevision: main
         imageTag: latest
+      - name: proxy-urls
+        namespace: traefik
+        project: workloads
+        path: apps/workloads/proxy-urls/chart
+        targetRevision: main
   template:
     metadata:
       name: workloads-{{name}}

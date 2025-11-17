@@ -7,9 +7,9 @@ ingress:
   tlsSecret: oremuslabs-app-wildcard-tls
 
 router:
-  host: router.oremuslabs.app
-  url: http://10.10.10.1
-  tlsSecret: oremuslabs-app-wildcard-tls
+  host: ""
+  url: ""
+  tlsSecret: ""
 
 allowedHosts:
   - homepage.oremuslabs.app
