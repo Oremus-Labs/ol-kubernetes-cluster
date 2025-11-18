@@ -11,6 +11,9 @@ spec:
   routes:
   - kind: Rule
     match: Host(`minio.oremuslabs.app`)
+    middlewares:
+    - name: oauth2proxy-forwardauth
+      namespace: traefik
     services:
     - name: minio-console
       namespace: minio
