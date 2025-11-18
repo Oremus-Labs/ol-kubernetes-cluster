@@ -7,6 +7,7 @@ resources:
   - minio-api.yaml
   - minio-console.yaml
   - headlamp.yaml
+  - oauth2-proxy-middleware-lite.yaml
   - oauth2-proxy.yaml
   - oauth2-proxy-middleware.yaml
   - oauth2-proxy-headers.yaml

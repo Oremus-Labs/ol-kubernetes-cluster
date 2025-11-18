@@ -10,7 +10,7 @@ spec:
   - kind: Rule
     match: Host(`{{ .Values.ingress.host }}`)
     middlewares:
-    - name: oauth2proxy-forwardauth
+    - name: oauth2proxy-forwardauth-lite
       namespace: traefik
     services:
     - name: homepage
