@@ -11,7 +11,7 @@ spec:
   - kind: Rule
     match: Host(`search.oremuslabs.app`)
     services:
-    - name: {{ include "searxng.fullname" . }}
+    - name: {{ .Release.Name }}
       port: 8080
   tls:
     secretName: oremuslabs-app-wildcard-tls
