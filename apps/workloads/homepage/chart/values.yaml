@@ -37,7 +37,7 @@ config:
         - Argo CD:
             href: https://argocd.oremuslabs.app
             description: GitOps control plane
-            icon: argo
+            icon: argocd
         - Headlamp:
             href: https://headlamp.oremuslabs.app
             description: Kubernetes dashboard
