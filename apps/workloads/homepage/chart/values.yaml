@@ -67,7 +67,7 @@ config:
         - Repo:
             - href: https://github.com/Oremus-Labs/ol-kubernetes-cluster
               icon: github
-    - Dashboard Icons
+    - Dashboard Icons:
         - Dashboard Icons:
             - href: https://dashboardicons.com/
               icon: dashboard-icons
