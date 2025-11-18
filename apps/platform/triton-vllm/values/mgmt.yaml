@@ -11,6 +11,16 @@ tolerations:
     value: "ai"
     effect: "NoSchedule"
 
+resources:
+  limits:
+    amd.com/gpu: 1
+    cpu: "16"
+    memory: "28Gi"
+  requests:
+    amd.com/gpu: 1
+    cpu: "8"
+    memory: "20Gi"
+
 modelRepo:
   hostPath: /mnt/ai-models
   mountPath: /models
