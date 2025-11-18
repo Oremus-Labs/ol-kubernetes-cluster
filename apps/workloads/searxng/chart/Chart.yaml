@@ -1,0 +1,9 @@
+apiVersion: v2
+name: searxng-wrapper
+description: Wrapper chart to deploy SearXNG from upstream Helm repo with custom ingress
+type: application
+version: 0.1.0
+dependencies:
+  - name: searxng
+    version: 1.0.7
+    repository: https://charts.kubito.dev

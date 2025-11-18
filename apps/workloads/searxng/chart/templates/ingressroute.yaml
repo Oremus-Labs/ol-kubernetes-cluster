@@ -1,0 +1,17 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: searxng
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`search.oremuslabs.app`)
+    services:
+    - name: {{ printf "%s-searxng" .Release.Name }}
+      port: 8080
+  tls:
+    secretName: oremuslabs-app-wildcard-tls

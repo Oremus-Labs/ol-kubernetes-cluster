@@ -10,27 +10,20 @@ spec:
       - name: homepage
         namespace: homepage
         project: workloads
-        sourceType: path
         path: apps/workloads/homepage/chart
         targetRevision: main
         imageTag: latest
       - name: proxy-urls
         namespace: traefik
         project: workloads
-        sourceType: path
         path: apps/workloads/proxy-urls/chart
         targetRevision: main
         imageTag: latest
       - name: searxng
         namespace: searxng
         project: workloads
-        sourceType: chart
-        chart: searxng
-        chartRepoURL: https://charts.kubito.dev
-        chartVersion: 1.0.7
-        releaseName: searxng
-        valuesFile: apps/workloads/searxng/values.yaml
-        manifestsPath: apps/workloads/searxng/manifests
+        path: apps/workloads/searxng/chart
+        targetRevision: main
         imageTag: latest
   template:
     metadata:
@@ -39,41 +32,18 @@ spec:
         oremus-labs.com/tier: workloads
     spec:
       project: '{{project}}'
-      sources:
-{{- if eq .sourceType "chart" }}
-      - repoURL: '{{chartRepoURL}}'
-        targetRevision: '{{chartVersion}}'
-        chart: '{{chart}}'
-        helm:
-          releaseName: '{{releaseName}}'
-          valueFiles:
-          - $values/{{valuesFile}}
-{{- if .imageTag }}
-          parameters:
-          - name: image.tag
-            value: '{{imageTag}}'
-{{- end }}
-      - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
-        targetRevision: main
-        ref: values
-{{- else }}
-      - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+      source:
+        repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
         targetRevision: '{{targetRevision}}'
         path: '{{path}}'
         helm:
+          releaseName: '{{name}}'
           valueFiles:
           - values.yaml
-{{- if .imageTag }}
           parameters:
           - name: image.tag
             value: '{{imageTag}}'
-{{- end }}
-{{- end }}
-{{- if .manifestsPath }}
-      - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
-        targetRevision: main
-        path: '{{manifestsPath}}'
-{{- end }}
+          dependencyUpdate: true
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
