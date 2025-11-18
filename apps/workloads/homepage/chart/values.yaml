@@ -65,7 +65,7 @@ config:
         - SearXNG:
             href: https://search.oremuslabs.app
             description: Metasearch engine
-            icon: search
+            icon: searxng
     - Security:
         - 1Password:
             href: https://op.oremuslabs.app
