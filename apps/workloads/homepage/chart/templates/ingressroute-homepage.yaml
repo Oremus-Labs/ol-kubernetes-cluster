@@ -9,6 +9,9 @@ spec:
   routes:
   - kind: Rule
     match: Host(`{{ .Values.ingress.host }}`)
+    middlewares:
+    - name: oauth2proxy-forwardauth
+      namespace: traefik
     services:
     - name: homepage
       port: 3000
