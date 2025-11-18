@@ -1,48 +1,49 @@
-image:
-  repository: searxng/searxng
-  tag: latest
-  pullPolicy: IfNotPresent
+searxng:
+  image:
+    repository: searxng/searxng
+    tag: latest
+    pullPolicy: IfNotPresent
 
-service:
-  type: ClusterIP
-  port: 8080
+  service:
+    type: ClusterIP
+    port: 8080
 
-ingress:
-  enabled: false
-
-config:
-  settings:
-    enabled: true
-    data: |-
-      use_default_settings: true
-
-      server:
-        secret_key: "!envvar SEARXNG_SECRET"
-        limiter: false
-        image_proxy: true
-        port: 8080
-        bind_address: "0.0.0.0"
-
-      ui:
-        static_use_hash: true
-
-      search:
-        safe_search: 0
-        autocomplete: ""
-        default_lang: ""
-        formats:
-          - html
-          - json
-
-  limiter:
+  ingress:
     enabled: false
 
-  uwsgi:
-    enabled: true
+  config:
+    settings:
+      enabled: true
+      data: |-
+        use_default_settings: true
 
-env:
-  - name: SEARXNG_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: searxng-secret
-        key: secret_key
+        server:
+          secret_key: "!envvar SEARXNG_SECRET"
+          limiter: false
+          image_proxy: true
+          port: 8080
+          bind_address: "0.0.0.0"
+
+        ui:
+          static_use_hash: true
+
+        search:
+          safe_search: 0
+          autocomplete: ""
+          default_lang: ""
+          formats:
+            - html
+            - json
+
+    limiter:
+      enabled: false
+
+    uwsgi:
+      enabled: true
+
+  env:
+    - name: SEARXNG_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: searxng-secret
+          key: secret_key
