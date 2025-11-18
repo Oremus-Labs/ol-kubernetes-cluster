@@ -3,7 +3,7 @@ image:
   tag: latest
 
 ingress:
-  host: homepage.oremuslabs.app
+  host: home.oremuslabs.app
   tlsSecret: oremuslabs-app-wildcard-tls
 
 router:
@@ -12,7 +12,7 @@ router:
   tlsSecret: ""
 
 allowedHosts:
-  - homepage.oremuslabs.app
+  - home.oremuslabs.app
   - homepage
   - homepage.homepage
   - homepage.homepage.svc
