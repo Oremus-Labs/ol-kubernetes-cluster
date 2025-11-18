@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: workloads-searxng
+  namespace: argocd
+spec:
+  project: workloads
+  sources:
+  - repoURL: https://charts.kubito.dev
+    targetRevision: "1.0.7"
+    chart: searxng
+    helm:
+      releaseName: searxng
+      valueFiles:
+      - $values/apps/workloads/searxng/values.yaml
+      parameters:
+      - name: image.tag
+        value: "latest"
+  - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+    targetRevision: main
+    ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: searxng
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

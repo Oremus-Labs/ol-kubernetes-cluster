@@ -1,6 +1,6 @@
 image:
   repository: searxng/searxng
-  tag: "2025.01.18"
+  tag: "latest"
   pullPolicy: IfNotPresent
 
 service:
