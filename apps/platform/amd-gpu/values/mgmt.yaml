@@ -9,3 +9,7 @@ tolerations:
     operator: Equal
     value: ai
     effect: NoSchedule
+
+# The upstream chart also sets node_selector feature.node.kubernetes.io/pci-0300_1002.present=true by default.
+# Leave it empty to avoid requiring a specific feature label; we rely on the dedicated=ai label for placement.
+node_selector_feature: {}
