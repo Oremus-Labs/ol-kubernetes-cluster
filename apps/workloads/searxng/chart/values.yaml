@@ -17,7 +17,7 @@ config:
       use_default_settings: true
 
       server:
-        secret_key: "f1a7299c5ab74725874a060b86ff0cb1"
+        secret_key: "!envvar SEARXNG_SECRET"
         limiter: false
         image_proxy: true
         port: 8080
@@ -39,3 +39,10 @@ config:
 
   uwsgi:
     enabled: true
+
+env:
+  - name: SEARXNG_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: searxng-secret
+        key: secret_key
