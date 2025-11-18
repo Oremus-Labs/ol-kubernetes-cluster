@@ -127,6 +127,16 @@ spec:
         releaseName: amd-gpu
         valuesFile: apps/platform/amd-gpu/values/mgmt.yaml
         extraCompareOptions: ""
+      - name: triton-vllm
+        namespace: triton-vllm
+        project: platform
+        path: apps/platform/triton-vllm
+        targetRevision: main
+        chart: ""
+        repoURL: ""
+        releaseName: triton-vllm
+        valuesFile: apps/platform/triton-vllm/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: oauth2-proxy
         namespace: traefik
         project: platform

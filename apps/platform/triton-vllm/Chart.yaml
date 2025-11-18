@@ -1,0 +1,6 @@
+apiVersion: v2
+name: triton-vllm
+description: Triton Inference Server with vLLM backend on AMD ROCm
+type: application
+version: 0.1.0
+appVersion: "2.60.0"
