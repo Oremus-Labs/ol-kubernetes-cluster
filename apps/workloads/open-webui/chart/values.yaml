@@ -4,6 +4,13 @@ open-webui:
     tag: "0.6.36"
     pullPolicy: IfNotPresent
 
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+
   serviceAccount:
     create: true
     name: ""
