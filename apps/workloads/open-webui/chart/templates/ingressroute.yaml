@@ -15,6 +15,6 @@ spec:
       namespace: {{ .Values.ingress.middleware.namespace }}
     services:
     - name: {{ .Release.Name }}
-      port: 80
+      port: 8080
   tls:
     secretName: {{ .Values.ingress.tlsSecret }}

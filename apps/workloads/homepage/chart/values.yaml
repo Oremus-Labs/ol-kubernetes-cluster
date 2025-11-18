@@ -57,6 +57,15 @@ config:
             href: https://s3.oremuslabs.app
             description: S3-compatible endpoint
             icon: minio-light
+    - AI:
+        - Open WebUI:
+            href: https://openwebui.oremuslabs.app
+            description: Chat UI
+            icon: openai
+        - SearXNG:
+            href: https://search.oremuslabs.app
+            description: Metasearch engine
+            icon: search
     - Security:
         - 1Password:
             href: https://op.oremuslabs.app
