@@ -117,6 +117,16 @@ spec:
         releaseName: 1password-operator
         valuesFile: apps/platform/1password-operator/values/mgmt.yaml
         extraCompareOptions: ""
+      - name: amd-gpu
+        namespace: amd-gpu-device-plugin
+        project: platform
+        chart: amd-gpu
+        path: ""
+        repoURL: https://rocm.github.io/k8s-device-plugin
+        targetRevision: 0.20.0
+        releaseName: amd-gpu
+        valuesFile: apps/platform/amd-gpu/values/mgmt.yaml
+        extraCompareOptions: ""
       - name: oauth2-proxy
         namespace: traefik
         project: platform

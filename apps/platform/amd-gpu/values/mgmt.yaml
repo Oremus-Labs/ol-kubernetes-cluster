@@ -1,0 +1,11 @@
+node_selector_enabled: true
+node_selector:
+  dedicated: ai
+
+tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+  - key: dedicated
+    operator: Equal
+    value: ai
+    effect: NoSchedule
