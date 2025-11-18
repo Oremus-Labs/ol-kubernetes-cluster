@@ -40,7 +40,7 @@ spec:
     spec:
       project: '{{project}}'
       sources:
-      {{- if eq .sourceType "chart" }}
+{{- if eq .sourceType "chart" }}
       - repoURL: '{{chartRepoURL}}'
         targetRevision: '{{chartVersion}}'
         chart: '{{chart}}'
@@ -48,32 +48,32 @@ spec:
           releaseName: '{{releaseName}}'
           valueFiles:
           - $values/{{valuesFile}}
-          {{- if .imageTag }}
+{{- if .imageTag }}
           parameters:
           - name: image.tag
             value: '{{imageTag}}'
-          {{- end }}
+{{- end }}
       - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
         targetRevision: main
         ref: values
-      {{- else }}
+{{- else }}
       - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
         targetRevision: '{{targetRevision}}'
         path: '{{path}}'
         helm:
           valueFiles:
           - values.yaml
-          {{- if .imageTag }}
+{{- if .imageTag }}
           parameters:
           - name: image.tag
             value: '{{imageTag}}'
-          {{- end }}
-      {{- end }}
-      {{- if .manifestsPath }}
+{{- end }}
+{{- end }}
+{{- if .manifestsPath }}
       - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
         targetRevision: main
         path: '{{manifestsPath}}'
-      {{- end }}
+{{- end }}
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
