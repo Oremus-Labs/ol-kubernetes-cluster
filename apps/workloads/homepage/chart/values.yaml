@@ -32,6 +32,10 @@ config:
             href: https://headlamp.oremuslabs.app
             description: Kubernetes dashboard
             icon: kubernetes
+        - Azure Portal:
+            href: https://portal.azure.com
+            description: Cloud management portal
+            icon: azure
         - Traefik:
             href: https://traefik.oremuslabs.app
             description: Ingress controller
@@ -48,11 +52,11 @@ config:
         - MinIO Console:
             href: https://minio.oremuslabs.app
             description: Object storage console
-            icon: minio
+            icon: minio-light
         - S3 API:
             href: https://s3.oremuslabs.app
             description: S3-compatible endpoint
-            icon: minio
+            icon: minio-light
     - Security:
         - 1Password:
             href: https://op.oremuslabs.app
@@ -63,10 +67,10 @@ config:
         - Repo:
             - href: https://github.com/Oremus-Labs/ol-kubernetes-cluster
               icon: github
-        - Argo CD Docs:
-            - href: https://argo-cd.readthedocs.io/en/stable/
-        - Traefik Docs:
-            - href: https://doc.traefik.io/traefik/
+    - Dashboard Icons
+        - Dashboard Icons:
+            - href: https://dashboardicons.com/
+              icon: dashboard-icons
   kubernetes: |
     mode: cluster
   widgets: |
