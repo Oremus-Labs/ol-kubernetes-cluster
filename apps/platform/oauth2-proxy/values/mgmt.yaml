@@ -37,6 +37,8 @@ config:
 extraArgs:
   scope: "openid profile email offline_access"
   oidc-groups-claim: "groups"
+  oidc-email-claim: "preferred_username"
+  insecure-oidc-allow-unverified-email: "true"
 
 traefik:
   host: auth.oremuslabs.app
