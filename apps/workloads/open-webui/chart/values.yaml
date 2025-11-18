@@ -1,0 +1,33 @@
+open-webui:
+  image:
+    repository: ghcr.io/open-webui/open-webui
+    tag: "0.6.36"
+    pullPolicy: IfNotPresent
+
+  serviceAccount:
+    create: true
+    name: ""
+
+  ollama:
+    enabled: false
+
+  pipelines:
+    enabled: false
+
+  tika:
+    enabled: false
+
+  ingress:
+    enabled: false
+
+  config:
+    secrets: {}
+    environment: {}
+
+# Traefik ingressroute
+ingress:
+  host: openwebui.oremuslabs.app
+  tlsSecret: oremuslabs-app-wildcard-tls
+  middleware:
+    name: oauth2proxy-forwardauth
+    namespace: traefik

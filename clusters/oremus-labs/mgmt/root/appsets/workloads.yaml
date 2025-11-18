@@ -25,6 +25,12 @@ spec:
         path: apps/workloads/searxng/chart
         targetRevision: main
         imageTag: latest
+      - name: open-webui
+        namespace: open-webui
+        project: workloads
+        path: apps/workloads/open-webui/chart
+        targetRevision: main
+        imageTag: "0.6.36"
   template:
     metadata:
       name: workloads-{{name}}

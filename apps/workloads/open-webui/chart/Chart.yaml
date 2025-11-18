@@ -1,0 +1,9 @@
+apiVersion: v2
+name: open-webui-wrapper
+description: Wrapper chart to deploy Open WebUI with Traefik ingress
+type: application
+version: 0.1.0
+dependencies:
+  - name: open-webui
+    version: 8.14.0
+    repository: oci://ghcr.io/open-webui/helm-charts
