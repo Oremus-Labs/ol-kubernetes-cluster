@@ -2,52 +2,71 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: homepage
+  namespace: {{ .Release.Namespace }}
   labels:
-    app: homepage
+    app.kubernetes.io/name: homepage
 spec:
+  revisionHistoryLimit: 3
   replicas: 1
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
-      app: homepage
+      app.kubernetes.io/name: homepage
   template:
     metadata:
       labels:
-        app: homepage
+        app.kubernetes.io/name: homepage
     spec:
+      serviceAccountName: homepage
+      automountServiceAccountToken: true
       containers:
-      - name: homepage
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 3000
-          name: http
-        env:
-        - name: HOMEPAGE_ALLOWED_HOSTS
-          value: {{ join "," .Values.allowedHosts | quote }}
-        - name: HOMEPAGE_CONFIG_DIR
-          value: /app/config
-        volumeMounts:
-        - name: config
-          mountPath: /app/config
-        - name: logs
-          mountPath: /app/config/logs
-      initContainers:
-      - name: homepage-config-init
-        image: busybox:1.36
-        command: ["/bin/sh","-c"]
-        args:
-        - |
-          cp -aL /config-src/* /config
-        volumeMounts:
-        - name: config-src
-          mountPath: /config-src
-        - name: config
-          mountPath: /config
+        - name: homepage
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: HOMEPAGE_ALLOWED_HOSTS
+              value: {{ join "," .Values.allowedHosts | quote }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /app/config/custom.js
+              name: homepage-config
+              subPath: custom.js
+            - mountPath: /app/config/custom.css
+              name: homepage-config
+              subPath: custom.css
+            - mountPath: /app/config/bookmarks.yaml
+              name: homepage-config
+              subPath: bookmarks.yaml
+            - mountPath: /app/config/docker.yaml
+              name: homepage-config
+              subPath: docker.yaml
+            - mountPath: /app/config/kubernetes.yaml
+              name: homepage-config
+              subPath: kubernetes.yaml
+            - mountPath: /app/config/services.yaml
+              name: homepage-config
+              subPath: services.yaml
+            - mountPath: /app/config/settings.yaml
+              name: homepage-config
+              subPath: settings.yaml
+            - mountPath: /app/config/widgets.yaml
+              name: homepage-config
+              subPath: widgets.yaml
+            - mountPath: /app/config/releases.yaml
+              name: homepage-config
+              subPath: releases.yaml
+            - mountPath: /app/config/proxmox.yaml
+              name: homepage-config
+              subPath: proxmox.yaml
+            - mountPath: /app/config/logs
+              name: logs
       volumes:
-      - name: logs
-        emptyDir: {}
-      - name: config
-        emptyDir: {}
-      - name: config-src
-        configMap:
-          name: homepage-config
+        - name: homepage-config
+          configMap:
+            name: homepage-config
+        - name: logs
+          emptyDir: {}

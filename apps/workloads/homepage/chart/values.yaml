@@ -1,6 +1,7 @@
 image:
   repository: ghcr.io/gethomepage/homepage
   tag: latest
+  pullPolicy: Always
 
 ingress:
   host: home.oremuslabs.app
@@ -17,21 +18,10 @@ allowedHosts:
   - homepage.homepage
   - homepage.homepage.svc
   - homepage.homepage.svc.cluster.local
-  - localhost
-  - 127.0.0.1
 
 config:
   settings: |
-    title: Oremus Labs
-    headerStyle: boxed
-    theme: dark
-    layout:
-      - Platform
-      - Storage
-      - Networking
-      - Security
-      - GitOps
-    useEqualHeights: true
+    # add custom settings if desired
   services: |
     - Platform:
         - Argo CD:
@@ -69,9 +59,17 @@ config:
             description: Secrets manager
             icon: 1password
   bookmarks: |
-    []
+    - GitOps:
+        - Links:
+            - name: Repo
+              href: https://github.com/Oremus-Labs/ol-kubernetes-cluster
+              icon: github
+            - name: Argo CD Docs
+              href: https://argo-cd.readthedocs.io/en/stable/
+            - name: Traefik Docs
+              href: https://doc.traefik.io/traefik/
   kubernetes: |
-    providers: []
+    mode: cluster
   widgets: |
     - resources:
         backend: resources
@@ -82,7 +80,7 @@ config:
         provider: duckduckgo
         target: _blank
   docker: |
-    {}
+    ""
   releases: |
     sources: []
   customCss: |
