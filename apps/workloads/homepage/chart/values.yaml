@@ -70,20 +70,14 @@ config:
             icon: 1password
   bookmarks: |
     - GitOps:
-        - Repo:
+        - Links:
             - name: Repo
               href: https://github.com/Oremus-Labs/ol-kubernetes-cluster
-              abbr: GH
               icon: github
-        - Docs:
             - name: Argo CD Docs
               href: https://argo-cd.readthedocs.io/en/stable/
             - name: Traefik Docs
               href: https://doc.traefik.io/traefik/
-    - Ops:
-        - Router:
-            - name: Router
-              href: http://router.oremuslabs.app
   kubernetes: |
     providers: []
   widgets: |
@@ -96,7 +90,7 @@ config:
         provider: duckduckgo
         target: _blank
   docker: |
-    {}
+    disabled: true
   releases: |
     sources: []
   customCss: |
