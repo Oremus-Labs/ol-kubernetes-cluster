@@ -60,14 +60,13 @@ config:
             icon: 1password
   bookmarks: |
     - GitOps:
-        - Links:
-            - name: Repo
-              href: https://github.com/Oremus-Labs/ol-kubernetes-cluster
-              icon: github
-            - name: Argo CD Docs
-              href: https://argo-cd.readthedocs.io/en/stable/
-            - name: Traefik Docs
-              href: https://doc.traefik.io/traefik/
+        - Repo:
+            href: https://github.com/Oremus-Labs/ol-kubernetes-cluster
+            icon: github
+        - Argo CD Docs:
+            href: https://argo-cd.readthedocs.io/en/stable/
+        - Traefik Docs:
+            href: https://doc.traefik.io/traefik/
   kubernetes: |
     mode: cluster
   widgets: |
