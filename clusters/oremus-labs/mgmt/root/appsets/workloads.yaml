@@ -43,7 +43,6 @@ spec:
           parameters:
           - name: image.tag
             value: '{{imageTag}}'
-          dependencyUpdate: true
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
