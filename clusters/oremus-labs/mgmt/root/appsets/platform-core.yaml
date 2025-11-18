@@ -130,10 +130,10 @@ spec:
       - name: triton-vllm
         namespace: triton-vllm
         project: platform
-        path: apps/platform/triton-vllm
+        chart: triton-vllm
+        path: ""
+        repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
         targetRevision: main
-        chart: ""
-        repoURL: ""
         releaseName: triton-vllm
         valuesFile: apps/platform/triton-vllm/values/mgmt.yaml
         extraCompareOptions: ""
