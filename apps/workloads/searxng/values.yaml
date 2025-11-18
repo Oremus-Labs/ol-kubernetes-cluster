@@ -8,18 +8,7 @@ service:
   port: 8080
 
 ingress:
-  enabled: true
-  className: traefik
-  annotations: {}
-  hosts:
-    - host: search.oremuslabs.app
-      paths:
-        - path: /
-          pathType: Prefix
-  tls:
-    - hosts:
-        - search.oremuslabs.app
-      secretName: oremuslabs-app-wildcard-tls
+  enabled: false
 
 config:
   settings:

@@ -19,15 +19,6 @@ spec:
         path: apps/workloads/proxy-urls/chart
         targetRevision: main
         imageTag: latest
-      - name: searxng
-        namespace: searxng
-        project: workloads
-        chart: searxng
-        chartRepoURL: https://charts.kubito.dev
-        chartVersion: 1.0.7
-        valuesFile: apps/workloads/searxng/values.yaml
-        releaseName: searxng
-        imageTag: 2025.01.18
   template:
     metadata:
       name: workloads-{{name}}
@@ -35,22 +26,6 @@ spec:
         oremus-labs.com/tier: workloads
     spec:
       project: '{{project}}'
-      {{- if chart }}
-      sources:
-      - repoURL: '{{chartRepoURL}}'
-        targetRevision: '{{chartVersion}}'
-        chart: '{{chart}}'
-        helm:
-          releaseName: '{{releaseName}}'
-          valueFiles:
-          - $values/{{valuesFile}}
-          parameters:
-          - name: image.tag
-            value: '{{imageTag}}'
-      - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
-        targetRevision: main
-        ref: values
-      {{- else }}
       source:
         repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
         targetRevision: '{{targetRevision}}'
@@ -61,7 +36,6 @@ spec:
           parameters:
           - name: image.tag
             value: '{{imageTag}}'
-      {{- end }}
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'

@@ -19,6 +19,9 @@ spec:
   - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
     targetRevision: main
     ref: values
+  - repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
+    targetRevision: main
+    path: apps/workloads/searxng/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: searxng
