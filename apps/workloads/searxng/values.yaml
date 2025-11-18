@@ -1,0 +1,55 @@
+image:
+  repository: searxng/searxng
+  tag: "2025.01.18"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations: {}
+  hosts:
+    - host: search.oremuslabs.app
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - search.oremuslabs.app
+      secretName: oremuslabs-app-wildcard-tls
+
+config:
+  settings:
+    enabled: true
+    data: |-
+      use_default_settings: true
+
+      server:
+        secret_key: "f1a7299c5ab74725874a060b86ff0cb1"
+        limiter: false
+        image_proxy: true
+        port: 8080
+        bind_address: "0.0.0.0"
+
+      ui:
+        static_use_hash: true
+
+      search:
+        safe_search: 0
+        autocomplete: ""
+        default_lang: ""
+        formats:
+          - html
+          - json
+
+  limiter:
+    enabled: false
+
+  uwsgi:
+    enabled: true
+
+podAnnotations: {}
+podLabels: {}
