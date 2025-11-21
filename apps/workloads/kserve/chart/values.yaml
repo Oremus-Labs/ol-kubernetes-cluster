@@ -12,12 +12,12 @@ kserve:
         disableIngressCreation: true
         additionalIngressDomains: []
         localGateway:
-          gateway: ""
-          gatewayService: ""
+          gateway: knative-serving/knative-local-gateway
+          gatewayService: knative-local-gateway.istio-system.svc.cluster.local
           knativeGatewayService: ""
         ingressGateway:
           enableGatewayApi: true
           kserveGateway: traefik/traefik-public
           createGateway: false
-          gateway: ""
+          gateway: knative-serving/knative-ingress-gateway
           className: traefik
