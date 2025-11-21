@@ -37,6 +37,12 @@ spec:
         path: apps/workloads/kserve/chart
         targetRevision: main
         imageTag: "v0.16.0"
+      - name: kserve-webapp
+        namespace: kserve
+        project: workloads
+        path: apps/workloads/kserve-webapp/chart
+        targetRevision: main
+        imageTag: "0.15.0"
   template:
     metadata:
       name: workloads-{{name}}
