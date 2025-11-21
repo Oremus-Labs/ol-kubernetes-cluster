@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
-    argocd.argoproj.io/tracking-id: workloads-qwen-vllm:/HTTPRoute:{{ .Values.namespace }}/qwen3-0-6b
+    argocd.argoproj.io/tracking-id: workloads-qwen-vllm:gateway.networking.k8s.io/HTTPRoute:{{ .Values.namespace }}/qwen3-0-6b
   labels:
     app.kubernetes.io/part-of: qwen-vllm
 spec:
