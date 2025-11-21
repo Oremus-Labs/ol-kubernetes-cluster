@@ -39,8 +39,6 @@ spec:
           - "{{ .Values.model.gpuMemoryUtilization }}"
           - --max-model-len
           - "{{ .Values.model.maxModelLen }}"
-          - --device
-          - rocm
           - --trust-remote-code
         env:
           - name: VLLM_USE_ROCM
