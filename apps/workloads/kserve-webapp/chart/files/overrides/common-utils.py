@@ -1,0 +1,319 @@
+"""Common utils for parsing and handling InferenceServices."""
+
+import os
+
+from kubeflow.kubeflow.crud_backend import api, helpers, logging
+from . import versions
+
+log = logging.getLogger(__name__)
+
+KNATIVE_REVISION_LABEL = "serving.knative.dev/revision"
+FILE_ABS_PATH = os.path.abspath(os.path.dirname(__file__))
+
+INFERENCESERVICE_TEMPLATE_YAML = os.path.join(
+    FILE_ABS_PATH, "yaml", "inference_service_template.yaml"
+)
+
+
+def load_inference_service_template(**kwargs):
+    """
+    Return an InferenceService dict, with defaults from the local yaml.
+
+    Reads the yaml for the web app's custom resource, replaces the variables
+    and returns it as a python dict.
+
+    kwargs: the parameters to be replaced in the yaml
+    """
+    return helpers.load_param_yaml(INFERENCESERVICE_TEMPLATE_YAML, **kwargs)
+
+
+# helper functions for accessing the logs of an InferenceService in raw
+# kubernetes mode
+
+
+def get_raw_inference_service_pods(svc, components=[]):
+    """
+    Return a dictionary with (endpoint, component) keys
+    i.e. ("default", "predictor") and a list of pod names as values
+    """
+    namespace = svc["metadata"]["namespace"]
+    svc_name = svc["metadata"]["name"]
+    label_selector = "serving.kubeflow.org/inferenceservice={}".format(svc_name)
+    pods = api.v1_core.list_namespaced_pod(
+        namespace, label_selector=label_selector
+    ).items
+    component_pods_dict = {}
+    for pod in pods:
+        component = pod.metadata.labels.get("component", "")
+        if component not in components:
+            continue
+
+        curr_pod_names = component_pods_dict.get(component, [])
+        curr_pod_names.append(pod.metadata.name)
+        component_pods_dict[component] = curr_pod_names
+
+    if len(component_pods_dict.keys()) == 0:
+        log.info("No pods are found for inference service: %s", svc["metadata"]["name"])
+
+    return component_pods_dict
+
+
+# helper functions for accessing the logs of an InferenceService
+
+
+def get_inference_service_pods(svc, components=[]):
+    """
+    Return the Pod names for the different isvc components.
+
+    Return a dictionary with (endpoint, component) keys,
+    i.e. ("default", "predictor") and a list of pod names as values
+    """
+    namespace = svc["metadata"]["namespace"]
+
+    # dictionary{revisionName: (endpoint, component)}
+    revisions_dict = get_components_revisions_dict(components, svc)
+
+    if len(revisions_dict.keys()) == 0:
+        return {}
+
+    pods = api.list_pods(namespace, auth=False).items
+    component_pods_dict = {}
+    for pod in pods:
+        for revision in revisions_dict:
+            if KNATIVE_REVISION_LABEL not in pod.metadata.labels:
+                continue
+
+            if pod.metadata.labels[KNATIVE_REVISION_LABEL] != revision:
+                continue
+
+            component = revisions_dict[revision]
+            curr_pod_names = component_pods_dict.get(component, [])
+            curr_pod_names.append(pod.metadata.name)
+            component_pods_dict[component] = curr_pod_names
+
+    if len(component_pods_dict.keys()) == 0:
+        log.info("No pods are found for inference service: %s", svc["metadata"]["name"])
+
+    return component_pods_dict
+
+
+def get_modelmesh_pods(svc, components=[]):
+    """
+    Return a dictionary with component keys and ModelMesh pod names as values.
+
+    For ModelMesh deployments, logs are typically found in the
+    ModelMesh controller managed pods.
+    """
+    namespace = svc["metadata"]["namespace"]
+
+    # Use label selector to find ModelMesh pods
+    label_selector = "app.kubernetes.io/managed-by=modelmesh-controller"
+    pods = api.v1_core.list_namespaced_pod(
+        namespace, label_selector=label_selector
+    ).items
+
+    component_pods_dict = {}
+
+    # For ModelMesh, we map all requested components to ModelMesh pods
+    for component in components:
+        pod_names = []
+        for pod in pods:
+            pod_names.append(pod.metadata.name)
+
+        if pod_names:
+            component_pods_dict[component] = pod_names
+
+    if len(component_pods_dict.keys()) == 0:
+        log.info(
+            "No ModelMesh pods found for inference service: %s", svc["metadata"]["name"]
+        )
+
+    return component_pods_dict
+
+
+# FIXME(elikatsis,kimwnasptd): Change the logic of this function according to
+# https://github.com/arrikto/dev/issues/867
+def get_components_revisions_dict(components, svc):
+    """Return a dictionary{revisionId: component}."""
+    status = svc.get("status", {})
+    revisions_dict = {}
+
+    if "components" not in status:
+        return {}
+
+    for component in components:
+        component_status = status["components"].get(component, {})
+        revision = component_status.get("latestReadyRevision")
+        if not revision:
+            revision = component_status.get("latestCreatedRevision")
+
+        if revision:
+            revisions_dict[revision] = component
+
+    if len(revisions_dict.keys()) == 0:
+        log.info(
+            "No revisions found for the inference service's components: %s",
+            svc["metadata"].get("name"),
+        )
+
+    return revisions_dict
+
+
+def is_raw_deployment(svc):
+    """
+    Check if an InferenceService is using RawDeployment mode.
+
+    Returns True if the service uses RawDeployment, False for Serverless mode.
+    """
+    annotations = svc.get("metadata", {}).get("annotations", {})
+
+    # Check for the new KServe annotation
+    deployment_mode = annotations.get("serving.kserve.io/deploymentMode", "")
+    if deployment_mode.lower() == "rawdeployment":
+        return True
+
+    # Check status field if present
+    status_mode = svc.get("status", {}).get("deploymentMode", "")
+    if status_mode.lower() == "rawdeployment":
+        return True
+
+    # Check for legacy annotation (backward compatibility)
+    raw_mode = annotations.get("serving.kubeflow.org/raw", "false")
+    if raw_mode.lower() == "true":
+        return True
+
+    # Fallback heuristic: if none of the components expose revisions assume raw
+    components = svc.get("status", {}).get("components", {})
+    if components:
+        for component_status in components.values():
+            if component_status.get("latestReadyRevision") or component_status.get(
+                "latestCreatedRevision"
+            ):
+                return False
+        return True
+
+    return False
+
+
+def is_modelmesh_deployment(svc):
+    """
+    Check if an InferenceService is using ModelMesh mode.
+
+    Returns True if the service uses ModelMesh deployment mode.
+    """
+    annotations = svc.get("metadata", {}).get("annotations", {})
+    deployment_mode = annotations.get("serving.kserve.io/deploymentMode", "")
+    if deployment_mode.lower() == "modelmesh":
+        return True
+
+    status_mode = svc.get("status", {}).get("deploymentMode", "")
+    return status_mode.lower() == "modelmesh"
+
+
+def get_deployment_mode(svc):
+    """
+    Get the deployment mode of an InferenceService.
+
+    Returns one of: "ModelMesh", "RawDeployment", "Serverless"
+    """
+    status_mode = svc.get("status", {}).get("deploymentMode", "").lower()
+    if status_mode == "modelmesh":
+        return "ModelMesh"
+    if status_mode == "rawdeployment":
+        return "RawDeployment"
+
+    if is_modelmesh_deployment(svc):
+        return "ModelMesh"
+    elif is_raw_deployment(svc):
+        return "RawDeployment"
+    else:
+        return "Serverless"
+
+
+def get_raw_deployment_objects(svc, component):
+    """
+    Get Kubernetes native resources for a RawDeployment InferenceService
+    component.
+
+    Returns a dictionary with deployment, service, and hpa objects.
+    """
+    namespace = svc["metadata"]["namespace"]
+    svc_name = svc["metadata"]["name"]
+
+    # RawDeployment resources follow naming convention: {isvc-name}-{component}
+    resource_name = f"{svc_name}-{component}"
+
+    objects = {
+        "deployment": None,
+        "service": None,
+        "hpa": None,
+    }
+
+    try:
+        # Get Deployment
+        deployment = api.get_custom_rsrc(
+            **versions.K8S_DEPLOYMENT, namespace=namespace, name=resource_name
+        )
+        objects["deployment"] = deployment
+        log.info(f"Found deployment {resource_name} for component {component}")
+    except Exception as e:
+        log.warning(f"Could not find deployment {resource_name}: {e}")
+
+    try:
+        # Get Service
+        service = api.get_custom_rsrc(
+            **versions.K8S_SERVICE, namespace=namespace, name=resource_name
+        )
+        objects["service"] = service
+        log.info(f"Found service {resource_name} for component {component}")
+    except Exception as e:
+        log.warning(f"Could not find service {resource_name}: {e}")
+
+    try:
+        # Get HPA (optional)
+        hpa = api.get_custom_rsrc(
+            **versions.K8S_HPA, namespace=namespace, name=resource_name
+        )
+        objects["hpa"] = hpa
+        log.info(f"Found HPA {resource_name} for component {component}")
+    except Exception as e:
+        log.info(f"No HPA found for {resource_name}: {e}")
+
+    return objects
+
+
+def get_modelmesh_objects(svc, component):
+    """
+    Get ModelMesh-specific resources for an InferenceService component.
+
+    Returns a dictionary with relevant ModelMesh resources.
+    """
+    namespace = svc["metadata"]["namespace"]
+    svc_name = svc["metadata"]["name"]
+
+    resource_name = f"{svc_name}-{component}"
+
+    objects = {
+        "deployment": None,
+        "configMap": None,
+    }
+
+    try:
+        deployment = api.get_custom_rsrc(
+            **versions.K8S_DEPLOYMENT, namespace=namespace, name=resource_name
+        )
+        objects["deployment"] = deployment
+        log.info(f"Found ModelMesh deployment {resource_name}")
+    except Exception as e:
+        log.warning(f"Could not find ModelMesh deployment {resource_name}: {e}")
+
+    try:
+        config_map = api.get_custom_rsrc(
+            **versions.K8S_CONFIGMAP, namespace=namespace, name=resource_name
+        )
+        objects["configMap"] = config_map
+        log.info(f"Found ModelMesh configmap {resource_name}")
+    except Exception as e:
+        log.warning(f"Could not find ModelMesh configmap {resource_name}: {e}")
+
+    return objects

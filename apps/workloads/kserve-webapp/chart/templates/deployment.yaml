@@ -105,13 +105,30 @@ spec:
         resources:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        {{- with .Values.app.volumeMounts }}
+        {{- $overrideEnabled := .Values.app.codeOverrides.commonUtils.enabled | default false }}
+        {{- $customMounts := .Values.app.volumeMounts }}
+        {{- if or $overrideEnabled (and $customMounts (gt (len $customMounts) 0)) }}
         volumeMounts:
-          {{- toYaml . | nindent 10 }}
+          {{- if and $customMounts (gt (len $customMounts) 0) }}
+          {{- toYaml $customMounts | nindent 10 }}
+          {{- end }}
+          {{- if $overrideEnabled }}
+          - name: {{ include "kserve-models-web-app.fullname" . }}-overrides
+            mountPath: /src/apps/common/utils.py
+            subPath: common-utils.py
+          {{- end }}
         {{- end }}
-      {{- with .Values.app.volumes }}
+      {{- $customVolumes := .Values.app.volumes }}
+      {{- if or $overrideEnabled (and $customVolumes (gt (len $customVolumes) 0)) }}
       volumes:
-        {{- toYaml . | nindent 8 }}
+        {{- if and $customVolumes (gt (len $customVolumes) 0) }}
+        {{- toYaml $customVolumes | nindent 8 }}
+        {{- end }}
+        {{- if $overrideEnabled }}
+        - name: {{ include "kserve-models-web-app.fullname" . }}-overrides
+          configMap:
+            name: {{ include "kserve-models-web-app.fullname" . }}-overrides
+        {{- end }}
       {{- end }}
       {{- with .Values.app.nodeSelector }}
       nodeSelector:

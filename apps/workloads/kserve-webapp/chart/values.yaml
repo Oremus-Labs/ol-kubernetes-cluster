@@ -65,6 +65,12 @@ app:
     grafanaHttpRequestsDb: "db/knative-serving-revision-http-requests"
     # -- Additional environment variables
     env: []
+
+  # -- Custom backend/frontend code overrides
+  codeOverrides:
+    commonUtils:
+      # -- Enable patched RawDeployment detection logic
+      enabled: true
     
   # -- Application container port
   containerPort: 5000

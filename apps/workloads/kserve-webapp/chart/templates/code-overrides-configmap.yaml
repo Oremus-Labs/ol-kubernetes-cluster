@@ -1,0 +1,14 @@
+{{- if .Values.app.codeOverrides.commonUtils.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "kserve-models-web-app.fullname" . }}-overrides
+  namespace: {{ include "kserve-models-web-app.namespace" . }}
+  labels:
+    {{- include "kserve-models-web-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: code-overrides
+  annotations:
+    oremus-labs.com/source: raw-deployment-support
+binaryData:
+  common-utils.py: {{ .Files.Get "files/overrides/common-utils.py" | b64enc }}
+{{- end }}
