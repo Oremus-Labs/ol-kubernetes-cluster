@@ -24,6 +24,11 @@ open-webui:
   tika:
     enabled: false
 
+  websocket:
+    enabled: true
+    manager: redis
+    url: redis://open-webui-redis:6379/0
+
   ingress:
     enabled: true
     class: traefik
