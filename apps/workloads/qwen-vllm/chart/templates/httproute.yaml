@@ -15,6 +15,8 @@ spec:
   parentRefs:
   {{- range .Values.gatewayApi.parentRefs }}
   - name: {{ .name }}
+    group: {{ default "gateway.networking.k8s.io" .group }}
+    kind: {{ default "Gateway" .kind }}
     {{- if .namespace }}
     namespace: {{ .namespace }}
     {{- end }}
@@ -29,4 +31,7 @@ spec:
         value: {{ .Values.gatewayApi.pathMatchValue }}
     backendRefs:
     - name: qwen3-0-6b-predictor
+      group: ""
+      kind: Service
       port: 80
+      weight: 1
