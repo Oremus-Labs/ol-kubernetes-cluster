@@ -42,11 +42,11 @@ gatewayApi:
 
 resources:
   limits:
-    amd.com/gpu: 1
+    amd.com/gpu: "1"
     cpu: "16"
     memory: 32Gi
   requests:
-    amd.com/gpu: 1
+    amd.com/gpu: "1"
     cpu: "8"
     memory: 24Gi
 
