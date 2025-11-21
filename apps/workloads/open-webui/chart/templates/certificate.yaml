@@ -3,6 +3,8 @@ kind: Certificate
 metadata:
   name: oremuslabs-app-wildcard
   namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   secretName: oremuslabs-app-wildcard-tls
   issuerRef:
