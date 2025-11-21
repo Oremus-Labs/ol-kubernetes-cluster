@@ -5,7 +5,7 @@ metadata:
   name: {{ printf "%s-ws-strip" .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
-  stripPrefixRegex:
-    regex:
-      - '^{{ trimSuffix "/" .Values.ingress.websocketPathPrefix }}/?'
+  replacePathRegex:
+    regex: '^{{ trimSuffix "/" .Values.ingress.websocketPathPrefix }}/(.*)'
+    replacement: '/$1'
 {{- end }}
