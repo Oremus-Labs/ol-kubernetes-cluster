@@ -308,6 +308,7 @@ configMap:
   # -- ConfigMap data
   data:
     APP_PREFIX: "/"
+    GUNICORN_CMD_ARGS: "--limit-request-field_size 65536"
   # -- ConfigMap annotations
   annotations: {}
   # -- ConfigMap labels
