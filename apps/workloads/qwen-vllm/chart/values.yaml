@@ -1,0 +1,49 @@
+namespace: qwen
+
+node:
+  hostname: venus
+
+storage:
+  size: 80Gi
+  className: venus-models
+  accessMode: ReadWriteOnce
+  pv:
+    name: venus-models-pv
+    hostPath: /mnt/models
+  pvc:
+    name: venus-models-pvc
+
+image:
+  repository: rocm/vllm-dev
+  tag: nightly
+  pullPolicy: IfNotPresent
+
+download:
+  image: python:3.11-slim
+  hfHubVersion: 0.26.1
+
+model:
+  repoId: Qwen/Qwen3-0.6B
+  localDir: Qwen3-0.6B
+  tensorParallelSize: 1
+  dtype: float16
+  gpuMemoryUtilization: 0.9
+  maxModelLen: 4096
+
+resources:
+  limits:
+    amd.com/gpu: 1
+    cpu: "8"
+    memory: 64Gi
+  requests:
+    amd.com/gpu: 1
+    cpu: "4"
+    memory: 48Gi
+
+initResources:
+  limits:
+    cpu: "4"
+    memory: 8Gi
+  requests:
+    cpu: "2"
+    memory: 4Gi

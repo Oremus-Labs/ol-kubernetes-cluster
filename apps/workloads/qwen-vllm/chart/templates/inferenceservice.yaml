@@ -1,0 +1,104 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: qwen3-0-6b
+  namespace: {{ .Values.namespace }}
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
+    argocd.argoproj.io/sync-wave: "2"
+  labels:
+    app.kubernetes.io/part-of: qwen-vllm
+spec:
+  predictor:
+    minReplicas: 1
+    nodeSelector:
+      kubernetes.io/hostname: {{ .Values.node.hostname }}
+    tolerations:
+      - key: "amd.com/gpu"
+        operator: Exists
+        effect: NoSchedule
+    containers:
+      - name: vllm
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+          - python3
+        args:
+          - -m
+          - vllm.entrypoints.openai.api_server
+          - --host
+          - 0.0.0.0
+          - --port
+          - "8080"
+          - --model
+          - /mnt/models/{{ .Values.model.localDir }}
+          - --tensor-parallel-size
+          - "{{ .Values.model.tensorParallelSize }}"
+          - --dtype
+          - {{ .Values.model.dtype }}
+          - --gpu-memory-utilization
+          - "{{ .Values.model.gpuMemoryUtilization }}"
+          - --max-model-len
+          - "{{ .Values.model.maxModelLen }}"
+          - --device
+          - rocm
+          - --trust-remote-code
+        env:
+          - name: VLLM_USE_ROCM
+            value: "1"
+          - name: HF_HOME
+            value: /mnt/models/.cache
+        ports:
+          - containerPort: 8080
+            name: http
+        volumeMounts:
+          - name: model-storage
+            mountPath: /mnt/models
+        resources:
+          limits:
+{{ toYaml .Values.resources.limits | indent 12 }}
+          requests:
+{{ toYaml .Values.resources.requests | indent 12 }}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /v1/models
+            port: http
+          initialDelaySeconds: 30
+    initContainers:
+      - name: download-model
+        image: {{ .Values.download.image }}
+        imagePullPolicy: IfNotPresent
+        command:
+          - /bin/sh
+          - -c
+        args:
+          - |
+            set -euo pipefail
+            apt-get update >/dev/null && apt-get install -y --no-install-recommends git >/dev/null && rm -rf /var/lib/apt/lists/*
+            pip install --no-cache-dir huggingface_hub=={{ .Values.download.hfHubVersion }}
+            if [ ! -d "/models/{{ .Values.model.localDir }}" ] || [ -z "$(ls -A /models/{{ .Values.model.localDir }} 2>/dev/null || true)" ]; then
+              echo "Downloading {{ .Values.model.repoId }} into /models/{{ .Values.model.localDir }}"
+              huggingface-cli download {{ .Values.model.repoId }} --local-dir /models/{{ .Values.model.localDir }} --local-dir-use-symlinks False --resume-download
+            else
+              echo "Model artifacts already exist, skipping download"
+            fi
+        env:
+          - name: HF_HOME
+            value: /models/.cache
+        volumeMounts:
+          - name: model-storage
+            mountPath: /models
+        resources:
+          limits:
+{{ toYaml .Values.initResources.limits | indent 12 }}
+          requests:
+{{ toYaml .Values.initResources.requests | indent 12 }}
+    volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.storage.pvc.name }}
