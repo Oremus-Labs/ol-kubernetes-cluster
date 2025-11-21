@@ -30,6 +30,16 @@ model:
   gpuMemoryUtilization: 0.9
   maxModelLen: 4096
 
+gatewayApi:
+  hosts:
+    - qwen3-0-6b.qwen.oremuslabs.app
+  parentRefs:
+    - name: traefik-public
+      namespace: traefik
+      sectionName: websecure
+  pathMatchType: PathPrefix
+  pathMatchValue: /
+
 resources:
   limits:
     amd.com/gpu: 1
