@@ -4,6 +4,7 @@ metadata:
   name: qwen3-0-6b
   namespace: {{ .Values.namespace }}
   annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
     argocd.argoproj.io/sync-wave: "2"
   labels:
     app.kubernetes.io/part-of: qwen-vllm
