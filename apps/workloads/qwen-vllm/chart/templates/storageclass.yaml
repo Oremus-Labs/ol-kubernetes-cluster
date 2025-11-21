@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.storage.className }}
   annotations:
     argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/tracking-id: workloads-qwen-vllm:/StorageClass:{{ .Values.namespace }}/{{ .Values.storage.className }}
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: Immediate
 reclaimPolicy: Retain

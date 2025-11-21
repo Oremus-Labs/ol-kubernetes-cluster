@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/tracking-id: workloads-qwen-vllm:/PersistentVolumeClaim:{{ .Values.namespace }}/{{ .Values.storage.pvc.name }}
 spec:
   accessModes:
     - {{ .Values.storage.accessMode }}
