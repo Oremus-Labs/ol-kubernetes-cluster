@@ -222,15 +222,15 @@ istio:
     # -- AuthorizationPolicy action
     action: ALLOW
     # -- AuthorizationPolicy rules
-  rules:
-    - from:
-        - source:
-            principals:
-              - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
-  # -- AuthorizationPolicy annotations
-  annotations: {}
-  # -- AuthorizationPolicy labels
-  labels: {}
+    rules:
+      - from:
+          - source:
+              principals:
+                - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+    # -- AuthorizationPolicy annotations
+    annotations: {}
+    # -- AuthorizationPolicy labels
+    labels: {}
 
 # Gateway API exposure
 gatewayApi:
