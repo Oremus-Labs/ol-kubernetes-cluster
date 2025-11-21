@@ -10,6 +10,9 @@ spec:
   routes:
   - kind: Rule
     match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`{{ .Values.ingress.websocketPathPrefix }}`)
+    {{- if .Values.ingress.websocketRoutePriority }}
+    priority: {{ .Values.ingress.websocketRoutePriority }}
+    {{- end }}
     services:
     - name: {{ .Release.Name }}
       port: 80
