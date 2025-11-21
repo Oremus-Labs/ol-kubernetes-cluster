@@ -4,7 +4,6 @@ metadata:
   name: qwen3-0-6b
   namespace: {{ .Values.namespace }}
   annotations:
-    serving.kserve.io/deploymentMode: RawDeployment
     argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: SkipWait=true
     argocd.argoproj.io/skip-health-check: "true"
@@ -61,12 +60,12 @@ spec:
 {{ toYaml .Values.resources.requests | indent 12 }}
         livenessProbe:
           httpGet:
-            path: /healthz
+            path: /health
             port: http
           initialDelaySeconds: 30
         readinessProbe:
           httpGet:
-            path: /v1/models
+            path: /health
             port: http
           initialDelaySeconds: 30
     initContainers:
