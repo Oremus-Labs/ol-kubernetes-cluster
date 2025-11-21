@@ -68,9 +68,14 @@ app:
 
   # -- Custom backend/frontend code overrides
   codeOverrides:
-    commonUtils:
-      # -- Enable patched RawDeployment detection logic
-      enabled: true
+    enabled: true
+    files:
+      - key: common-utils.py
+        source: files/overrides/common-utils.py
+        target: /src/apps/common/utils.py
+      - key: routes-get.py
+        source: files/overrides/routes-get.py
+        target: /src/apps/common/routes/get.py
     
   # -- Application container port
   containerPort: 5000

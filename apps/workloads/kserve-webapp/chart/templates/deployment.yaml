@@ -56,6 +56,10 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- $codeOverrides := .Values.app.codeOverrides }}
+      {{- $overrideFiles := default (list) $codeOverrides.files }}
+      {{- $overrideEnabled := and $codeOverrides.enabled (gt (len $overrideFiles) 0) }}
+      {{- $overrideVolumeName := printf "%s-overrides" (include "kserve-models-web-app.fullname" .) }}
       containers:
       - name: {{ .Chart.Name }}
         image: {{ include "kserve-models-web-app.image" . }}
@@ -105,7 +109,6 @@ spec:
         resources:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        {{- $overrideEnabled := .Values.app.codeOverrides.commonUtils.enabled | default false }}
         {{- $customMounts := .Values.app.volumeMounts }}
         {{- if or $overrideEnabled (and $customMounts (gt (len $customMounts) 0)) }}
         volumeMounts:
@@ -113,9 +116,11 @@ spec:
           {{- toYaml $customMounts | nindent 10 }}
           {{- end }}
           {{- if $overrideEnabled }}
-          - name: {{ include "kserve-models-web-app.fullname" . }}-overrides
-            mountPath: /src/apps/common/utils.py
-            subPath: common-utils.py
+          {{- range $file := $overrideFiles }}
+          - name: {{ $overrideVolumeName }}
+            mountPath: {{ $file.target }}
+            subPath: {{ $file.key }}
+          {{- end }}
           {{- end }}
         {{- end }}
       {{- $customVolumes := .Values.app.volumes }}
@@ -125,9 +130,9 @@ spec:
         {{- toYaml $customVolumes | nindent 8 }}
         {{- end }}
         {{- if $overrideEnabled }}
-        - name: {{ include "kserve-models-web-app.fullname" . }}-overrides
+        - name: {{ $overrideVolumeName }}
           configMap:
-            name: {{ include "kserve-models-web-app.fullname" . }}-overrides
+            name: {{ $overrideVolumeName }}
         {{- end }}
       {{- end }}
       {{- with .Values.app.nodeSelector }}

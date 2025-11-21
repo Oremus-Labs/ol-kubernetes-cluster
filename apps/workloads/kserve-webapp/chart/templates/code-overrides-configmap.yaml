@@ -1,4 +1,6 @@
-{{- if .Values.app.codeOverrides.commonUtils.enabled }}
+{{- $codeOverrides := .Values.app.codeOverrides }}
+{{- $overrideFiles := default (list) $codeOverrides.files }}
+{{- if and $codeOverrides.enabled (gt (len $overrideFiles) 0) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,5 +12,7 @@ metadata:
   annotations:
     oremus-labs.com/source: raw-deployment-support
 binaryData:
-  common-utils.py: {{ .Files.Get "files/overrides/common-utils.py" | b64enc }}
+{{- range $file := $overrideFiles }}
+  {{ $file.key }}: {{ $.Files.Get $file.source | b64enc }}
+{{- end }}
 {{- end }}
