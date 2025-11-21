@@ -6,6 +6,7 @@ metadata:
   annotations:
     serving.kserve.io/deploymentMode: RawDeployment
     argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipWait=true
   labels:
     app.kubernetes.io/part-of: qwen-vllm
 spec:

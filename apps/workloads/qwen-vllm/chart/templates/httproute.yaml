@@ -3,6 +3,8 @@ kind: HTTPRoute
 metadata:
   name: qwen3-0-6b
   namespace: {{ .Values.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
   labels:
     app.kubernetes.io/part-of: qwen-vllm
 spec:
