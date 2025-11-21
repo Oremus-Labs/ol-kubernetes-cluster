@@ -37,3 +37,7 @@ ingress:
   tlsSecret: oremuslabs-app-wildcard-tls
   websocketPathPrefix: /ws/
   websocketRoutePriority: 10
+  middleware:
+    enabled: true
+    name: oauth2proxy-forwardauth
+    namespace: traefik
