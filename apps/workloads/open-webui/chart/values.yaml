@@ -25,20 +25,16 @@ open-webui:
     enabled: false
 
   ingress:
-    enabled: false
+    enabled: true
+    class: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    host: openwebui.oremuslabs.app
+    tls: true
+    existingSecret: oremuslabs-app-wildcard-tls
 
   config:
     secrets: {}
     environment: {}
 
-# Traefik ingressroute
-ingress:
-  host: openwebui.oremuslabs.app
-  tlsSecret: oremuslabs-app-wildcard-tls
-  websocketPathPrefix: /ws/
-  websocketRoutePriority: 10
-  websocketStripPrefix: true
-  middleware:
-    enabled: false
-    name: oauth2proxy-forwardauth
-    namespace: traefik
+# Legacy Traefik ingress block removed in favor of the chart's native ingress support
