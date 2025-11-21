@@ -13,6 +13,12 @@ spec:
         path: apps/platform/cert-manager
         targetRevision: main
         syncWave: "1"
+      - name: gateway-api
+        namespace: kube-system
+        project: platform
+        path: apps/platform/gateway-api
+        targetRevision: main
+        syncWave: "0"
       - name: traefik-routes
         namespace: traefik
         project: platform

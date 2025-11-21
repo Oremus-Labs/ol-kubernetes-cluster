@@ -1,0 +1,21 @@
+kserve-crd: {}
+
+kserve:
+  controller:
+    deploymentMode: Standard
+    gateway:
+      domain: oremuslabs.app
+      domainTemplate: "{{ .Name }}-{{ .Namespace }}.{{ .IngressDomain }}"
+      urlScheme: https
+      disableIngressCreation: false
+      additionalIngressDomains: []
+      localGateway:
+        gateway: ""
+        gatewayService: ""
+        knativeGatewayService: ""
+      ingressGateway:
+        enableGatewayApi: true
+        kserveGateway: traefik/traefik-public
+        createGateway: false
+        gateway: ""
+        className: traefik

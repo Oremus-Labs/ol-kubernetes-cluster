@@ -16,6 +16,34 @@ providers:
     ingressClass: traefik
     publishedService:
       enabled: true
+  kubernetesGateway:
+    enabled: true
+    namespaces: []
+    statusAddress:
+      service:
+        enabled: true
+        name: traefik
+        namespace: traefik
+
+gateway:
+  enabled: true
+  name: traefik-public
+  namespace: traefik
+  listeners:
+    web:
+      port: 8000
+      protocol: HTTP
+      hostname: "*.oremuslabs.app"
+      namespacePolicy:
+        from: All
+    websecure:
+      port: 8443
+      protocol: HTTPS
+      hostname: "*.oremuslabs.app"
+      namespacePolicy:
+        from: All
+      certificateRefs:
+        - name: oremuslabs-app-wildcard-tls
 
 ports:
   web:

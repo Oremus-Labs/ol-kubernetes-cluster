@@ -1,0 +1,12 @@
+apiVersion: v2
+name: kserve-wrapper
+description: Deploys KServe v0.16.0 (CRDs + controller) configured for Traefik ingress
+version: 0.1.0
+type: application
+dependencies:
+  - name: kserve-crd
+    version: v0.16.0
+    repository: oci://ghcr.io/kserve/charts
+  - name: kserve
+    version: v0.16.0
+    repository: oci://ghcr.io/kserve/charts
