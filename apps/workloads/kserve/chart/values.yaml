@@ -7,7 +7,7 @@ kserve:
       domain: oremuslabs.app
       domainTemplate: "{{ .Name }}-{{ .Namespace }}.{{ .IngressDomain }}"
       urlScheme: https
-      disableIngressCreation: false
+      disableIngressCreation: true
       additionalIngressDomains: []
       localGateway:
         gateway: ""
