@@ -6,7 +6,7 @@ type: application
 dependencies:
   - name: kserve-crd
     version: v0.16.0
-    repository: oci://ghcr.io/kserve/charts
+    repository: file://charts/kserve-crd
   - name: kserve
     version: v0.16.0
     repository: oci://ghcr.io/kserve/charts
