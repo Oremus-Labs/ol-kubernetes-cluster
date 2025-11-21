@@ -127,16 +127,6 @@ spec:
         releaseName: amd-gpu
         valuesFile: apps/platform/amd-gpu/values/mgmt.yaml
         extraCompareOptions: ""
-      - name: triton-vllm
-        namespace: triton-vllm
-        project: platform
-        chart: ""
-        path: apps/platform/triton-vllm
-        repoURL: https://github.com/Oremus-Labs/ol-kubernetes-cluster.git
-        targetRevision: main
-        releaseName: triton-vllm
-        valuesFile: apps/platform/triton-vllm/values/mgmt.yaml
-        extraCompareOptions: ""
       - name: oauth2-proxy
         namespace: traefik
         project: platform
