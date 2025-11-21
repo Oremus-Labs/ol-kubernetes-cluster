@@ -32,7 +32,7 @@ model:
 
 gatewayApi:
   hosts:
-    - qwen3-0-6b.qwen.oremuslabs.app
+    - qwen3-0-6b.oremuslabs.app
   parentRefs:
     - name: traefik-public
       namespace: traefik
