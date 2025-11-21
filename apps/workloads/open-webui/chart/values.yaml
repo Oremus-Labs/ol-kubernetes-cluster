@@ -35,6 +35,8 @@ open-webui:
 ingress:
   host: openwebui.oremuslabs.app
   tlsSecret: oremuslabs-app-wildcard-tls
+  websocketPathPrefix: /ws
   middleware:
+    enabled: true
     name: oauth2proxy-forwardauth
     namespace: traefik

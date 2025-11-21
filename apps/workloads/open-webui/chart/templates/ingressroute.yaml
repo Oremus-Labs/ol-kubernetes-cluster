@@ -9,10 +9,17 @@ spec:
   - websecure
   routes:
   - kind: Rule
+    match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`{{ .Values.ingress.websocketPathPrefix }}`)
+    services:
+    - name: {{ .Release.Name }}
+      port: 80
+  - kind: Rule
     match: Host(`{{ .Values.ingress.host }}`)
+    {{- if .Values.ingress.middleware.enabled }}
     middlewares:
     - name: {{ .Values.ingress.middleware.name }}
       namespace: {{ .Values.ingress.middleware.namespace }}
+    {{- end }}
     services:
     - name: {{ .Release.Name }}
       port: 80
