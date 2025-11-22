@@ -10,3 +10,6 @@ gatewayApi:
   backendService:
     name: active-llm-predictor
     port: 80
+  modelManagerService:
+    name: model-manager
+    port: 80

@@ -15,6 +15,22 @@ spec:
       sectionName: {{ .sectionName }}
   {{- end }}
   rules:
+    # Model Manager API - /manager/* routes
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /manager
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: {{ .Values.gatewayApi.modelManagerService.name }}
+          port: {{ .Values.gatewayApi.modelManagerService.port }}
+
+    # Model Inference API - all other routes (including /v1/*)
     - backendRefs:
         - name: {{ .Values.gatewayApi.backendService.name }}
           port: {{ .Values.gatewayApi.backendService.port }}
