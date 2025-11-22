@@ -53,25 +53,25 @@ spec:
           image: "{{ .Values.gitSync.image }}:{{ .Values.gitSync.imageTag }}"
           imagePullPolicy: IfNotPresent
           env:
-            - name: GIT_SYNC_REPO
+            - name: GITSYNC_REPO
               value: {{ .Values.gitSync.repo | quote }}
-            - name: GIT_SYNC_BRANCH
+            - name: GITSYNC_REF
               value: {{ .Values.gitSync.branch | quote }}
-            - name: GIT_SYNC_ROOT
+            - name: GITSYNC_ROOT
               value: "/workspace"
-            - name: GIT_SYNC_DEST
+            - name: GITSYNC_LINK
               value: "catalog"
-            - name: GIT_SYNC_WAIT
-              value: {{ .Values.gitSync.waitSeconds | quote }}
-            - name: GIT_SYNC_ONE_TIME
+            - name: GITSYNC_PERIOD
+              value: {{ .Values.gitSync.waitSeconds | quote }}s
+            - name: GITSYNC_ONE_TIME
               value: "false"
-            - name: GIT_SYNC_USERNAME
+            - name: GITSYNC_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.onepassword.secretName }}
                   key: username
                   optional: true
-            - name: GIT_SYNC_PASSWORD
+            - name: GITSYNC_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.onepassword.secretName }}
