@@ -2,7 +2,7 @@ namespace: ai
 
 image:
   repository: ghcr.io/oremus-labs/model-manager
-  tag: v0.1.1
+  tag: v0.1.2
   pullPolicy: IfNotPresent
 
 gitSync:
