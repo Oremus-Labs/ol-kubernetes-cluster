@@ -54,7 +54,7 @@ spec:
         project: workloads
         path: apps/workloads/ai-model-manager/chart
         targetRevision: main
-        imageTag: v0.1.2
+        imageTag: "0.1.2"
   template:
     metadata:
       name: workloads-{{name}}
