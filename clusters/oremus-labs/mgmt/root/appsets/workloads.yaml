@@ -43,12 +43,6 @@ spec:
         path: apps/workloads/kserve-webapp/chart
         targetRevision: main
         imageTag: "0.15.0"
-      - name: qwen-vllm
-        namespace: qwen
-        project: workloads
-        path: apps/workloads/qwen-vllm/chart
-        targetRevision: main
-        imageTag: "nightly"
   template:
     metadata:
       name: workloads-{{name}}

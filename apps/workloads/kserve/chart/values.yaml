@@ -21,3 +21,12 @@ kserve:
           createGateway: false
           gateway: knative-serving/knative-ingress-gateway
           className: traefik
+
+huggingface:
+  enabled: true
+  containerName: hf-storage
+  secretName: hf-token
+  secretKey: HUGGING_FACE_HUB_TOKEN
+  uriPrefix: hf://
+  image: kserve/storage-initializer
+  imageTag: v0.16.0

@@ -4,6 +4,7 @@ node:
   hostname: venus
 
 storage:
+  enabled: false
   size: 80Gi
   className: venus-models
   accessMode: ReadWriteOnce
@@ -18,17 +19,18 @@ image:
   tag: nightly
   pullPolicy: IfNotPresent
 
-download:
-  image: python:3.11-slim
-  hfHubVersion: 0.26.1
-
 model:
-  repoId: Qwen/Qwen3-0.6B
-  localDir: Qwen3-0.6B
+  storageUri: hf://Qwen/Qwen3-0.6B
   tensorParallelSize: 1
   dtype: float16
   gpuMemoryUtilization: 0.9
   maxModelLen: 4096
+  host: 0.0.0.0
+  port: 8080
+
+huggingface:
+  secretName: hf-token
+  secretKey: HUGGING_FACE_HUB_TOKEN
 
 gatewayApi:
   hosts:
@@ -49,11 +51,3 @@ resources:
     amd.com/gpu: "1"
     cpu: "8"
     memory: 24Gi
-
-initResources:
-  limits:
-    cpu: "4"
-    memory: 8Gi
-  requests:
-    cpu: "2"
-    memory: 4Gi

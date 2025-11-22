@@ -1,0 +1,21 @@
+{{- if .Values.huggingface.enabled }}
+apiVersion: serving.kserve.io/v1alpha1
+kind: ClusterStorageContainer
+metadata:
+  name: {{ .Values.huggingface.containerName }}
+spec:
+  workloadType: SingleModel
+  supportsMultiModelDownload: false
+  supportedUriFormats:
+    - prefix: {{ .Values.huggingface.uriPrefix }}
+  container:
+    image: "{{ .Values.huggingface.image }}:{{ .Values.huggingface.imageTag }}"
+    imagePullPolicy: IfNotPresent
+    env:
+      - name: HUGGING_FACE_HUB_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: {{ .Values.huggingface.secretName }}
+            key: {{ .Values.huggingface.secretKey }}
+            optional: true
+{{- end }}

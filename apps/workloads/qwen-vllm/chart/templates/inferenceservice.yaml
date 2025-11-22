@@ -4,14 +4,12 @@ metadata:
   name: qwen3-0-6b
   namespace: {{ .Values.namespace }}
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
-    argocd.argoproj.io/sync-options: SkipWait=true
-    argocd.argoproj.io/skip-health-check: "true"
-    argocd.argoproj.io/tracking-id: workloads-qwen-vllm:/InferenceService:{{ .Values.namespace }}/qwen3-0-6b
+    serving.kserve.io/secretName: {{ .Values.huggingface.secretName }}
   labels:
     app.kubernetes.io/part-of: qwen-vllm
 spec:
   predictor:
+    storageUri: {{ .Values.model.storageUri }}
     minReplicas: 1
     nodeSelector:
       kubernetes.io/hostname: {{ .Values.node.hostname }}
@@ -29,11 +27,11 @@ spec:
           - -m
           - vllm.entrypoints.openai.api_server
           - --host
-          - 0.0.0.0
+          - {{ .Values.model.host | quote }}
           - --port
-          - "8080"
+          - "{{ .Values.model.port }}"
           - --model
-          - /mnt/models/{{ .Values.model.localDir }}
+          - /mnt/models
           - --tensor-parallel-size
           - "{{ .Values.model.tensorParallelSize }}"
           - --dtype
@@ -46,14 +44,14 @@ spec:
         env:
           - name: VLLM_USE_ROCM
             value: "1"
-          - name: HF_HOME
-            value: /mnt/models/.cache
         ports:
-          - containerPort: 8080
+          - containerPort: {{ .Values.model.port }}
             name: http
+        {{- if .Values.storage.enabled }}
         volumeMounts:
           - name: model-storage
             mountPath: /mnt/models
+        {{- end }}
         resources:
           limits:
 {{ toYaml .Values.resources.limits | indent 12 }}
@@ -69,36 +67,9 @@ spec:
             path: /health
             port: http
           initialDelaySeconds: 30
-    initContainers:
-      - name: download-model
-        image: {{ .Values.download.image }}
-        imagePullPolicy: IfNotPresent
-        command:
-          - /bin/sh
-          - -c
-        args:
-          - |
-            set -euo pipefail
-            apt-get update >/dev/null && apt-get install -y --no-install-recommends git >/dev/null && rm -rf /var/lib/apt/lists/*
-            pip install --no-cache-dir huggingface_hub=={{ .Values.download.hfHubVersion }}
-            if [ ! -d "/models/{{ .Values.model.localDir }}" ] || [ -z "$(ls -A /models/{{ .Values.model.localDir }} 2>/dev/null || true)" ]; then
-              echo "Downloading {{ .Values.model.repoId }} into /models/{{ .Values.model.localDir }}"
-              huggingface-cli download {{ .Values.model.repoId }} --local-dir /models/{{ .Values.model.localDir }} --local-dir-use-symlinks False --resume-download
-            else
-              echo "Model artifacts already exist, skipping download"
-            fi
-        env:
-          - name: HF_HOME
-            value: /models/.cache
-        volumeMounts:
-          - name: model-storage
-            mountPath: /models
-        resources:
-          limits:
-{{ toYaml .Values.initResources.limits | indent 12 }}
-          requests:
-{{ toYaml .Values.initResources.requests | indent 12 }}
+    {{- if .Values.storage.enabled }}
     volumes:
       - name: model-storage
         persistentVolumeClaim:
           claimName: {{ .Values.storage.pvc.name }}
+    {{- end }}

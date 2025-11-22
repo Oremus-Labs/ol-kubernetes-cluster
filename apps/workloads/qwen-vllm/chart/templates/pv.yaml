@@ -1,10 +1,8 @@
+{{- if .Values.storage.enabled }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: {{ .Values.storage.pv.name }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "0"
-    argocd.argoproj.io/tracking-id: workloads-qwen-vllm:/PersistentVolume:{{ .Values.namespace }}/{{ .Values.storage.pv.name }}
 spec:
   capacity:
     storage: {{ .Values.storage.size }}
@@ -23,3 +21,4 @@ spec:
               operator: In
               values:
                 - {{ .Values.node.hostname }}
+{{- end }}
