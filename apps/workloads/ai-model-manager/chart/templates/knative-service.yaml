@@ -62,7 +62,7 @@ spec:
             - name: GITSYNC_LINK
               value: "catalog"
             - name: GITSYNC_PERIOD
-              value: {{ .Values.gitSync.waitSeconds | quote }}s
+              value: "{{ .Values.gitSync.waitSeconds }}s"
             - name: GITSYNC_ONE_TIME
               value: "false"
             - name: GITSYNC_USERNAME
