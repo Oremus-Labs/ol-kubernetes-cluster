@@ -61,5 +61,6 @@ spec:
         initialDelaySeconds: 30
   volumes:
     - name: model-cache
-      persistentVolumeClaim:
-        claimName: ai-model-cache
+      hostPath:
+        path: /mnt/ai-model-cache
+        type: DirectoryOrCreate
