@@ -5,11 +5,11 @@ namespace: knative-serving
 
 resources:
   # Knative Serving CRDs
-  - https://github.com/knative/serving/releases/download/knative-v1.14.1/serving-crds.yaml
+  - serving-crds.yaml
   # Knative Serving Core
-  - https://github.com/knative/serving/releases/download/knative-v1.14.1/serving-core.yaml
+  - serving-core.yaml
   # Kourier networking layer (lightweight option)
-  - https://github.com/knative/net-kourier/releases/download/knative-v1.14.1/kourier.yaml
+  - kourier.yaml
 
 patches:
   # Configure Knative to use Kourier
