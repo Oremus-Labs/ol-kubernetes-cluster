@@ -9,7 +9,8 @@ metadata:
     app.kubernetes.io/part-of: qwen-vllm
 spec:
   predictor:
-    storageUri: {{ .Values.model.storageUri }}
+    model:
+      storageUri: {{ .Values.model.storageUri }}
     minReplicas: 1
     nodeSelector:
       kubernetes.io/hostname: {{ .Values.node.hostname }}
