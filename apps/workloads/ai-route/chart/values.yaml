@@ -11,5 +11,8 @@ gatewayApi:
     name: active-llm-predictor
     port: 80
   modelManagerService:
-    name: model-manager
+    # Use the Knative revision service instead of the ExternalName service
+    # (Traefik doesn't support ExternalName type services)
+    # This routes to the stable endpoint that Knative manages
+    name: model-manager-00002
     port: 80
