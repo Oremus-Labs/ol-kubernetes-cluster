@@ -4,7 +4,7 @@ kind: ClusterStorageContainer
 metadata:
   name: {{ .Values.huggingface.containerName }}
 spec:
-  workloadType: SingleModel
+  workloadType: initContainer
   supportsMultiModelDownload: false
   supportedUriFormats:
     - prefix: {{ .Values.huggingface.uriPrefix }}
