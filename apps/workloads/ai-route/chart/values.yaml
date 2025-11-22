@@ -13,5 +13,5 @@ gatewayApi:
   modelManagerService:
     # Use the Knative revision private service which exposes port 80
     # (Traefik doesn't support ExternalName type services)
-    name: model-manager-00002-private
+    name: model-manager-00001-private
     port: 80
