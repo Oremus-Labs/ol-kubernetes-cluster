@@ -11,7 +11,6 @@ gatewayApi:
     name: active-llm-predictor
     port: 80
   modelManagerService:
-    # Use the Knative revision private service which exposes port 80
-    # (Traefik doesn't support ExternalName type services)
-    name: model-manager-00001-private
+    # Route to the stable ClusterIP service that fronts the latest Knative revision
+    name: model-manager-stable
     port: 80
