@@ -1,0 +1,12 @@
+namespace: ai
+
+gatewayApi:
+  hosts:
+    - ai.oremuslabs.app
+  parentRefs:
+    - name: traefik-public
+      namespace: traefik
+      sectionName: websecure
+  backendService:
+    name: active-llm-predictor
+    port: 80

@@ -1,0 +1,20 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: ai-llm
+  namespace: {{ .Values.namespace }}
+spec:
+  hostnames:
+  {{- range .Values.gatewayApi.hosts }}
+    - {{ . | quote }}
+  {{- end }}
+  parentRefs:
+  {{- range .Values.gatewayApi.parentRefs }}
+    - name: {{ .name }}
+      namespace: {{ .namespace }}
+      sectionName: {{ .sectionName }}
+  {{- end }}
+  rules:
+    - backendRefs:
+        - name: {{ .Values.gatewayApi.backendService.name }}
+          port: {{ .Values.gatewayApi.backendService.port }}

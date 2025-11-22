@@ -43,6 +43,12 @@ spec:
         path: apps/workloads/kserve-webapp/chart
         targetRevision: main
         imageTag: "0.15.0"
+      - name: ai-route
+        namespace: ai
+        project: workloads
+        path: apps/workloads/ai-route/chart
+        targetRevision: main
+        imageTag: latest
   template:
     metadata:
       name: workloads-{{name}}
