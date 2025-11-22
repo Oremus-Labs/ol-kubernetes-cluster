@@ -30,3 +30,6 @@ huggingface:
   uriPrefix: hf://
   image: kserve/storage-initializer
   imageTag: v0.16.0
+  onepassword:
+    enabled: true
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/x7v2wiq2m7xwf6qguv4a3xxhb4"

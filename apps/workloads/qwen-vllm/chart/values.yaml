@@ -32,6 +32,9 @@ huggingface:
   secretName: hf-token
   secretKey: HUGGING_FACE_HUB_TOKEN
 
+runtime:
+  name: qwen-vllm-runtime
+
 gatewayApi:
   hosts:
     - qwen3-0-6b.oremuslabs.app

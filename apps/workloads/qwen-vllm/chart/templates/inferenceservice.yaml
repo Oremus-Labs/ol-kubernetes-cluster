@@ -9,8 +9,6 @@ metadata:
     app.kubernetes.io/part-of: qwen-vllm
 spec:
   predictor:
-    model:
-      storageUri: {{ .Values.model.storageUri }}
     minReplicas: 1
     nodeSelector:
       kubernetes.io/hostname: {{ .Values.node.hostname }}
@@ -18,59 +16,8 @@ spec:
       - key: "amd.com/gpu"
         operator: Exists
         effect: NoSchedule
-    containers:
-      - name: kserve-container
-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command:
-          - python3
-        args:
-          - -m
-          - vllm.entrypoints.openai.api_server
-          - --host
-          - {{ .Values.model.host | quote }}
-          - --port
-          - "{{ .Values.model.port }}"
-          - --model
-          - /mnt/models
-          - --tensor-parallel-size
-          - "{{ .Values.model.tensorParallelSize }}"
-          - --dtype
-          - {{ .Values.model.dtype }}
-          - --gpu-memory-utilization
-          - "{{ .Values.model.gpuMemoryUtilization }}"
-          - --max-model-len
-          - "{{ .Values.model.maxModelLen }}"
-          - --trust-remote-code
-        env:
-          - name: VLLM_USE_ROCM
-            value: "1"
-        ports:
-          - containerPort: {{ .Values.model.port }}
-            name: http
-        {{- if .Values.storage.enabled }}
-        volumeMounts:
-          - name: model-storage
-            mountPath: /mnt/models
-        {{- end }}
-        resources:
-          limits:
-{{ toYaml .Values.resources.limits | indent 12 }}
-          requests:
-{{ toYaml .Values.resources.requests | indent 12 }}
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http
-          initialDelaySeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: http
-          initialDelaySeconds: 30
-    {{- if .Values.storage.enabled }}
-    volumes:
-      - name: model-storage
-        persistentVolumeClaim:
-          claimName: {{ .Values.storage.pvc.name }}
-    {{- end }}
+    model:
+      modelFormat:
+        name: custom
+      runtime: {{ .Values.runtime.name }}
+      storageUri: {{ .Values.model.storageUri }}

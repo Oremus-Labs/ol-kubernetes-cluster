@@ -8,15 +8,9 @@ This repository now treats high-cost LLM deployments as **manual** workloads:
 
 ## Prerequisites
 
-1. **Hugging Face token secret** – create a Kubernetes secret in every namespace that will host LLMs (at least `qwen`) containing the token used for `hf://` downloads:
-
-   ```bash
-   kubectl create ns qwen --dry-run=client -o yaml | kubectl apply -f -
-   kubectl -n qwen create secret generic hf-token \
-     --from-literal=HUGGING_FACE_HUB_TOKEN="$HF_TOKEN"
-   ```
-
-   Public models can work without a token, but authenticated downloads are strongly recommended.
+1. **Hugging Face token** – Rider tokens are vaulted in 1Password item `x7v2wiq2m7xwf6qguv4a3xxhb4`.  
+   - The KServe chart automatically syncs this item into the `kserve` namespace as secret `hf-token`.
+   - The enable script (below) installs the same OnePasswordItem into the `qwen` namespace so the storage initializer can read it.
 
 2. **Node placement** – GPU-capable node `venus` must stay Ready with the AMD device plugin registered.
 
