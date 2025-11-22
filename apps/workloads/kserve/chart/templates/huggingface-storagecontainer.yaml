@@ -9,6 +9,7 @@ spec:
   supportedUriFormats:
     - prefix: {{ .Values.huggingface.uriPrefix }}
   container:
+    name: storage-initializer
     image: "{{ .Values.huggingface.image }}:{{ .Values.huggingface.imageTag }}"
     imagePullPolicy: IfNotPresent
     env:
