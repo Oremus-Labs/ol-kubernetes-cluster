@@ -1,0 +1,27 @@
+namespace: ai
+
+image:
+  repository: ghcr.io/oremus-labs/model-manager
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+
+gitSync:
+  repo: https://github.com/Oremus-Labs/ol-model-catalog.git
+  branch: main
+  waitSeconds: 30
+  image: registry.k8s.io/git-sync/git-sync
+  imageTag: v4.2.3
+
+catalog:
+  rootPath: /workspace/catalog
+  modelsSubdir: models
+
+active:
+  namespace: ai
+  inferenceServiceName: active-llm
+
+onepassword:
+  # You must update this itemPath to the correct 1Password vault item path
+  # Format: vaults/<vault-id>/items/<item-id>
+  itemPath: "vaults/YOUR_VAULT_ID/items/YOUR_ITEM_ID"
+  secretName: model-catalog-git

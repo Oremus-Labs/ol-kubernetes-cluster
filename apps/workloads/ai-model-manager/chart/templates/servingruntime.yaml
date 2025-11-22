@@ -1,0 +1,54 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: ServingRuntime
+metadata:
+  name: qwen-vllm-runtime
+  namespace: {{ .Values.namespace }}
+spec:
+  multiModel: false
+  supportedModelFormats:
+    - name: custom
+      version: v1
+      autoSelect: true
+  protocolVersions:
+    - v2
+    - v1
+  containers:
+    - name: kserve-container
+      image: rocm/vllm-dev:nightly
+      imagePullPolicy: IfNotPresent
+      command:
+        - python3
+      args:
+        - -m
+        - vllm.entrypoints.openai.api_server
+        - --host
+        - "0.0.0.0"
+        - --port
+        - "8080"
+        - --model
+        - /mnt/models
+        - --tensor-parallel-size
+        - "1"
+        - --dtype
+        - float16
+        - --gpu-memory-utilization
+        - "0.9"
+        - --max-model-len
+        - "4096"
+        - --trust-remote-code
+      env:
+        - name: VLLM_USE_ROCM
+          value: "1"
+      ports:
+        - containerPort: 8080
+          name: http
+      livenessProbe:
+        httpGet:
+          path: /health
+          port: http
+        initialDelaySeconds: 30
+      readinessProbe:
+        httpGet:
+          path: /health
+          port: http
+        initialDelaySeconds: 30

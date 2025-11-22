@@ -49,6 +49,12 @@ spec:
         path: apps/workloads/ai-route/chart
         targetRevision: main
         imageTag: latest
+      - name: ai-model-manager
+        namespace: ai
+        project: workloads
+        path: apps/workloads/ai-model-manager/chart
+        targetRevision: main
+        imageTag: v0.1.0
   template:
     metadata:
       name: workloads-{{name}}
