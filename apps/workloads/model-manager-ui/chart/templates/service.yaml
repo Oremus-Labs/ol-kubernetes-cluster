@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-manager-ui
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: model-manager-ui
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 3000
+      protocol: TCP

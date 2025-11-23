@@ -66,6 +66,10 @@ config:
             href: https://search.oremuslabs.app
             description: Metasearch engine
             icon: searxng
+        - Model Manager:
+            href: https://model-manager.oremuslabs.app
+            description: LLM control room
+            icon: server
     - Security:
         - 1Password:
             href: https://op.oremuslabs.app

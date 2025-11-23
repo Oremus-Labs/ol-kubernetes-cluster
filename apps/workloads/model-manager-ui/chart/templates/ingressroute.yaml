@@ -1,0 +1,22 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: model-manager-ui
+  namespace: {{ .Values.namespace }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`{{ .Values.ingress.host }}`)
+      {{- if .Values.ingress.middleware }}
+      middlewares:
+        - name: {{ .Values.ingress.middleware }}
+          namespace: traefik
+      {{- end }}
+      services:
+        - name: model-manager-ui
+          namespace: {{ .Values.namespace }}
+          port: {{ .Values.service.port }}
+  tls:
+    secretName: {{ .Values.ingress.tlsSecret }}

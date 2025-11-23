@@ -1,0 +1,21 @@
+namespace: ai
+
+image:
+  repository: ghcr.io/oremus-labs/ol-model-manager-ui
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  port: 3000
+
+ingress:
+  host: model-manager.oremuslabs.app
+  tlsSecret: oremuslabs-app-wildcard-tls
+  middleware: oauth2proxy-forwardauth-lite
+
+env:
+  apiBaseUrl: http://model-manager-stable.ai.svc.cluster.local
+
+resources: {}

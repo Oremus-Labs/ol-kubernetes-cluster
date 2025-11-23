@@ -55,6 +55,12 @@ spec:
         path: apps/workloads/ai-model-manager/chart
         targetRevision: main
         imageTag: "0.4.5-go"
+      - name: model-manager-ui
+        namespace: ai
+        project: workloads
+        path: apps/workloads/model-manager-ui/chart
+        targetRevision: main
+        imageTag: "0.1.0"
   template:
     metadata:
       name: workloads-{{name}}
