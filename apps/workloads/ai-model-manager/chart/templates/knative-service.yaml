@@ -44,6 +44,8 @@ spec:
               value: {{ .Values.weights.pvcName | quote }}
             - name: INFERENCE_MODEL_ROOT
               value: {{ .Values.weights.inferenceModelRoot | quote }}
+            - name: GPU_PROFILE_PATH
+              value: {{ .Values.recommendations.gpuProfilePath | default "/app/config/gpu-profiles.json" | quote }}
             {{- if .Values.apiToken.enabled }}
             - name: MODEL_MANAGER_API_TOKEN
               valueFrom:
