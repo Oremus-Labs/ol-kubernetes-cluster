@@ -14,6 +14,9 @@ spec:
       volumes:
         - name: catalog-workspace
           emptyDir: {}
+        - name: model-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.weights.pvcName }}
       containers:
         # Main model-manager application
         - name: manager
@@ -32,9 +35,17 @@ spec:
               value: {{ .Values.active.namespace | quote }}
             - name: ACTIVE_INFERENCESERVICE_NAME
               value: {{ .Values.active.inferenceServiceName | quote }}
+            - name: WEIGHTS_STORAGE_PATH
+              value: {{ .Values.weights.mountPath | quote }}
+            - name: WEIGHTS_PVC_NAME
+              value: {{ .Values.weights.pvcName | quote }}
+            - name: INFERENCE_MODEL_ROOT
+              value: {{ .Values.weights.inferenceModelRoot | quote }}
           volumeMounts:
             - name: catalog-workspace
               mountPath: /workspace
+            - name: model-storage
+              mountPath: {{ .Values.weights.mountPath | quote }}
           livenessProbe:
             httpGet:
               path: /healthz
