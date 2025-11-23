@@ -6,3 +6,5 @@ metadata:
 data:
   # Use Istio as the ingress
   ingress-class: "istio.ingress.networking.knative.dev"
+  # Enable automatic creation of ClusterDomainClaims for DomainMappings
+  autocreate-cluster-domain-claims: "true"
