@@ -5,7 +5,7 @@ namespace: knative-serving
 
 resources:
   # Knative Serving v1.16.0 official manifests
-  - serving-crds.yaml
+  # serving-core.yaml includes both CRDs and core components
   - serving-core.yaml
 
 patches:
