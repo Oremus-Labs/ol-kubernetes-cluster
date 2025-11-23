@@ -85,6 +85,12 @@ spec:
         path: apps/platform/oauth2-proxy/resources
         targetRevision: main
         syncWave: "1"
+      - name: knative-serving
+        namespace: knative-serving
+        project: platform
+        path: apps/platform/knative-serving
+        targetRevision: main
+        syncWave: "0"
   template:
     metadata:
       name: platform-{{name}}

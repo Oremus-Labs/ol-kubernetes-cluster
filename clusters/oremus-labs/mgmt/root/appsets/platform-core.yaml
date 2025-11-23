@@ -137,16 +137,6 @@ spec:
         releaseName: oauth2-proxy
         valuesFile: apps/platform/oauth2-proxy/values/mgmt.yaml
         extraCompareOptions: ""
-      - name: knative-serving
-        namespace: knative-serving
-        project: platform
-        chart: knative-serving
-        path: ""
-        repoURL: https://knative.dev/serving
-        targetRevision: 1.16.0
-        releaseName: knative-serving
-        valuesFile: apps/platform/knative-serving/values/mgmt.yaml
-        extraCompareOptions: ""
   template:
     metadata:
       name: platform-{{name}}

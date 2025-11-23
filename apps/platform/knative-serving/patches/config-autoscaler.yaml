@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-autoscaler
+  namespace: knative-serving
+data:
+  # Enable scale-to-zero for cost efficiency
+  enable-scale-to-zero: "true"
+  # Grace period before scaling to zero
+  scale-to-zero-grace-period: "30s"
