@@ -1,0 +1,38 @@
+{{- if .Values.state.enabled }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.state.pvcName }}
+spec:
+  capacity:
+    storage: {{ .Values.state.size }}
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.state.storageClass }}
+  local:
+    path: {{ .Values.state.hostPath }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - {{ .Values.state.hostNode }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.state.pvcName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.state.size }}
+  storageClassName: {{ .Values.state.storageClass }}
+  volumeName: {{ .Values.state.pvcName }}
+{{- end }}

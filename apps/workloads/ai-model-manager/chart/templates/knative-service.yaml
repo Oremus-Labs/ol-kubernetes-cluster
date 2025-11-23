@@ -20,6 +20,11 @@ spec:
         - name: model-storage
           persistentVolumeClaim:
             claimName: {{ .Values.weights.pvcName }}
+        {{- if .Values.state.enabled }}
+        - name: manager-state
+          persistentVolumeClaim:
+            claimName: {{ .Values.state.pvcName }}
+        {{- end }}
       containers:
         # Main model-manager application
         - name: manager
@@ -46,6 +51,8 @@ spec:
               value: {{ .Values.weights.inferenceModelRoot | quote }}
             - name: GPU_PROFILE_PATH
               value: {{ .Values.recommendations.gpuProfilePath | default "/app/config/gpu-profiles.json" | quote }}
+            - name: STATE_PATH
+              value: {{ .Values.state.mountPath | default "/app/state" | quote }}
             {{- if .Values.apiToken.enabled }}
             - name: MODEL_MANAGER_API_TOKEN
               valueFrom:
@@ -63,6 +70,10 @@ spec:
               mountPath: /workspace
             - name: model-storage
               mountPath: {{ .Values.weights.mountPath | quote }}
+            {{- if .Values.state.enabled }}
+            - name: manager-state
+              mountPath: {{ .Values.state.mountPath | default "/app/state" | quote }}
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /healthz
