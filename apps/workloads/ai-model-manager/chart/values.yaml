@@ -2,7 +2,7 @@ namespace: ai
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.3.0-go"
+  tag: "0.3.1-go"
   pullPolicy: Always
 
 gitSync:
