@@ -3,7 +3,7 @@ namespace: ai
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager-ui
   tag: "0.2.3"
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 replicaCount: 1
 
