@@ -2,7 +2,7 @@ namespace: ai
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.1.7"
+  tag: "0.1.8"
   pullPolicy: Always
 
 gitSync:
@@ -25,3 +25,6 @@ onepassword:
   # Contains: username and token fields for GitHub access
   itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/t4vuvleriwxfhppuq6zn7zb2eu"
   secretName: model-catalog-git
+
+route:
+  host: manager.ai.oremuslabs.app

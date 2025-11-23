@@ -1,0 +1,12 @@
+{{- if .Values.route.host }}
+apiVersion: serving.knative.dev/v1
+kind: DomainMapping
+metadata:
+  name: {{ .Values.route.host }}
+  namespace: {{ .Values.namespace }}
+spec:
+  ref:
+    apiVersion: serving.knative.dev/v1
+    kind: Service
+    name: model-manager
+{{- end }}

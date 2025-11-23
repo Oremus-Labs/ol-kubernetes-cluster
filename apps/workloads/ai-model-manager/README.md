@@ -24,8 +24,8 @@ The model-manager Docker image must be built and pushed to GHCR:
 
 ```bash
 cd ~/source/repos/ol-model-manager
-docker build -t ghcr.io/oremus-labs/ol-model-manager:0.1.7 .
-docker push ghcr.io/oremus-labs/ol-model-manager:0.1.7
+docker build -t ghcr.io/oremus-labs/ol-model-manager:0.1.8 .
+docker push ghcr.io/oremus-labs/ol-model-manager:0.1.8
 ```
 
 ## Components
