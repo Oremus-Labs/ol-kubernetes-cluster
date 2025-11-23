@@ -7,8 +7,11 @@ resources:
   # Knative Serving v1.16.0 official manifests
   # serving-core.yaml includes both CRDs and core components
   - serving-core.yaml
+  # Knative net-istio for Istio ingress integration
+  - net-istio.yaml
 
 patches:
   - path: patches/config-domain.yaml
   - path: patches/config-network.yaml
   - path: patches/config-autoscaler.yaml
+  - path: patches/config-certmanager.yaml

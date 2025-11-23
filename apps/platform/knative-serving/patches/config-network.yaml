@@ -8,3 +8,7 @@ data:
   ingress-class: "istio.ingress.networking.knative.dev"
   # Enable automatic creation of ClusterDomainClaims for DomainMappings
   autocreate-cluster-domain-claims: "true"
+  # Enable TLS for external domains using cert-manager
+  external-domain-tls: "Enabled"
+  # Use cert-manager for certificate provisioning
+  certificate-class: "cert-manager.certificate.networking.knative.dev"

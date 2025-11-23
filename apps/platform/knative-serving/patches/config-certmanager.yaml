@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-certmanager
+  namespace: knative-serving
+data:
+  # Use the cloudflare-dns ClusterIssuer for all certificates
+  issuerRef: |
+    kind: ClusterIssuer
+    name: cloudflare-dns
