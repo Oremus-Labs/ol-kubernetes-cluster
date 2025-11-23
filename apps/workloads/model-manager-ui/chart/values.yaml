@@ -16,6 +16,6 @@ ingress:
   middleware: oauth2proxy-forwardauth-lite
 
 env:
-  apiBaseUrl: http://model-manager-stable.ai.svc.cluster.local
+  apiBaseUrl: http://model-manager.ai.svc.cluster.local
 
 resources: {}
