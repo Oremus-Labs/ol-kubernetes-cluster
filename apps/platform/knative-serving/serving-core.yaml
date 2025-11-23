@@ -8070,14 +8070,12 @@ data:
     # Controls whether persistent volume claim support is enabled or not.
     # 1. Enabled: enabling persistent volume claim support
     # 2. Disabled: disabling persistent volume claim support
-    kubernetes.podspec-persistent-volume-claim: "disabled"
+    kubernetes.podspec-persistent-volume-claim: "enabled"
 
     # Controls whether write access for persistent volumes is enabled or not.
     # 1. Enabled: enabling write access for persistent volumes
     # 2. Disabled: disabling write access for persistent volumes
-    kubernetes.podspec-persistent-volume-write: "disabled"
-  kubernetes.podspec-persistent-volume-claim: "enabled"
-  kubernetes.podspec-persistent-volume-write: "enabled"
+    kubernetes.podspec-persistent-volume-write: "enabled"
 
     # Controls if the queue proxy podInfo feature is enabled, allowed or disabled
     #
