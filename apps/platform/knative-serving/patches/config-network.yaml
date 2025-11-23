@@ -8,7 +8,10 @@ data:
   ingress-class: "kourier.ingress.networking.knative.dev"
   # Enable automatic creation of ClusterDomainClaims for DomainMappings
   autocreate-cluster-domain-claims: "true"
-  # Enable TLS for external domains using cert-manager
-  external-domain-tls: "Enabled"
-  # Use cert-manager for certificate provisioning
-  certificate-class: "cert-manager.certificate.networking.knative.dev"
+  # Disable auto-TLS - we use a wildcard certificate instead
+  external-domain-tls: "Disabled"
+  # Default external scheme to HTTPS
+  default-external-scheme: "https"
+  # Wildcard certificate secret for all Knative services
+  namespace-wildcard-cert-selector: |
+    {}

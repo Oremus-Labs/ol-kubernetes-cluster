@@ -7,9 +7,11 @@ resources:
   - serving-core.yaml
   # Knative net-kourier for lightweight ingress
   - net-kourier.yaml
+  # Wildcard TLS certificate for all Knative services
+  - wildcard-certificate.yaml
 
 patches:
   - path: patches/config-domain.yaml
   - path: patches/config-network.yaml
   - path: patches/config-autoscaler.yaml
-  - path: patches/config-certmanager.yaml
+  - path: patches/kourier-wildcard-tls.yaml

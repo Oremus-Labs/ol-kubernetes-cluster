@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-kourier-controller
+  namespace: knative-serving
+spec:
+  template:
+    spec:
+      containers:
+      - name: controller
+        env:
+        - name: CERTS_SECRET_NAMESPACE
+          value: "knative-serving"
+        - name: CERTS_SECRET_NAME
+          value: "knative-wildcard-tls"
