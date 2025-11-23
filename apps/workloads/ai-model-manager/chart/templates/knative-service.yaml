@@ -9,6 +9,9 @@ spec:
       annotations:
         autoscaling.knative.dev/initial-scale: "1"
         autoscaling.knative.dev/max-scale: "2"
+        {{- if .Values.deploymentRevision }}
+        oremus-labs.com/revision: {{ .Values.deploymentRevision | quote }}
+        {{- end }}
     spec:
       serviceAccountName: model-manager
       volumes:

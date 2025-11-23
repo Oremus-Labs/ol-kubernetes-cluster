@@ -1,8 +1,10 @@
 namespace: ai
 
+deploymentRevision: "v0.4.1-20251123-1"
+
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.4.0-go"
+  tag: "0.4.1-go"
   pullPolicy: Always
 
 gitSync:
