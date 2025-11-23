@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: venus-local-storage
   local:
-    path: /mnt/ai-model-cache
+    path: /mnt/models
   nodeAffinity:
     required:
       nodeSelectorTerms:

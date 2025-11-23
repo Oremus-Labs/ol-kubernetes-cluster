@@ -2,7 +2,7 @@ namespace: ai
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.3.1-go"
+  tag: "0.3.2-go"
   pullPolicy: Always
 
 gitSync:
@@ -22,7 +22,7 @@ active:
 
 weights:
   pvcName: venus-model-storage
-  mountPath: /mnt/model-storage
+  mountPath: /mnt/models
   inferenceModelRoot: /mnt/models
 
 onepassword:
