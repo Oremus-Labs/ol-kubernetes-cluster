@@ -4,8 +4,8 @@ metadata:
   name: config-network
   namespace: knative-serving
 data:
-  # Use Istio as the ingress
-  ingress-class: "istio.ingress.networking.knative.dev"
+  # Use Kourier as the ingress
+  ingress-class: "kourier.ingress.networking.knative.dev"
   # Enable automatic creation of ClusterDomainClaims for DomainMappings
   autocreate-cluster-domain-claims: "true"
   # Enable TLS for external domains using cert-manager
