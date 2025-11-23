@@ -8,6 +8,12 @@ spec:
     - websecure
   routes:
     - kind: Rule
+      match: Host(`{{ .Values.ingress.host }}`) && (Path(`/manifest.webmanifest`) || Path(`/favicon.ico`) || PathPrefix(`/icon`))
+      services:
+        - name: model-manager-ui
+          namespace: {{ .Values.namespace }}
+          port: {{ .Values.service.port }}
+    - kind: Rule
       match: Host(`{{ .Values.ingress.host }}`)
       {{- if .Values.ingress.middleware }}
       middlewares:
