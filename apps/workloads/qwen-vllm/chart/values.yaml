@@ -33,7 +33,7 @@ huggingface:
   secretKey: HUGGING_FACE_HUB_TOKEN
 
 runtime:
-  name: qwen-vllm-runtime
+  name: vllm-runtime
 
 gatewayApi:
   hosts:

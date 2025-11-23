@@ -1,7 +1,7 @@
 apiVersion: serving.kserve.io/v1alpha1
 kind: ServingRuntime
 metadata:
-  name: qwen-vllm-runtime
+  name: vllm-runtime
   namespace: {{ .Values.namespace }}
 spec:
   multiModel: false

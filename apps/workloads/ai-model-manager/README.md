@@ -24,8 +24,8 @@ The model-manager Docker image must be built and pushed to GHCR:
 
 ```bash
 cd ~/source/repos/ol-model-manager
-docker build -t ghcr.io/oremus-labs/model-manager:v0.1.0 .
-docker push ghcr.io/oremus-labs/model-manager:v0.1.0
+docker build -t ghcr.io/oremus-labs/ol-model-manager:0.1.5 .
+docker push ghcr.io/oremus-labs/ol-model-manager:0.1.5
 ```
 
 ## Components
@@ -34,7 +34,7 @@ docker push ghcr.io/oremus-labs/model-manager:v0.1.0
 - `Role` - Permissions to manage InferenceServices in the ai namespace
 - `RoleBinding` - Binds role to service account
 - `OnePasswordItem` - Creates secret for git-sync credentials
-- `ServingRuntime` - qwen-vllm-runtime for ROCm-based vLLM inference
+- `ServingRuntime` - vllm-runtime for ROCm-based vLLM inference
 - `Service` (Knative) - model-manager application with git-sync sidecar
 
 ## Architecture
