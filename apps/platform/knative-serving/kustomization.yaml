@@ -5,10 +5,10 @@ namespace: knative-serving
 
 resources:
   # Knative Serving v1.16.0 official manifests
-  - https://github.com/knative/serving/releases/download/knative-v1.16.0/serving-crds.yaml
-  - https://github.com/knative/serving/releases/download/knative-v1.16.0/serving-core.yaml
+  - serving-crds.yaml
+  - serving-core.yaml
 
-patchesStrategicMerge:
-  - patches/config-domain.yaml
-  - patches/config-network.yaml
-  - patches/config-autoscaler.yaml
+patches:
+  - path: patches/config-domain.yaml
+  - path: patches/config-network.yaml
+  - path: patches/config-autoscaler.yaml
