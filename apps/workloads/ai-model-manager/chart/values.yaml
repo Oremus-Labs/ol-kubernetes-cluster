@@ -36,6 +36,10 @@ state:
   hostNode: venus
   mountPath: /app/state
 
+datastore:
+  driver: sqlite
+  dsn: ""
+
 apiToken:
   enabled: true
   secretName: model-manager-api-token

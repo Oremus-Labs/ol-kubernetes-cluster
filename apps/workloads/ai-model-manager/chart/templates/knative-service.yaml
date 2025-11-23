@@ -53,6 +53,14 @@ spec:
               value: {{ .Values.recommendations.gpuProfilePath | default "/app/config/gpu-profiles.json" | quote }}
             - name: STATE_PATH
               value: {{ .Values.state.mountPath | default "/app/state" | quote }}
+            - name: DATASTORE_DRIVER
+              value: {{ .Values.datastore.driver | default "sqlite" | quote }}
+            {{- if .Values.datastore.dsn }}
+            - name: DATASTORE_DSN
+              value: {{ .Values.datastore.dsn | quote }}
+            {{- end }}
+            - name: DATABASE_PVC_NAME
+              value: {{ .Values.state.pvcName | quote }}
             {{- if .Values.apiToken.enabled }}
             - name: MODEL_MANAGER_API_TOKEN
               valueFrom:
