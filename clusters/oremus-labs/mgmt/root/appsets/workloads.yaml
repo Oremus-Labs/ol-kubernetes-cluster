@@ -54,7 +54,7 @@ spec:
         project: workloads
         path: apps/workloads/ai-model-manager/chart
         targetRevision: main
-        imageTag: "0.4.5-go"
+        imageTag: "0.4.6-go"
       - name: model-manager-ui
         namespace: ai
         project: workloads

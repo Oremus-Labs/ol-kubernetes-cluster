@@ -4,7 +4,7 @@ deploymentRevision: "v0.4.5-20251123-1"
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.4.5-go"
+  tag: "0.4.6-go"
   pullPolicy: Always
 
 gitSync:
