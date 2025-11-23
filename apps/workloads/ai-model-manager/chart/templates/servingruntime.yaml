@@ -17,25 +17,20 @@ spec:
       image: rocm/vllm-dev:nightly
       imagePullPolicy: IfNotPresent
       command:
-        - python3
+        - /bin/sh
+        - -c
       args:
-        - -m
-        - vllm.entrypoints.openai.api_server
-        - --host
-        - "0.0.0.0"
-        - --port
-        - "8080"
-        - --model
-        - /mnt/models
-        - --tensor-parallel-size
-        - "1"
-        - --dtype
-        - float16
-        - --gpu-memory-utilization
-        - "0.9"
-        - --max-model-len
-        - "4096"
-        - --trust-remote-code
+        - |
+          MODEL_PATH="${MODEL_ID:-/mnt/models}"
+          exec python3 -m vllm.entrypoints.openai.api_server \
+            --host "0.0.0.0" \
+            --port "8080" \
+            --model "${MODEL_PATH}" \
+            --tensor-parallel-size "1" \
+            --dtype float16 \
+            --gpu-memory-utilization "0.9" \
+            --max-model-len "4096" \
+            --trust-remote-code
       env:
         - name: VLLM_USE_ROCM
           value: "1"
