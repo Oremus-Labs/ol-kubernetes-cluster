@@ -15,3 +15,4 @@ patches:
   - path: patches/config-network.yaml
   - path: patches/config-autoscaler.yaml
   - path: patches/kourier-wildcard-tls.yaml
+  - path: patches/config-features-pvc.yaml
