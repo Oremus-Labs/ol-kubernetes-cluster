@@ -54,13 +54,13 @@ spec:
         project: workloads
         path: apps/workloads/ai-model-manager/chart
         targetRevision: main
-        imageTag: "0.4.7-go"
+        imageTag: "0.4.8-go"
       - name: model-manager-ui
         namespace: ai
         project: workloads
         path: apps/workloads/model-manager-ui/chart
         targetRevision: main
-        imageTag: "0.2.3"
+        imageTag: "0.2.4"
   template:
     metadata:
       name: workloads-{{name}}
