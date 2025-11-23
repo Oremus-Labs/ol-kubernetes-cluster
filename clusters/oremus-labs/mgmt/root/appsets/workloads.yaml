@@ -60,7 +60,7 @@ spec:
         project: workloads
         path: apps/workloads/model-manager-ui/chart
         targetRevision: main
-        imageTag: "0.2.2"
+        imageTag: "0.2.3"
   template:
     metadata:
       name: workloads-{{name}}
