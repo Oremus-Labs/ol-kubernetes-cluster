@@ -7,6 +7,8 @@ resources:
   - serving-core.yaml
   # Knative net-kourier for lightweight ingress
   - net-kourier.yaml
+  # Knative net-certmanager for TLS certificate integration
+  - net-certmanager.yaml
 
 patches:
   - path: patches/config-domain.yaml
