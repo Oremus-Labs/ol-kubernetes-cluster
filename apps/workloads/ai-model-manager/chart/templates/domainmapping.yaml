@@ -1,5 +1,5 @@
 {{- if .Values.route.host }}
-apiVersion: serving.knative.dev/v1
+apiVersion: serving.knative.dev/v1beta1
 kind: DomainMapping
 metadata:
   name: {{ .Values.route.host }}
