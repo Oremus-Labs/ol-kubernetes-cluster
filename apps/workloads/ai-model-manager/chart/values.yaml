@@ -1,6 +1,6 @@
 namespace: ai
 
-deploymentRevision: "v0.4.8-20251123-3"
+deploymentRevision: "v0.4.8-20251123-4"
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
