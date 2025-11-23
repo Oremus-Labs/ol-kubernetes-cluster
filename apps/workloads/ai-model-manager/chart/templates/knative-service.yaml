@@ -8,6 +8,7 @@ spec:
     metadata:
       annotations:
         autoscaling.knative.dev/initial-scale: "1"
+        autoscaling.knative.dev/min-scale: "1"
         autoscaling.knative.dev/max-scale: "2"
     spec:
       serviceAccountName: model-manager
