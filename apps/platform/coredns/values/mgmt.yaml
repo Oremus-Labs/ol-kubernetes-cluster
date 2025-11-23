@@ -72,6 +72,16 @@ servers:
       match ^smb\.oremuslabs\.app\.$
       answer "{{ .Name }} 30 IN AAAA ::ffff:10.10.10.51"
   - name: template
+    parameters: IN A knative.oremuslabs.app
+    configBlock: |-
+      match ^(?:.*\.)?knative\.oremuslabs\.app\.$
+      answer "{{ .Name }} 30 IN A 10.10.10.54"
+  - name: template
+    parameters: IN AAAA knative.oremuslabs.app
+    configBlock: |-
+      match ^(?:.*\.)?knative\.oremuslabs\.app\.$
+      answer "{{ .Name }} 30 IN AAAA ::ffff:10.10.10.54"
+  - name: template
     parameters: IN A oremuslabs.app
     configBlock: |-
       match ^(?:.*\.)?oremuslabs\.app\.$

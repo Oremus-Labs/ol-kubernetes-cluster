@@ -27,4 +27,4 @@ onepassword:
   secretName: model-catalog-git
 
 route:
-  host: manager.ai.oremuslabs.app
+  host: model-manager.knative.oremuslabs.app

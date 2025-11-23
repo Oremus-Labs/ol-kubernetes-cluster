@@ -4,5 +4,5 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  # Use cluster.local as the default domain
-  cluster.local: ""
+  # Use knative.oremuslabs.app as the default domain for external access
+  knative.oremuslabs.app: ""
