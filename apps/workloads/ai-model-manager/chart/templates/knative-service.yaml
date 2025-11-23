@@ -82,19 +82,6 @@ spec:
             - name: manager-state
               mountPath: {{ .Values.state.mountPath | default "/app/state" | quote }}
             {{- end }}
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 5
-
         # Git-sync sidecar to keep catalog updated
         - name: git-sync
           image: "{{ .Values.gitSync.image }}:{{ .Values.gitSync.imageTag }}"
