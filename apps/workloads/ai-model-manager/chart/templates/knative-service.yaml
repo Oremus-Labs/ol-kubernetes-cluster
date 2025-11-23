@@ -41,6 +41,14 @@ spec:
               value: {{ .Values.weights.pvcName | quote }}
             - name: INFERENCE_MODEL_ROOT
               value: {{ .Values.weights.inferenceModelRoot | quote }}
+            {{- if .Values.apiToken.enabled }}
+            - name: MODEL_MANAGER_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.apiToken.secretName | quote }}
+                  key: {{ .Values.apiToken.secretKey | default "token" | quote }}
+                  optional: false
+            {{- end }}
           securityContext:
             runAsUser: 0
             runAsGroup: 0
