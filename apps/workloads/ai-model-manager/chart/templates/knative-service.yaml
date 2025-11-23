@@ -41,6 +41,10 @@ spec:
               value: {{ .Values.weights.pvcName | quote }}
             - name: INFERENCE_MODEL_ROOT
               value: {{ .Values.weights.inferenceModelRoot | quote }}
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            runAsNonRoot: false
           volumeMounts:
             - name: catalog-workspace
               mountPath: /workspace
