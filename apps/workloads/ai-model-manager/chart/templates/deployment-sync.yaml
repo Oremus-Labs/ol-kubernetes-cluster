@@ -27,6 +27,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["./model-manager-sync"]
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            runAsNonRoot: false
           env:
             - name: MODEL_CATALOG_ROOT
               value: {{ .Values.catalog.rootPath | quote }}
