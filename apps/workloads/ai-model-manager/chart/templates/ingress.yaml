@@ -1,0 +1,27 @@
+{{- if .Values.route.host }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: model-manager
+  namespace: {{ .Values.namespace }}
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.route.ingressClass | default "traefik" | quote }}
+spec:
+  {{- if .Values.route.tlsSecret }}
+  tls:
+    - hosts:
+        - {{ .Values.route.host | quote }}
+      secretName: {{ .Values.route.tlsSecret | quote }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.route.host | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: model-manager
+                port:
+                  number: 80
+{{- end }}

@@ -1,14 +1,22 @@
-apiVersion: serving.knative.dev/v1
-kind: Service
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: model-manager
+  name: model-manager-api
   namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: model-manager
+    app.kubernetes.io/component: api
 spec:
+  replicas: {{ .Values.api.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: model-manager
+      app.kubernetes.io/component: api
   template:
     metadata:
-      annotations:
-        autoscaling.knative.dev/initial-scale: "1"
-        autoscaling.knative.dev/max-scale: "2"
+      labels:
+        app.kubernetes.io/name: model-manager
+        app.kubernetes.io/component: api
         {{- if .Values.deploymentRevision }}
         oremus-labs.com/revision: {{ .Values.deploymentRevision | quote }}
         {{- end }}
@@ -26,14 +34,12 @@ spec:
             claimName: {{ .Values.state.pvcName }}
         {{- end }}
       containers:
-        # Main model-manager application
         - name: manager
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 8080
-              name: http1
-              protocol: TCP
+              name: http
           env:
             - name: MODEL_CATALOG_ROOT
               value: {{ .Values.catalog.rootPath | quote }}
@@ -61,6 +67,34 @@ spec:
             {{- end }}
             - name: DATABASE_PVC_NAME
               value: {{ .Values.state.pvcName | quote }}
+            - name: EVENTS_CHANNEL
+              value: {{ .Values.events.channel | default "model-manager-events" | quote }}
+            {{- if .Values.redis.addr }}
+            - name: REDIS_ADDR
+              value: {{ .Values.redis.addr | quote }}
+            {{- end }}
+            {{- if .Values.redis.username }}
+            - name: REDIS_USERNAME
+              value: {{ .Values.redis.username | quote }}
+            {{- end }}
+            - name: REDIS_DB
+              value: "{{ .Values.redis.db | default 0 }}"
+            {{- if .Values.redis.tlsEnabled }}
+            - name: REDIS_TLS_ENABLED
+              value: "true"
+            {{- end }}
+            {{- if .Values.redis.tlsInsecure }}
+            - name: REDIS_TLS_INSECURE_SKIP_VERIFY
+              value: "true"
+            {{- end }}
+            {{- if .Values.redis.passwordSecret.name }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.redis.passwordSecret.name | quote }}
+                  key: {{ .Values.redis.passwordSecret.key | default "password" | quote }}
+                  optional: true
+            {{- end }}
             {{- if .Values.apiToken.enabled }}
             - name: MODEL_MANAGER_API_TOKEN
               valueFrom:
@@ -69,10 +103,20 @@ spec:
                   key: {{ .Values.apiToken.secretKey | default "token" | quote }}
                   optional: false
             {{- end }}
-          securityContext:
-            runAsUser: 0
-            runAsGroup: 0
-            runAsNonRoot: false
+            - name: HUGGINGFACE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.huggingface.secretName | default "hf-token" | quote }}
+                  key: {{ .Values.huggingface.secretKey | default "token" | quote }}
+                  optional: true
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepassword.secretName | quote }}
+                  key: token
+                  optional: true
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
           volumeMounts:
             - name: catalog-workspace
               mountPath: /workspace
@@ -82,7 +126,6 @@ spec:
             - name: manager-state
               mountPath: {{ .Values.state.mountPath | default "/app/state" | quote }}
             {{- end }}
-        # Git-sync sidecar to keep catalog updated
         - name: git-sync
           image: "{{ .Values.gitSync.image }}:{{ .Values.gitSync.imageTag }}"
           imagePullPolicy: IfNotPresent
@@ -114,3 +157,15 @@ spec:
           volumeMounts:
             - name: catalog-workspace
               mountPath: /workspace
+      {{- with .Values.api.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.api.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.api.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

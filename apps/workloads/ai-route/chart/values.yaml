@@ -11,6 +11,6 @@ gatewayApi:
     name: active-llm-predictor
     port: 80
   modelManagerService:
-    # Route to the stable ClusterIP service that fronts the latest Knative revision
-    name: model-manager-stable
+    # Route to the API Deployment service
+    name: model-manager
     port: 80

@@ -1,11 +1,32 @@
 namespace: ai
 
-deploymentRevision: "v0.4.15-20251124-5"
+deploymentRevision: "v0.5.0-20251124-6"
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.4.15-go"
+  tag: "0.5.0-go"
   pullPolicy: Always
+
+api:
+  replicaCount: 1
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+worker:
+  replicaCount: 1
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+sync:
+  replicaCount: 1
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
 
 gitSync:
   repo: https://github.com/Oremus-Labs/ol-model-catalog.git
@@ -27,6 +48,10 @@ weights:
   mountPath: /mnt/models
   inferenceModelRoot: /mnt/models
 
+huggingface:
+  secretName: hf-token
+  secretKey: token
+
 state:
   enabled: true
   pvcName: model-manager-state
@@ -39,6 +64,19 @@ state:
 datastore:
   driver: sqlite
   dsn: ""
+
+redis:
+  addr: ""
+  username: ""
+  db: 0
+  tlsEnabled: false
+  tlsInsecure: false
+  passwordSecret:
+    name: ""
+    key: password
+
+events:
+  channel: model-manager-events
 
 apiToken:
   enabled: true
@@ -61,3 +99,5 @@ onepassword:
 
 route:
   host: model-manager.knative.oremuslabs.app
+  ingressClass: traefik
+  tlsSecret: ""

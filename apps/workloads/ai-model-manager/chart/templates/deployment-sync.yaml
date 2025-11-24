@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-manager-sync
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: model-manager
+    app.kubernetes.io/component: sync
+spec:
+  replicas: {{ .Values.sync.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: model-manager
+      app.kubernetes.io/component: sync
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: model-manager
+        app.kubernetes.io/component: sync
+        {{- if .Values.deploymentRevision }}
+        oremus-labs.com/revision: {{ .Values.deploymentRevision | quote }}
+        {{- end }}
+    spec:
+      serviceAccountName: model-manager
+      containers:
+        - name: sync
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["./model-manager-sync"]
+          env:
+            - name: MODEL_CATALOG_ROOT
+              value: {{ .Values.catalog.rootPath | quote }}
+            - name: MODEL_CATALOG_MODELS_SUBDIR
+              value: {{ .Values.catalog.modelsSubdir | quote }}
+            - name: HUGGINGFACE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.huggingface.secretName | default "hf-token" | quote }}
+                  key: {{ .Values.huggingface.secretKey | default "token" | quote }}
+                  optional: true
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepassword.secretName | quote }}
+                  key: token
+                  optional: true
+            - name: EVENTS_CHANNEL
+              value: {{ .Values.events.channel | default "model-manager-events" | quote }}
+            {{- if .Values.redis.addr }}
+            - name: REDIS_ADDR
+              value: {{ .Values.redis.addr | quote }}
+            {{- end }}
+            {{- if .Values.redis.username }}
+            - name: REDIS_USERNAME
+              value: {{ .Values.redis.username | quote }}
+            {{- end }}
+            - name: REDIS_DB
+              value: "{{ .Values.redis.db | default 0 }}"
+            {{- if .Values.redis.tlsEnabled }}
+            - name: REDIS_TLS_ENABLED
+              value: "true"
+            {{- end }}
+            {{- if .Values.redis.tlsInsecure }}
+            - name: REDIS_TLS_INSECURE_SKIP_VERIFY
+              value: "true"
+            {{- end }}
+            {{- if .Values.redis.passwordSecret.name }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.redis.passwordSecret.name | quote }}
+                  key: {{ .Values.redis.passwordSecret.key | default "password" | quote }}
+                  optional: true
+            {{- end }}
+          resources:
+            {{- toYaml .Values.sync.resources | nindent 12 }}
+      {{- with .Values.sync.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sync.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sync.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

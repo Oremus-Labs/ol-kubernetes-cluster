@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: model-manager-stable
+  name: model-manager
   namespace: {{ .Values.namespace }}
   labels:
     app.kubernetes.io/name: model-manager
@@ -9,11 +9,9 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    serving.knative.dev/service: model-manager
+    app.kubernetes.io/name: model-manager
+    app.kubernetes.io/component: api
   ports:
     - name: http
       port: 80
-      targetPort: 8012
-    - name: https
-      port: 443
-      targetPort: 8112
+      targetPort: 8080

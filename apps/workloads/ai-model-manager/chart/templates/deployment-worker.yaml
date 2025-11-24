@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-manager-worker
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: model-manager
+    app.kubernetes.io/component: worker
+spec:
+  replicas: {{ .Values.worker.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: model-manager
+      app.kubernetes.io/component: worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: model-manager
+        app.kubernetes.io/component: worker
+        {{- if .Values.deploymentRevision }}
+        oremus-labs.com/revision: {{ .Values.deploymentRevision | quote }}
+        {{- end }}
+    spec:
+      serviceAccountName: model-manager
+      volumes:
+        - name: model-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.weights.pvcName }}
+        {{- if .Values.state.enabled }}
+        - name: manager-state
+          persistentVolumeClaim:
+            claimName: {{ .Values.state.pvcName }}
+        {{- end }}
+      containers:
+        - name: worker
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["./model-manager-worker"]
+          env:
+            - name: MODEL_CATALOG_ROOT
+              value: {{ .Values.catalog.rootPath | quote }}
+            - name: MODEL_CATALOG_MODELS_SUBDIR
+              value: {{ .Values.catalog.modelsSubdir | quote }}
+            - name: ACTIVE_NAMESPACE
+              value: {{ .Values.active.namespace | quote }}
+            - name: ACTIVE_INFERENCESERVICE_NAME
+              value: {{ .Values.active.inferenceServiceName | quote }}
+            - name: WEIGHTS_STORAGE_PATH
+              value: {{ .Values.weights.mountPath | quote }}
+            - name: WEIGHTS_PVC_NAME
+              value: {{ .Values.weights.pvcName | quote }}
+            - name: INFERENCE_MODEL_ROOT
+              value: {{ .Values.weights.inferenceModelRoot | quote }}
+            - name: GPU_PROFILE_PATH
+              value: {{ .Values.recommendations.gpuProfilePath | default "/app/config/gpu-profiles.json" | quote }}
+            - name: STATE_PATH
+              value: {{ .Values.state.mountPath | default "/app/state" | quote }}
+            - name: DATASTORE_DRIVER
+              value: {{ .Values.datastore.driver | default "sqlite" | quote }}
+            {{- if .Values.datastore.dsn }}
+            - name: DATASTORE_DSN
+              value: {{ .Values.datastore.dsn | quote }}
+            {{- end }}
+            - name: DATABASE_PVC_NAME
+              value: {{ .Values.state.pvcName | quote }}
+            - name: EVENTS_CHANNEL
+              value: {{ .Values.events.channel | default "model-manager-events" | quote }}
+            {{- if .Values.redis.addr }}
+            - name: REDIS_ADDR
+              value: {{ .Values.redis.addr | quote }}
+            {{- end }}
+            {{- if .Values.redis.username }}
+            - name: REDIS_USERNAME
+              value: {{ .Values.redis.username | quote }}
+            {{- end }}
+            - name: REDIS_DB
+              value: "{{ .Values.redis.db | default 0 }}"
+            {{- if .Values.redis.tlsEnabled }}
+            - name: REDIS_TLS_ENABLED
+              value: "true"
+            {{- end }}
+            {{- if .Values.redis.tlsInsecure }}
+            - name: REDIS_TLS_INSECURE_SKIP_VERIFY
+              value: "true"
+            {{- end }}
+            {{- if .Values.redis.passwordSecret.name }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.redis.passwordSecret.name | quote }}
+                  key: {{ .Values.redis.passwordSecret.key | default "password" | quote }}
+                  optional: true
+            {{- end }}
+            - name: HUGGINGFACE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.huggingface.secretName | default "hf-token" | quote }}
+                  key: {{ .Values.huggingface.secretKey | default "token" | quote }}
+                  optional: true
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepassword.secretName | quote }}
+                  key: token
+                  optional: true
+          resources:
+            {{- toYaml .Values.worker.resources | nindent 12 }}
+          volumeMounts:
+            - name: model-storage
+              mountPath: {{ .Values.weights.mountPath | quote }}
+            {{- if .Values.state.enabled }}
+            - name: manager-state
+              mountPath: {{ .Values.state.mountPath | default "/app/state" | quote }}
+            {{- end }}
+      {{- with .Values.worker.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.worker.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.worker.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
