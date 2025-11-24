@@ -20,17 +20,26 @@ open-webui:
         secretKeyRef:
           name: open-webui-oidc
           key: OIDC_CLIENT_SECRET
+    - name: ENABLE_SIGNUP
+      value: "False"
+    - name: ENABLE_PASSWORD_AUTH
+      value: "False"
+    - name: ENABLE_OAUTH_PERSISTENT_CONFIG
+      value: "False"
+    - name: ENABLE_OAUTH_SIGNUP
+      value: "False"
+    - name: ENABLE_INITIAL_ADMIN_SIGNUP
+      value: "False"
+    - name: MICROSOFT_REDIRECT_URI
+      value: "https://openwebui.oremuslabs.app/oauth/microsoft/callback"
+    - name: OPENID_PROVIDER_URL
+      value: "https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0"
+    - name: OAUTH_PROVIDER_NAME
+      value: "Oremus Labs"
+    - name: OAUTH_SCOPES
+      value: "openid email profile offline_access"
 
-  commonEnvVars:
-    ENABLE_SIGNUP: "False"
-    ENABLE_PASSWORD_AUTH: "False"
-    ENABLE_OAUTH_PERSISTENT_CONFIG: "False"
-    ENABLE_OAUTH_SIGNUP: "False"
-    ENABLE_INITIAL_ADMIN_SIGNUP: "False"
-    MICROSOFT_REDIRECT_URI: "https://openwebui.oremuslabs.app/oauth/microsoft/callback"
-    OPENID_PROVIDER_URL: "https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0"
-    OAUTH_PROVIDER_NAME: "Oremus Labs"
-    OAUTH_SCOPES: "openid email profile offline_access"
+  commonEnvVars: []
 
   sso:
     enabled: true
