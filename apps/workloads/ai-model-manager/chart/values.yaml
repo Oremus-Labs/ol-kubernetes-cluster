@@ -84,9 +84,9 @@ redis:
     enabled: true
     pvcName: model-manager-redis
     size: 10Gi
-    storageClass: venus-local-storage
-    hostPath: /mnt/ai-model-cache/model-manager-redis
-    hostNode: venus
+    storageClass: longhorn
+    hostPath: ""
+    hostNode: ""
   resources: {}
 
 events:

@@ -1,28 +1,5 @@
 {{- if and .Values.redis.enabled .Values.redis.persistence.enabled }}
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: {{ .Values.redis.persistence.pvcName }}
-spec:
-  capacity:
-    storage: {{ .Values.redis.persistence.size }}
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: {{ .Values.redis.persistence.storageClass }}
-  local:
-    path: {{ .Values.redis.persistence.hostPath }}
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - {{ .Values.redis.persistence.hostNode }}
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ .Values.redis.persistence.pvcName }}
@@ -34,5 +11,4 @@ spec:
     requests:
       storage: {{ .Values.redis.persistence.size }}
   storageClassName: {{ .Values.redis.persistence.storageClass }}
-  volumeName: {{ .Values.redis.persistence.pvcName }}
 {{- end }}
