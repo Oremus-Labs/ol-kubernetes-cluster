@@ -22,10 +22,12 @@ spec:
       args:
         - |
           MODEL_PATH="${MODEL_DIR:-${MODEL_ID:-/mnt/models}}"
+          SERVED_NAME="${MODEL_ID:-${MODEL_DIR:-/mnt/models}}"
           exec python3 -m vllm.entrypoints.openai.api_server \
             --host "0.0.0.0" \
             --port "8080" \
             --model "${MODEL_PATH}" \
+            --served-model-name "${SERVED_NAME}" \
             --tensor-parallel-size "1" \
             --dtype float16 \
             --gpu-memory-utilization "0.9" \
