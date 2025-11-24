@@ -27,7 +27,7 @@ spec:
             --port "8080" \
             --model "${MODEL_PATH}" \
             "$@"
-        - "--"
+        - "model-manager-entrypoint"
       env:
         - name: VLLM_USE_ROCM
           value: "1"
