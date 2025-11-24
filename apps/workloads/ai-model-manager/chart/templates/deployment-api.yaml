@@ -73,6 +73,10 @@ spec:
               value: {{ .Values.state.pvcName | quote }}
             - name: EVENTS_CHANNEL
               value: {{ .Values.events.channel | default "model-manager-events" | quote }}
+            - name: REDIS_JOB_STREAM
+              value: {{ .Values.redis.jobStream | default "model-manager:jobs" | quote }}
+            - name: REDIS_JOB_GROUP
+              value: {{ .Values.redis.jobGroup | default "weights-workers" | quote }}
             {{- if .Values.redis.addr }}
             - name: REDIS_ADDR
               value: {{ .Values.redis.addr | quote }}
