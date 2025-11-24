@@ -22,6 +22,10 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: model-manager
+      volumes:
+        - name: manager-state
+          persistentVolumeClaim:
+            claimName: {{ .Values.state.pvcName }}
       containers:
         - name: sync
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -50,6 +54,16 @@ spec:
                   optional: true
             - name: EVENTS_CHANNEL
               value: {{ .Values.events.channel | default "model-manager-events" | quote }}
+            - name: STATE_PATH
+              value: {{ .Values.state.mountPath | default "/app/state" | quote }}
+            - name: DATASTORE_DRIVER
+              value: {{ .Values.datastore.driver | default "sqlite" | quote }}
+            {{- if .Values.datastore.dsn }}
+            - name: DATASTORE_DSN
+              value: {{ .Values.datastore.dsn | quote }}
+            {{- end }}
+            - name: DATABASE_PVC_NAME
+              value: {{ .Values.state.pvcName | quote }}
             {{- if .Values.redis.addr }}
             - name: REDIS_ADDR
               value: {{ .Values.redis.addr | quote }}
@@ -78,6 +92,9 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.sync.resources | nindent 12 }}
+          volumeMounts:
+            - name: manager-state
+              mountPath: {{ .Values.state.mountPath | default "/app/state" | quote }}
       {{- with .Values.sync.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
