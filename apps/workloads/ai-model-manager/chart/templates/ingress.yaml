@@ -1,4 +1,10 @@
-{{- if .Values.route.host }}
+{{- $hosts := list }}
+{{- if .Values.route.hosts }}
+  {{- $hosts = .Values.route.hosts }}
+{{- else if .Values.route.host }}
+  {{- $hosts = list .Values.route.host }}
+{{- end }}
+{{- if gt (len $hosts) 0 }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -10,11 +16,14 @@ spec:
   {{- if .Values.route.tlsSecret }}
   tls:
     - hosts:
-        - {{ .Values.route.host | quote }}
+        {{- range $hosts }}
+        - {{ . | quote }}
+        {{- end }}
       secretName: {{ .Values.route.tlsSecret | quote }}
   {{- end }}
   rules:
-    - host: {{ .Values.route.host | quote }}
+    {{- range $hosts }}
+    - host: {{ . | quote }}
       http:
         paths:
           - path: /
@@ -24,4 +33,5 @@ spec:
                 name: model-manager
                 port:
                   number: 80
+    {{- end }}
 {{- end }}
