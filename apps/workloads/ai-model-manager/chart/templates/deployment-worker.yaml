@@ -76,6 +76,9 @@ spec:
             {{- if .Values.redis.addr }}
             - name: REDIS_ADDR
               value: {{ .Values.redis.addr | quote }}
+            {{- else if .Values.redis.enabled }}
+            - name: REDIS_ADDR
+              value: {{ printf "%s.%s.svc.cluster.local:6379" (.Values.redis.serviceName | default "model-manager-redis") .Values.namespace | quote }}
             {{- end }}
             {{- if .Values.redis.username }}
             - name: REDIS_USERNAME

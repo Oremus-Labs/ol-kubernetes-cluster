@@ -66,6 +66,10 @@ datastore:
   dsn: ""
 
 redis:
+  enabled: true
+  serviceName: model-manager-redis
+  image: redis:7.4-alpine
+  imagePullPolicy: IfNotPresent
   addr: ""
   username: ""
   db: 0
@@ -76,6 +80,14 @@ redis:
     key: password
   jobStream: "model-manager:jobs"
   jobGroup: "weights-workers"
+  persistence:
+    enabled: true
+    pvcName: model-manager-redis
+    size: 10Gi
+    storageClass: venus-local-storage
+    hostPath: /mnt/ai-model-cache/model-manager-redis
+    hostNode: venus
+  resources: {}
 
 events:
   channel: model-manager-events
