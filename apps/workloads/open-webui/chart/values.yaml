@@ -4,6 +4,44 @@ open-webui:
     tag: "0.6.36"
     pullPolicy: IfNotPresent
 
+  extraEnvVars:
+    - name: WEBUI_SECRET_KEY
+      valueFrom:
+        secretKeyRef:
+          name: open-webui-oidc
+          key: OIDC_CLIENT_SECRET
+    - name: OAUTH_SESSION_TOKEN_ENCRYPTION_KEY
+      valueFrom:
+        secretKeyRef:
+          name: open-webui-oidc
+          key: OIDC_CLIENT_SECRET
+    - name: OAUTH_CLIENT_INFO_ENCRYPTION_KEY
+      valueFrom:
+        secretKeyRef:
+          name: open-webui-oidc
+          key: OIDC_CLIENT_SECRET
+
+  commonEnvVars:
+    ENABLE_SIGNUP: "False"
+    ENABLE_PASSWORD_AUTH: "False"
+    ENABLE_OAUTH_PERSISTENT_CONFIG: "False"
+    ENABLE_OAUTH_SIGNUP: "False"
+    ENABLE_INITIAL_ADMIN_SIGNUP: "False"
+    MICROSOFT_REDIRECT_URI: "https://openwebui.oremuslabs.app/oauth/microsoft/callback"
+    OPENID_PROVIDER_URL: "https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0"
+    OAUTH_PROVIDER_NAME: "Oremus Labs"
+    OAUTH_SCOPES: "openid email profile offline_access"
+
+  sso:
+    enabled: true
+    enableSignup: false
+    microsoft:
+      enabled: true
+      clientId: af4fe910-bb07-4613-a3ba-5f51540aadad
+      clientExistingSecret: open-webui-oidc
+      clientExistingSecretKey: OIDC_CLIENT_SECRET
+      tenantId: abfcbee8-658f-4ab3-97f5-9b357e0f8cda
+
   persistence:
     enabled: true
     size: 10Gi
@@ -41,5 +79,10 @@ open-webui:
   config:
     secrets: {}
     environment: {}
+
+oidcSecret:
+  enabled: true
+  name: open-webui-oidc
+  itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/a2wlrk2ivlk64jg2hqs6re6idu"
 
 # Legacy Traefik ingress block removed in favor of the chart's native ingress support
