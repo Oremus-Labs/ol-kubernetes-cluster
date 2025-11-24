@@ -32,7 +32,8 @@ spec:
             --dtype float16 \
             --gpu-memory-utilization "0.9" \
             --max-model-len "4096" \
-            --trust-remote-code
+            --trust-remote-code \
+            "$@"
       env:
         - name: VLLM_USE_ROCM
           value: "1"
