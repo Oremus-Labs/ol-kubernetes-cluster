@@ -22,6 +22,13 @@ spec:
               value: "3000"
             - name: API_BASE_URL
               value: {{ .Values.env.apiBaseUrl | quote }}
+            {{- if .Values.apiToken.enabled }}
+            - name: MODEL_MANAGER_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.apiToken.secretName | quote }}
+                  key: {{ .Values.apiToken.secretKey | default "token" | quote }}
+            {{- end }}
           ports:
             - containerPort: 3000
           readinessProbe:
