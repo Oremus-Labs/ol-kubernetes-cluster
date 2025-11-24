@@ -27,9 +27,9 @@ open-webui:
     - name: ENABLE_OAUTH_PERSISTENT_CONFIG
       value: "False"
     - name: ENABLE_OAUTH_SIGNUP
-      value: "False"
+      value: "True"
     - name: ENABLE_INITIAL_ADMIN_SIGNUP
-      value: "False"
+      value: "True"
     - name: MICROSOFT_REDIRECT_URI
       value: "https://openwebui.oremuslabs.app/oauth/microsoft/callback"
     - name: OPENID_PROVIDER_URL
