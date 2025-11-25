@@ -1,10 +1,10 @@
 namespace: ai
 
-deploymentRevision: "v0.5.12-20251124-25"
+deploymentRevision: "v0.5.13-20251124-26"
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.5.12-go"
+  tag: "0.5.13-go"
   pullPolicy: Always
 
 api:
