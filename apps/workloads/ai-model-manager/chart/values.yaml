@@ -92,6 +92,9 @@ redis:
 events:
   channel: model-manager-events
 
+notifications:
+  webhookURL: "https://httpbin.org/post"
+
 apiToken:
   enabled: true
   secretName: model-manager-api-token

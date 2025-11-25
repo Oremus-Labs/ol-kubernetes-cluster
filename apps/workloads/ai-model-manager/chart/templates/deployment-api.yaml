@@ -106,6 +106,10 @@ spec:
                   key: {{ .Values.redis.passwordSecret.key | default "password" | quote }}
                   optional: true
             {{- end }}
+            {{- if .Values.notifications.webhookURL }}
+            - name: SLACK_WEBHOOK_URL
+              value: {{ .Values.notifications.webhookURL | quote }}
+            {{- end }}
             {{- if .Values.apiToken.enabled }}
             - name: MODEL_MANAGER_API_TOKEN
               valueFrom:
