@@ -1,10 +1,10 @@
 namespace: ai
 
-deploymentRevision: "v0.5.16-20251124-29"
+deploymentRevision: "v0.5.20-20251125-01"
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.5.16-go"
+  tag: "0.5.20-go"
   pullPolicy: Always
 
 api:
@@ -62,8 +62,8 @@ state:
   mountPath: /app/state
 
 datastore:
-  driver: sqlite
-  dsn: ""
+  driver: postgres
+  dsn: "postgresql://modelmanager:modelmanager-secret@model-manager-postgres-postgresql.ai.svc.cluster.local:5432/modelmanager?sslmode=disable"
 
 redis:
   enabled: true

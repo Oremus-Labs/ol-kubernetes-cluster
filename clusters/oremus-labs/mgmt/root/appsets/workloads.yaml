@@ -54,7 +54,7 @@ spec:
         project: workloads
         path: apps/workloads/ai-model-manager/chart
         targetRevision: main
-        imageTag: "0.5.16-go"
+        imageTag: "0.5.20-go"
       - name: model-manager-ui
         namespace: ai
         project: workloads
@@ -79,6 +79,10 @@ spec:
           parameters:
           - name: image.tag
             value: '{{imageTag}}'
+          - name: datastore.driver
+            value: postgres
+          - name: datastore.dsn
+            value: postgresql://modelmanager:modelmanager-secret@model-manager-postgres-postgresql.ai.svc.cluster.local:5432/modelmanager?sslmode=disable
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
