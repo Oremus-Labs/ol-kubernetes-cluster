@@ -52,7 +52,7 @@ weights:
 
 huggingface:
   secretName: hf-token
-  secretKey: token
+  secretKey: HUGGING_FACE_HUB_TOKEN
 
 state:
   enabled: true
