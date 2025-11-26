@@ -4,7 +4,7 @@ deploymentRevision: "v0.5.24-20251126-01"
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.5.28-go"
+  tag: "0.5.29-go"
   pullPolicy: Always
 
 api:
@@ -20,8 +20,7 @@ worker:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  useHFCLI: false
-  downloadTimeoutSeconds: 1200
+  hfHubDownloadTimeoutSeconds: 18000
 
 sync:
   replicaCount: 1
@@ -49,6 +48,7 @@ weights:
   pvcName: venus-model-storage
   mountPath: /mnt/models
   inferenceModelRoot: /mnt/models
+  cliCachePath: /mnt/models/.hf-cache
 
 huggingface:
   secretName: hf-token
