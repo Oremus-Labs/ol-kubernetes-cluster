@@ -4,7 +4,7 @@ deploymentRevision: "v0.5.24-20251126-01"
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.5.27-go"
+  tag: "0.5.28-go"
   pullPolicy: Always
 
 api:
