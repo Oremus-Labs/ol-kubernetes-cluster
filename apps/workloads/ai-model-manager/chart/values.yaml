@@ -4,7 +4,7 @@ deploymentRevision: "v0.5.24-20251126-01"
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
-  tag: "0.5.24-go"
+  tag: "0.5.25-go"
   pullPolicy: Always
 
 api:
@@ -20,6 +20,8 @@ worker:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  useHFCLI: true
+  downloadTimeoutSeconds: 1200
 
 sync:
   replicaCount: 1

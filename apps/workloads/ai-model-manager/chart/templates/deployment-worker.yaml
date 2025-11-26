@@ -73,6 +73,14 @@ spec:
               value: {{ .Values.redis.jobStream | default "model-manager:jobs" | quote }}
             - name: REDIS_JOB_GROUP
               value: {{ .Values.redis.jobGroup | default "weights-workers" | quote }}
+            {{- if .Values.worker.useHFCLI }}
+            - name: USE_HF_CLI
+              value: "true"
+            {{- end }}
+            {{- if .Values.worker.downloadTimeoutSeconds }}
+            - name: HF_HUB_DOWNLOAD_TIMEOUT
+              value: "{{ .Values.worker.downloadTimeoutSeconds }}"
+            {{- end }}
             {{- if .Values.redis.addr }}
             - name: REDIS_ADDR
               value: {{ .Values.redis.addr | quote }}
