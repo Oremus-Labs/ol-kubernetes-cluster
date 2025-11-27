@@ -40,6 +40,12 @@ catalog:
   rootPath: /workspace/catalog
   modelsSubdir: models
 
+runtime:
+  image:
+    repository: rocm/vllm-dev
+    tag: nightly_main_20251127
+    pullPolicy: IfNotPresent
+
 active:
   namespace: ai
   inferenceServiceName: active-llm

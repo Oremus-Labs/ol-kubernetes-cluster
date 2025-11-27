@@ -14,8 +14,8 @@ spec:
     - v1
   containers:
     - name: kserve-container
-      image: rocm/vllm-dev:nightly
-      imagePullPolicy: IfNotPresent
+      image: "{{ .Values.runtime.image.repository }}:{{ .Values.runtime.image.tag }}"
+      imagePullPolicy: {{ .Values.runtime.image.pullPolicy }}
       command:
         - /bin/sh
         - -c
