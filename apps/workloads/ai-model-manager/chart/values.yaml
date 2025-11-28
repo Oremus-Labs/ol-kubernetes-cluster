@@ -42,8 +42,8 @@ catalog:
 
 runtime:
   image:
-    repository: rocm/vllm-dev
-    tag: nightly_main_20251127
+    repository: ghcr.io/oremus-labs/vllm-rocm-gptoss
+    tag: 0.11.2-gptoss
     pullPolicy: IfNotPresent
 
 active:
