@@ -31,36 +31,6 @@ spec:
         path: apps/workloads/open-webui/chart
         targetRevision: main
         imageTag: "0.6.36"
-      - name: kserve
-        namespace: kserve
-        project: workloads
-        path: apps/workloads/kserve/chart
-        targetRevision: main
-        imageTag: "v0.16.0"
-      - name: kserve-webapp
-        namespace: kserve
-        project: workloads
-        path: apps/workloads/kserve-webapp/chart
-        targetRevision: main
-        imageTag: "0.15.0"
-      - name: ai-route
-        namespace: ai
-        project: workloads
-        path: apps/workloads/ai-route/chart
-        targetRevision: main
-        imageTag: latest
-      - name: ai-model-manager
-        namespace: ai
-        project: workloads
-        path: apps/workloads/ai-model-manager/chart
-        targetRevision: main
-        imageTag: "0.5.31-go"
-      - name: model-manager-ui
-        namespace: ai
-        project: workloads
-        path: apps/workloads/model-manager-ui/chart
-        targetRevision: main
-        imageTag: "0.3.3"
   template:
     metadata:
       name: workloads-{{name}}
