@@ -23,11 +23,11 @@ spec:
         - |
           MODEL_PATH="${MODEL_DIR:-${MODEL_ID:-/mnt/models}}"
           if [ -n "${MODEL_ID:-}" ]; then
-            CANDIDATE_DIR="${MODEL_DIR:-/mnt/models}"
-            # Trim trailing slash to avoid double separators.
-            CANDIDATE_DIR="${CANDIDATE_DIR%/}"
-            if [ -d "${CANDIDATE_DIR}/${MODEL_ID}" ]; then
-              MODEL_PATH="${CANDIDATE_DIR}/${MODEL_ID}"
+            CANDIDATE_DIR="${MODEL_PATH%/}"
+            if [ ! -f "${CANDIDATE_DIR}/config.json" ]; then
+              if [ -d "${CANDIDATE_DIR}/${MODEL_ID}" ] && [ -f "${CANDIDATE_DIR}/${MODEL_ID}/config.json" ]; then
+                MODEL_PATH="${CANDIDATE_DIR}/${MODEL_ID}"
+              fi
             fi
           fi
           exec python3 -m vllm.entrypoints.openai.api_server \
