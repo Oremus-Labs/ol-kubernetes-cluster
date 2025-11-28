@@ -22,6 +22,14 @@ spec:
       args:
         - |
           MODEL_PATH="${MODEL_DIR:-${MODEL_ID:-/mnt/models}}"
+          if [ -n "${MODEL_ID:-}" ]; then
+            CANDIDATE_DIR="${MODEL_DIR:-/mnt/models}"
+            # Trim trailing slash to avoid double separators.
+            CANDIDATE_DIR="${CANDIDATE_DIR%/}"
+            if [ -d "${CANDIDATE_DIR}/${MODEL_ID}" ]; then
+              MODEL_PATH="${CANDIDATE_DIR}/${MODEL_ID}"
+            fi
+          fi
           exec python3 -m vllm.entrypoints.openai.api_server \
             --host "0.0.0.0" \
             --port "8080" \
