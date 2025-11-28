@@ -1,6 +1,6 @@
 namespace: ai
 
-deploymentRevision: "v0.5.24-20251126-01"
+deploymentRevision: "v0.5.24-20251127-02"
 
 image:
   repository: ghcr.io/oremus-labs/ol-model-manager
@@ -43,7 +43,7 @@ catalog:
 runtime:
   image:
     repository: ghcr.io/oremus-labs/vllm-rocm-gptoss
-    tag: 0.11.2-gptoss-tokenfix8
+    tag: 0.11.2-marlin-tokenfix
     pullPolicy: IfNotPresent
 
 active:
