@@ -43,7 +43,7 @@ catalog:
 runtime:
   image:
     repository: ghcr.io/oremus-labs/vllm-rocm-gptoss
-    tag: 0.11.2-gptoss
+    tag: 0.11.2-gptoss-tokenfix
     pullPolicy: IfNotPresent
 
 active:
