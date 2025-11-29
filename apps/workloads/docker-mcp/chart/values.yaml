@@ -1,0 +1,75 @@
+replicaCount: 1
+
+image:
+  repository: python
+  tag: 3.12-slim
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+
+env:
+  - name: PORT
+    value: "8080"
+
+extraEnv: []
+extraEnvFrom: []
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+podAnnotations: {}
+podLabels: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  host: docker-mcp.oremuslabs.app
+  tls:
+    secretName: oremuslabs-app-wildcard-tls
+
+certificate:
+  enabled: true
+  secretName: oremuslabs-app-wildcard-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  hosts:
+    - "*.oremuslabs.app"
+    - oremuslabs.app
+
+runtime:
+  pipPackages:
+    - docker-mcp==0.2.0
+    - uvicorn==0.38.0
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 20
+  periodSeconds: 30
+
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 15

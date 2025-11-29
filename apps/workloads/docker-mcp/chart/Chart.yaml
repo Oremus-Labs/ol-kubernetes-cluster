@@ -1,0 +1,5 @@
+apiVersion: v2
+name: docker-mcp-wrapper
+description: Wrapper chart to deploy the docker-mcp MCP server with HTTP transport
+type: application
+version: 0.1.0

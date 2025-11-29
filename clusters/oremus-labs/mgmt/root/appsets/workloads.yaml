@@ -37,6 +37,12 @@ spec:
         path: apps/workloads/kubernetes-mcp-server/chart
         targetRevision: main
         imageTag: latest
+      - name: docker-mcp
+        namespace: docker-mcp
+        project: workloads
+        path: apps/workloads/docker-mcp/chart
+        targetRevision: main
+        imageTag: latest
   template:
     metadata:
       name: workloads-{{name}}
