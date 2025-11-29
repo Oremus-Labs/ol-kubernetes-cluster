@@ -39,6 +39,8 @@ n8n:
   worker:
     mode: queue
     count: 2
+    waitMainNodeReady:
+      enabled: true
     resources:
       requests:
         cpu: 250m
@@ -51,6 +53,8 @@ n8n:
     mode: queue
     url: https://n8n.oremuslabs.app/
     count: 2
+    waitMainNodeReady:
+      enabled: true
     resources:
       requests:
         cpu: 200m
