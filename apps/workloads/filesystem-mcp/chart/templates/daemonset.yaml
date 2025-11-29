@@ -71,6 +71,8 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
+            - name: workspace
+              mountPath: /workspace
             - name: source
               mountPath: /app-src
               {{- range .Values.hostMounts }}
@@ -79,6 +81,8 @@ spec:
               readOnly: {{ .readOnly | default false }}
               {{- end }}
       volumes:
+        - name: workspace
+          emptyDir: {}
         - name: source
           configMap:
             name: {{ include "filesystem-mcp.fullname" . }}-source
