@@ -1,0 +1,78 @@
+image:
+  repository: ghcr.io/oremus-labs/mcp-filesystem-gateway
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  fsGroup: 65532
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  host: filesystem-mcp.oremuslabs.app
+  tls:
+    secretName: oremuslabs-app-wildcard-tls
+
+certificate:
+  enabled: true
+  secretName: oremuslabs-app-wildcard-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  hosts:
+    - "*.oremuslabs.app"
+    - oremuslabs.app
+
+allowedDirectories:
+  - /host
+
+hostMounts:
+  - name: host-root
+    hostPath: /
+    mountPath: /host
+    readOnly: true
+
+enableMutations: false
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi
+
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+affinity: {}
+nodeSelector: {}
+topologySpreadConstraints: []

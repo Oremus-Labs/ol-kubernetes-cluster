@@ -43,6 +43,12 @@ spec:
         path: apps/workloads/docker-mcp/chart
         targetRevision: main
         imageTag: latest
+      - name: filesystem-mcp
+        namespace: filesystem-mcp
+        project: workloads
+        path: apps/workloads/filesystem-mcp/chart
+        targetRevision: main
+        imageTag: "0.1.0"
       - name: github-mcp
         namespace: github-mcp
         project: workloads
