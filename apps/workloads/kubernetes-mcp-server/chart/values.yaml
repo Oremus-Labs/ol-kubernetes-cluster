@@ -1,0 +1,40 @@
+kubernetes-mcp-server:
+  replicaCount: 1
+  service:
+    port: 8080
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    host: kubernetesmcp.oremuslabs.app
+    tls:
+      secretName: oremuslabs-app-wildcard-tls
+  serviceAccount:
+    create: false
+    name: kubernetes-mcp-server
+  config:
+    port: "8080"
+    read_only: true
+    disable_destructive: true
+    cluster_provider_strategy: in-cluster
+    toolsets:
+      - core
+      - config
+      - helm
+    log_level: 2
+
+rbac:
+  enabled: true
+  existingClusterRole: view
+  bindingName: kubernetes-mcp-server-view
+
+certificate:
+  enabled: true
+  secretName: oremuslabs-app-wildcard-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  hosts:
+    - "*.oremuslabs.app"
+    - oremuslabs.app

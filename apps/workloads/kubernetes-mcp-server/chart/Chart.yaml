@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kubernetes-mcp-server-wrapper
+description: Wrapper chart to deploy the Kubernetes MCP Server with Oremus Labs defaults
+type: application
+version: 0.1.0
+dependencies:
+  - name: kubernetes-mcp-server
+    version: 0.1.0
+    repository: file://../vendor/kubernetes-mcp-server

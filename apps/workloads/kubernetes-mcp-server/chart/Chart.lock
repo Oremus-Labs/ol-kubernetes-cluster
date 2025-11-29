@@ -1,0 +1,6 @@
+dependencies:
+- name: kubernetes-mcp-server
+  repository: file://../vendor/kubernetes-mcp-server
+  version: 0.1.0
+digest: sha256:ca625594a757051789dfbec1a2ba6c0aeb14e6a3717f246e47ed4a29134dd8c1
+generated: "2025-11-28T20:01:18.968349314-05:00"

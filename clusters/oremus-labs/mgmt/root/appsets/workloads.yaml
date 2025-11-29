@@ -31,6 +31,12 @@ spec:
         path: apps/workloads/open-webui/chart
         targetRevision: main
         imageTag: "0.6.36"
+      - name: kubernetes-mcp-server
+        namespace: kubernetes-mcp
+        project: workloads
+        path: apps/workloads/kubernetes-mcp-server/chart
+        targetRevision: main
+        imageTag: latest
   template:
     metadata:
       name: workloads-{{name}}
