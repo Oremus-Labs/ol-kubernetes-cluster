@@ -4,6 +4,8 @@ n8n:
     tag: "1.121.3"
     pullPolicy: IfNotPresent
 
+  encryptionKey: "81a4ecf1b7aabf69f1b4bf588c572a01"
+
   db:
     type: postgresdb
 
