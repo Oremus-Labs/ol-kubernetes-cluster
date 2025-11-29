@@ -48,7 +48,7 @@ spec:
         project: workloads
         path: apps/workloads/filesystem-mcp/chart
         targetRevision: main
-        imageTag: "0.1.0"
+        imageTag: "1.24-bookworm"
       - name: github-mcp
         namespace: github-mcp
         project: workloads
