@@ -41,24 +41,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 {{- define "duckduckgo-mcp.serverPy" -}}
 import os
-from starlette.applications import Starlette
-from starlette.responses import JSONResponse
-from starlette.routing import Mount, Route
 import uvicorn
+from starlette.responses import JSONResponse
 
 from duckduckgo_mcp_server.server import mcp
 
+app = mcp.streamable_http_app()
+
+@app.route("/healthz")
 async def health(_request):
     return JSONResponse({"status": "ok"})
-
-stream_app = mcp.streamable_http_app()
-
-app = Starlette(
-    routes=[
-        Route("/healthz", health),
-        Mount("/", app=stream_app),
-    ]
-)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "8080"))
