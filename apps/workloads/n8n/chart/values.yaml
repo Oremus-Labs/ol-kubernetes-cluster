@@ -4,6 +4,13 @@ n8n:
     tag: "1.121.3"
     pullPolicy: IfNotPresent
 
+  existingEncryptionKeySecret: n8n-encryption-key
+  encryptionKeySecret:
+    create: true
+    name: n8n-encryption-key
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/e6klrmpzeo5rnx3j37wbndxube"
+
   db:
     type: postgresdb
 
