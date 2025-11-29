@@ -21,12 +21,6 @@ spec:
       {{- end }}
     spec:
       serviceAccountName: {{ include "filesystem-mcp.serviceAccountName" . }}
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- range . }}
-        - name: {{ .name }}
-        {{- end }}
-      {{- end }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -35,6 +29,25 @@ spec:
         - name: filesystem-mcp
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - |
+              set -euo pipefail
+              WORKDIR=/workspace
+              SRC_DIR=/app-src
+              mkdir -p "${WORKDIR}"
+              cp "${SRC_DIR}"/go.mod "${WORKDIR}/"
+              cp "${SRC_DIR}"/go.sum "${WORKDIR}/"
+              cp "${SRC_DIR}"/main.go "${WORKDIR}/"
+              cd "${WORKDIR}"
+              export GOPATH=/tmp/go
+              export GOMODCACHE=/tmp/go/pkg/mod
+              go env -w GOPATH=${GOPATH}
+              go env -w GOMODCACHE=${GOMODCACHE}
+              go build -o filesystem-mcp-gateway
+              exec ./filesystem-mcp-gateway
           env:
             - name: PORT
               value: "{{ .Values.service.port }}"
@@ -58,12 +71,17 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
-            {{- range .Values.hostMounts }}
+            - name: source
+              mountPath: /app-src
+              {{- range .Values.hostMounts }}
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
               readOnly: {{ .readOnly | default false }}
-            {{- end }}
+              {{- end }}
       volumes:
+        - name: source
+          configMap:
+            name: {{ include "filesystem-mcp.fullname" . }}-source
         {{- range .Values.hostMounts }}
         - name: {{ .name }}
           hostPath:

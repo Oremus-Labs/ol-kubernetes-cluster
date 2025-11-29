@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "filesystem-mcp.fullname" . }}-source
+  labels:
+    {{- include "filesystem-mcp.labels" . | nindent 4 }}
+data:
+  go.mod: |
+{{ (.Files.Get "files/runtime/go.mod") | indent 4 }}
+  go.sum: |
+{{ (.Files.Get "files/runtime/go.sum") | indent 4 }}
+  main.go: |
+{{ (.Files.Get "files/runtime/main.go") | indent 4 }}
