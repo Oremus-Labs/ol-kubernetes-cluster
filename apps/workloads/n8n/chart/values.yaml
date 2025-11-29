@@ -5,11 +5,6 @@ n8n:
     pullPolicy: IfNotPresent
 
   existingEncryptionKeySecret: n8n-encryption-key
-  encryptionKeySecret:
-    create: true
-    name: n8n-encryption-key
-    onepassword:
-      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/e6klrmpzeo5rnx3j37wbndxube"
 
   db:
     type: postgresdb
@@ -127,3 +122,9 @@ certificate:
     kind: ClusterIssuer
   hosts:
     - n8n.oremuslabs.app
+
+encryptionKeySecret:
+  create: true
+  name: n8n-encryption-key
+  onepassword:
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/e6klrmpzeo5rnx3j37wbndxube"
