@@ -1,0 +1,62 @@
+replicaCount: 1
+
+image:
+  repository: python
+  tag: 3.12-slim
+  pullPolicy: IfNotPresent
+
+runtime:
+  pipPackages:
+    - duckduckgo-mcp-server==0.1.1
+    - uvicorn==0.38.0
+    - starlette==0.50.0
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  host: duckduckgo-mcp.oremuslabs.app
+  tls:
+    secretName: oremuslabs-app-wildcard-tls
+
+certificate:
+  enabled: true
+  secretName: oremuslabs-app-wildcard-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  hosts:
+    - "*.oremuslabs.app"
+    - oremuslabs.app
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 300m
+    memory: 512Mi
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 30
+
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 15
