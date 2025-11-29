@@ -48,7 +48,7 @@ spec:
         project: workloads
         path: apps/workloads/github-mcp/chart
         targetRevision: main
-        imageTag: latest
+        imageTag: "3.12-slim"
   template:
     metadata:
       name: workloads-{{name}}

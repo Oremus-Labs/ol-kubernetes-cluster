@@ -47,9 +47,10 @@ upstream:
 patSecret:
   create: true
   name: github-mcp-token
-  key: GITHUB_PERSONAL_ACCESS_TOKEN
+  key: token
   onepassword:
-    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/github-mcp-token"
+    # Uses the shared repo-read PAT stored in 1Password.
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/t4vuvleriwxfhppuq6zn7zb2eu"
 
 runtime:
   pipPackages:
