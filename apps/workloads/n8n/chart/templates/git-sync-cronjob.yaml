@@ -1,0 +1,81 @@
+{{- if .Values.gitSync.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "n8n.fullname" . }}-sync
+  labels:
+    {{- include "n8n.commonLabels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.gitSync.schedule | quote }}
+  successfulJobsHistoryLimit: {{ .Values.gitSync.history.successful | default 1 }}
+  failedJobsHistoryLimit: {{ .Values.gitSync.history.failed | default 3 }}
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          initContainers:
+            - name: git-sync
+              image: {{ .Values.gitSync.gitSyncImage | quote }}
+              env:
+                - name: GIT_SYNC_REPO
+                  value: {{ .Values.gitSync.repo | quote }}
+                - name: GIT_SYNC_BRANCH
+                  value: {{ .Values.gitSync.branch | quote }}
+                - name: GIT_SYNC_ROOT
+                  value: /workdir
+                - name: GIT_SYNC_DEST
+                  value: repo
+                - name: GIT_SYNC_ONE_TIME
+                  value: "true"
+                - name: GIT_SYNC_SSH
+                  value: "true"
+                - name: GIT_SSH_KEY_FILE
+                  value: /etc/git-secret/{{ .Values.gitSync.gitSecret.sshKey | default "id_ed25519" }}
+                - name: GIT_KNOWN_HOSTS
+                  value: "true"
+                - name: GIT_KNOWN_HOSTS_FILE
+                  value: /etc/git-secret/{{ .Values.gitSync.gitSecret.knownHosts | default "known_hosts" }}
+              volumeMounts:
+                - name: git-secret
+                  mountPath: /etc/git-secret
+                  readOnly: true
+                - name: repo
+                  mountPath: /workdir
+          containers:
+            - name: sync-runner
+              image: {{ .Values.gitSync.runnerImage | quote }}
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: N8N_API_URL
+                  value: {{ .Values.gitSync.apiUrl | quote }}
+                - name: N8N_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.gitSync.apiSecret.name | quote }}
+                      key: {{ .Values.gitSync.apiSecret.key | quote }}
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -euo pipefail
+                  apk add --no-cache bash curl jq >/dev/null
+                  cd /workdir/repo
+                  chmod +x ci/import_all.sh
+                  N8N_API_URL="${N8N_API_URL}" N8N_API_KEY="${N8N_API_KEY}" ci/import_all.sh workflows
+              volumeMounts:
+                - name: repo
+                  mountPath: /workdir
+              {{- with .Values.gitSync.resources }}
+              resources:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+          volumes:
+            - name: git-secret
+              secret:
+                secretName: {{ .Values.gitSync.gitSecret.name | quote }}
+                defaultMode: 0400
+            - name: repo
+              emptyDir: {}
+{{- end }}

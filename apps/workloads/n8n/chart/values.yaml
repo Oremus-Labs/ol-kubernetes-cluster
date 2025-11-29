@@ -123,6 +123,25 @@ certificate:
   hosts:
     - n8n.oremuslabs.app
 
+gitSync:
+  enabled: false
+  schedule: "*/10 * * * *"
+  repo: git@github.com:Oremus-Labs/ol-n8n.git
+  branch: main
+  gitSyncImage: registry.k8s.io/git-sync/git-sync:v4.1.1
+  runnerImage: alpine:3.20
+  gitSecret:
+    name: n8n-sync-git
+    sshKey: id_ed25519
+    knownHosts: known_hosts
+  apiSecret:
+    name: n8n-sync-secrets
+    key: n8n-api-key
+  apiUrl: http://n8n.n8n.svc.cluster.local:5678
+  history:
+    successful: 1
+    failed: 3
+  resources: {}
 encryptionKeySecret:
   create: true
   name: n8n-encryption-key
