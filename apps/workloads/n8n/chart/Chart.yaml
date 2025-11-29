@@ -1,0 +1,9 @@
+apiVersion: v2
+name: n8n-wrapper
+description: Wrapper chart that installs the community n8n Helm chart with Oremus Labs defaults
+type: application
+version: 0.1.0
+dependencies:
+  - name: n8n
+    version: 1.16.6
+    repository: https://community-charts.github.io/helm-charts

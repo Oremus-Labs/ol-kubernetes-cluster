@@ -1,0 +1,116 @@
+n8n:
+  image:
+    repository: n8nio/n8n
+    tag: "1.121.3"
+    pullPolicy: IfNotPresent
+
+  db:
+    type: postgresdb
+
+  binaryData:
+    availableModes:
+      - filesystem
+    mode: filesystem
+    localStoragePath: /home/node/.n8n/binary-data
+  timezone: UTC
+
+  main:
+    count: 1
+    editorBaseUrl: https://n8n.oremuslabs.app
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 20Gi
+      accessMode: ReadWriteOnce
+      annotations:
+        helm.sh/resource-policy: keep
+    extraEnvVars:
+      N8N_HOST: n8n.oremuslabs.app
+      N8N_PROTOCOL: https
+      N8N_SECURE_COOKIE: "true"
+    resources:
+      requests:
+        cpu: 250m
+        memory: 1Gi
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+
+  worker:
+    mode: queue
+    count: 2
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+
+  webhook:
+    mode: queue
+    url: https://n8n.oremuslabs.app/
+    count: 2
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+    mcp:
+      enabled: true
+      resources:
+        requests:
+          cpu: 200m
+          memory: 256Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hosts:
+      - host: n8n.oremuslabs.app
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: n8n-tls
+        hosts:
+          - n8n.oremuslabs.app
+
+  redis:
+    enabled: true
+    master:
+      persistence:
+        enabled: true
+        size: 5Gi
+        storageClass: longhorn
+        accessModes:
+          - ReadWriteOnce
+
+  postgresql:
+    enabled: true
+    auth:
+      username: n8n
+      database: n8n
+    primary:
+      persistence:
+        enabled: true
+        size: 20Gi
+        storageClass: longhorn
+        accessModes:
+          - ReadWriteOnce
+
+certificate:
+  enabled: true
+  secretName: n8n-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  hosts:
+    - n8n.oremuslabs.app
