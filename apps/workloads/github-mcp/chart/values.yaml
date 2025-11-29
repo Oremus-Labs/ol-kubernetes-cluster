@@ -50,7 +50,7 @@ patSecret:
   key: token
   onepassword:
     # Uses the shared repo-read PAT stored in 1Password.
-    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/t4vuvleriwxfhppuq6zn7zb2eu"
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/t2jgbevjw6a645f4amgw73ay5u"
 
 runtime:
   pipPackages:
