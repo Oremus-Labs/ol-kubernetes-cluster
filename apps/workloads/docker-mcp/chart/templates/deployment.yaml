@@ -32,6 +32,7 @@ spec:
           args:
             - >-
               set -euo pipefail;
+              apt-get update && apt-get install -y docker.io && rm -rf /var/lib/apt/lists/*;
               python -m pip install --no-cache-dir {{ join " " .Values.runtime.pipPackages }};
               exec python /app/server.py
           env:
@@ -62,10 +63,26 @@ spec:
           volumeMounts:
             - name: app-source
               mountPath: /app
+            {{- if .Values.dockerSocket }}
+            - name: docker-socket
+              mountPath: {{ .Values.dockerSocket.mountPath }}
+            {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
       volumes:
         - name: app-source
           configMap:
             name: {{ include "docker-mcp-wrapper.fullname" . }}
+        {{- if .Values.dockerSocket }}
+        - name: docker-socket
+          hostPath:
+            path: {{ .Values.dockerSocket.hostPath }}
+            type: Socket
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

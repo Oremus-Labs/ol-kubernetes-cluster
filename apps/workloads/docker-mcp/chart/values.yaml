@@ -17,6 +17,8 @@ service:
 env:
   - name: PORT
     value: "8080"
+  - name: DOCKER_HOST
+    value: unix:///var/run/docker.sock
 
 extraEnv: []
 extraEnvFrom: []
@@ -32,7 +34,8 @@ resources:
 podAnnotations: {}
 podLabels: {}
 
-nodeSelector: {}
+nodeSelector:
+  kubernetes.io/hostname: venus
 tolerations: []
 affinity: {}
 
@@ -59,6 +62,13 @@ runtime:
   pipPackages:
     - docker-mcp==0.2.0
     - uvicorn==0.38.0
+
+extraVolumes: []
+extraVolumeMounts: []
+
+dockerSocket:
+  hostPath: /var/run/docker.sock
+  mountPath: /var/run/docker.sock
 
 livenessProbe:
   httpGet:
