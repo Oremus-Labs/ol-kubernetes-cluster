@@ -126,12 +126,12 @@ certificate:
 gitSync:
   enabled: false
   schedule: "*/10 * * * *"
-  repo: git@github.com:Oremus-Labs/ol-n8n.git
+  repo: https://github.com/Oremus-Labs/ol-n8n.git
   branch: main
   gitSyncImage: registry.k8s.io/git-sync/git-sync:v4.1.1
   runnerImage: alpine:3.20
   gitSecret:
-    name: n8n-sync-git
+    name: ""              # optional: if empty, git-sync clones via HTTPS without secrets
     sshKey: id_ed25519
     knownHosts: known_hosts
   apiSecret:

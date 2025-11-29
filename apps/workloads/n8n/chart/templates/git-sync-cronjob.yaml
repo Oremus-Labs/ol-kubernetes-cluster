@@ -29,6 +29,7 @@ spec:
                   value: repo
                 - name: GIT_SYNC_ONE_TIME
                   value: "true"
+              {{- if .Values.gitSync.gitSecret.name }}
                 - name: GIT_SYNC_SSH
                   value: "true"
                 - name: GIT_SSH_KEY_FILE
@@ -37,12 +38,15 @@ spec:
                   value: "true"
                 - name: GIT_KNOWN_HOSTS_FILE
                   value: /etc/git-secret/{{ .Values.gitSync.gitSecret.knownHosts | default "known_hosts" }}
+              {{- end }}
               volumeMounts:
+                - name: repo
+                  mountPath: /workdir
+              {{- if .Values.gitSync.gitSecret.name }}
                 - name: git-secret
                   mountPath: /etc/git-secret
                   readOnly: true
-                - name: repo
-                  mountPath: /workdir
+              {{- end }}
           containers:
             - name: sync-runner
               image: {{ .Values.gitSync.runnerImage | quote }}
@@ -72,10 +76,12 @@ spec:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
           volumes:
+            - name: repo
+              emptyDir: {}
+            {{- if .Values.gitSync.gitSecret.name }}
             - name: git-secret
               secret:
                 secretName: {{ .Values.gitSync.gitSecret.name | quote }}
                 defaultMode: 0400
-            - name: repo
-              emptyDir: {}
+            {{- end }}
 {{- end }}
