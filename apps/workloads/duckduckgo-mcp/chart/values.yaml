@@ -27,17 +27,16 @@ ingress:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
   host: duckduckgo-mcp.oremuslabs.app
   tls:
-    secretName: oremuslabs-app-wildcard-tls
+    secretName: duckduckgo-mcp-tls
 
 certificate:
   enabled: true
-  secretName: oremuslabs-app-wildcard-tls
+  secretName: duckduckgo-mcp-tls
   issuerRef:
     name: cloudflare-dns
     kind: ClusterIssuer
   hosts:
-    - "*.oremuslabs.app"
-    - oremuslabs.app
+    - duckduckgo-mcp.oremuslabs.app
 
 resources:
   requests:
