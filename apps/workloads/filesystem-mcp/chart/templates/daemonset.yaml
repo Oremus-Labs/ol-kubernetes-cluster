@@ -44,8 +44,7 @@ spec:
               cd "${WORKDIR}"
               export GOPATH=/tmp/go
               export GOMODCACHE=/tmp/go/pkg/mod
-              go env -w GOPATH=${GOPATH}
-              go env -w GOMODCACHE=${GOMODCACHE}
+              mkdir -p "${GOPATH}" "${GOMODCACHE}"
               go build -o filesystem-mcp-gateway
               exec ./filesystem-mcp-gateway
           env:
