@@ -14,7 +14,7 @@ session_manager = StreamableHTTPSessionManager(
 
 
 @asynccontextmanager
-def lifespan(app):
+async def lifespan(app):
     async with session_manager.run():
         yield
 
