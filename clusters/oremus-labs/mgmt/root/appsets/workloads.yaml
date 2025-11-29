@@ -43,6 +43,12 @@ spec:
         path: apps/workloads/docker-mcp/chart
         targetRevision: main
         imageTag: latest
+      - name: firecrawl
+        namespace: firecrawl
+        project: workloads
+        path: apps/workloads/firecrawl/chart
+        targetRevision: main
+        imageTag: "0.1.0"
       - name: filesystem-mcp
         namespace: filesystem-mcp
         project: workloads

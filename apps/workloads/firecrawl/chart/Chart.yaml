@@ -1,0 +1,5 @@
+apiVersion: v2
+name: firecrawl
+description: Self-hosted Firecrawl stack plus MCP gateway
+type: application
+version: 0.1.0

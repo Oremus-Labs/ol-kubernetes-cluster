@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "firecrawl.fullname" . }}-api
+  labels:
+    {{- include "firecrawl.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: api
+      {{- include "firecrawl.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: api
+        {{- include "firecrawl.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "firecrawl.serviceAccountName" . }}
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- range . }}
+        - name: {{ .name | default . }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: api
+          image: {{ .Values.api.image }}
+          imagePullPolicy: IfNotPresent
+          command:
+            - node
+            - dist/src/harness.js
+            - --start-docker
+          env:
+            - name: HOST
+              value: "0.0.0.0"
+            - name: PORT
+              value: "{{ .Values.api.port }}"
+            - name: INTERNAL_PORT
+              value: "{{ .Values.api.port }}"
+            - name: EXTRACT_WORKER_PORT
+              value: "3004"
+            - name: WORKER_PORT
+              value: "3005"
+            - name: ENV
+              value: local
+            - name: USE_DB_AUTHENTICATION
+              value: "false"
+            - name: BULL_AUTH_KEY
+              value: {{ .Values.api.bullAuthKey | quote }}
+            - name: REDIS_URL
+              value: redis://{{ include "firecrawl.fullname" . }}-redis:6379
+            - name: REDIS_RATE_LIMIT_URL
+              value: redis://{{ include "firecrawl.fullname" . }}-redis:6379
+            - name: PLAYWRIGHT_MICROSERVICE_URL
+              value: http://{{ include "firecrawl.fullname" . }}-playwright:3000/scrape
+            - name: NUQ_DATABASE_URL
+              value: postgres://postgres:postgres@{{ include "firecrawl.fullname" . }}-postgres:5432/postgres
+          ports:
+            - containerPort: {{ .Values.api.port }}
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "firecrawl.fullname" . }}-api
+  labels:
+    {{- include "firecrawl.labels" . | nindent 4 }}
+spec:
+  selector:
+    app.kubernetes.io/component: api
+    {{- include "firecrawl.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: http
+      port: {{ .Values.api.port }}
+      targetPort: http
+---
+{{- if .Values.api.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "firecrawl.fullname" . }}-api
+  labels:
+    {{- include "firecrawl.labels" . | nindent 4 }}
+  {{- with .Values.api.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.api.ingress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  {{- if .Values.api.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ .Values.api.ingress.host | quote }}
+      secretName: {{ .Values.api.ingress.tls.secretName }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.api.ingress.host | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "firecrawl.fullname" . }}-api
+                port:
+                  number: {{ .Values.api.port }}
+{{- end }}
