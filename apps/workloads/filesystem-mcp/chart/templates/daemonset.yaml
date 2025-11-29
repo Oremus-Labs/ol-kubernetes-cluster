@@ -44,7 +44,8 @@ spec:
               cd "${WORKDIR}"
               export GOPATH=/tmp/go
               export GOMODCACHE=/tmp/go/pkg/mod
-              mkdir -p "${GOPATH}" "${GOMODCACHE}"
+              export GOCACHE=/cache/go-build
+              mkdir -p "${GOPATH}" "${GOMODCACHE}" "${GOCACHE}"
               go build -o filesystem-mcp-gateway
               exec ./filesystem-mcp-gateway
           env:
@@ -76,6 +77,8 @@ spec:
               mountPath: /app-src
             - name: tmp
               mountPath: /tmp
+            - name: cache
+              mountPath: /cache
               {{- range .Values.hostMounts }}
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
@@ -88,6 +91,8 @@ spec:
           configMap:
             name: {{ include "filesystem-mcp.fullname" . }}-source
         - name: tmp
+          emptyDir: {}
+        - name: cache
           emptyDir: {}
         {{- range .Values.hostMounts }}
         - name: {{ .name }}
