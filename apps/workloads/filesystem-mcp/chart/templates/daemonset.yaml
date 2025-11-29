@@ -74,6 +74,8 @@ spec:
               mountPath: /workspace
             - name: source
               mountPath: /app-src
+            - name: tmp
+              mountPath: /tmp
               {{- range .Values.hostMounts }}
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
@@ -85,6 +87,8 @@ spec:
         - name: source
           configMap:
             name: {{ include "filesystem-mcp.fullname" . }}-source
+        - name: tmp
+          emptyDir: {}
         {{- range .Values.hostMounts }}
         - name: {{ .name }}
           hostPath:
