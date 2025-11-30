@@ -31,6 +31,8 @@ n8n:
       N8N_PROTOCOL: https
       N8N_SECURE_COOKIE: "true"
       N8N_PERSONAL_API_DISABLED: "false"
+    extraSecretNamesForEnvFrom:
+      - n8n-github-token
     resources:
       requests:
         cpu: 250m
@@ -52,6 +54,8 @@ n8n:
       limits:
         cpu: 1000m
         memory: 1Gi
+    extraSecretNamesForEnvFrom:
+      - n8n-github-token
 
   webhook:
     mode: queue
@@ -76,6 +80,8 @@ n8n:
         limits:
           cpu: 500m
           memory: 512Mi
+    extraSecretNamesForEnvFrom:
+      - n8n-github-token
 
   ingress:
     enabled: true
@@ -167,3 +173,9 @@ redisSecret:
   name: n8n-redis
   onepassword:
     itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/kepcrg6iqia6x3ccx6xayijbiy"
+
+githubTokenSecret:
+  create: true
+  name: n8n-github-token
+  onepassword:
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/rpodcvavc6itaksjopk62ia32m"
