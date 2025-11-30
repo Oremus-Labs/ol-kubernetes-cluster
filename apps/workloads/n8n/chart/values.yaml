@@ -16,9 +16,13 @@ n8n:
     localStoragePath: /home/node/.n8n/binary-data
   timezone: UTC
 
+  service:
+    enabled: true
+    type: LoadBalancer
+
   main:
     count: 1
-    editorBaseUrl: https://n8n.oremuslabs.app
+    editorBaseUrl: https://8n8.oremuslabs.app
     persistence:
       enabled: true
       storageClass: longhorn
@@ -27,7 +31,7 @@ n8n:
       annotations:
         helm.sh/resource-policy: keep
     extraEnvVars:
-      N8N_HOST: n8n.oremuslabs.app
+      N8N_HOST: 8n8.oremuslabs.app
       N8N_PROTOCOL: https
       N8N_SECURE_COOKIE: "true"
       N8N_PERSONAL_API_DISABLED: "false"
@@ -62,7 +66,7 @@ n8n:
 
   webhook:
     mode: queue
-    url: https://n8n.oremuslabs.app/
+    url: https://8n8.oremuslabs.app/
     count: 2
     waitMainNodeReady:
       enabled: true
@@ -93,6 +97,10 @@ n8n:
     annotations:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
     hosts:
+      - host: 8n8.oremuslabs.app
+        paths:
+          - path: /
+            pathType: Prefix
       - host: n8n.oremuslabs.app
         paths:
           - path: /
@@ -100,6 +108,7 @@ n8n:
     tls:
       - secretName: n8n-tls
         hosts:
+          - 8n8.oremuslabs.app
           - n8n.oremuslabs.app
 
   redis:
@@ -136,6 +145,7 @@ certificate:
     name: cloudflare-dns
     kind: ClusterIssuer
   hosts:
+    - 8n8.oremuslabs.app
     - n8n.oremuslabs.app
 
 gitSync:
