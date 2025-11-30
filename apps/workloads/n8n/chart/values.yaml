@@ -151,3 +151,15 @@ encryptionKeySecret:
   name: n8n-encryption-key
   onepassword:
     itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/e6klrmpzeo5rnx3j37wbndxube"
+
+postgresqlSecret:
+  create: true
+  name: n8n-postgresql
+  onepassword:
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/bnjzrekjfru47hhdsd37my34jq"
+
+redisSecret:
+  create: true
+  name: n8n-redis
+  onepassword:
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/kepcrg6iqia6x3ccx6xayijbiy"
