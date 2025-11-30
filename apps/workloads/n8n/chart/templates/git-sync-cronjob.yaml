@@ -59,18 +59,12 @@ spec:
                     secretKeyRef:
                       name: {{ .Values.gitSync.apiSecret.name | quote }}
                       key: {{ .Values.gitSync.apiSecret.key | quote }}
+                - name: WORKFLOWS_DIR
+                  value: /workdir/repo/workflows
               {{- with .Values.gitSync.pushRef }}
                 - name: N8N_PUSH_REF
                   value: {{ . | quote }}
               {{- end }}
-              command:
-                - /bin/sh
-                - -c
-                - |
-                  set -euo pipefail
-                  cd /workdir/repo
-                  npm ci --omit=dev --ignore-scripts
-                  npm run import
               volumeMounts:
                 - name: repo
                   mountPath: /workdir
