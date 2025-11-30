@@ -134,7 +134,7 @@ gitSync:
   repo: https://github.com/Oremus-Labs/ol-n8n.git
   branch: main
   gitSyncImage: registry.k8s.io/git-sync/git-sync:v4.4.3
-  runnerImage: ghcr.io/oremus-labs/n8n-git-sync:latest
+  runnerImage: ghcr.io/oremus-labs/n8n-git-sync:e8f8cff
   pushRef: git-sync
   gitSecret:
     name: ""              # optional: if empty, git-sync clones via HTTPS without secrets
