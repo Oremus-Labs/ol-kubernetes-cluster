@@ -34,6 +34,7 @@ ingress:
   className: traefik
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.options: n8n-mcp-http1@kubernetescrd
   host: n8n-mcp.oremuslabs.app
   tls:
     secretName: n8n-mcp-tls
@@ -50,6 +51,13 @@ certificate:
 logging:
   level: info
   telemetryDisabled: true
+
+tlsOption:
+  enabled: true
+  name: n8n-mcp-http1
+  minVersion: VersionTLS12
+  alpnProtocols:
+    - http/1.1
 
 onepassword:
   apiSecret:

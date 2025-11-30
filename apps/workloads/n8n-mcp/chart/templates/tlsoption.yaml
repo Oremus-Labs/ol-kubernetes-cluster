@@ -1,0 +1,15 @@
+{{- if .Values.tlsOption.enabled }}
+apiVersion: traefik.io/v1alpha1
+kind: TLSOption
+metadata:
+  name: {{ .Values.tlsOption.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "n8n-mcp-wrapper.labels" . | nindent 4 }}
+spec:
+  minVersion: {{ .Values.tlsOption.minVersion | default "VersionTLS12" }}
+  alpnProtocols:
+    {{- range .Values.tlsOption.alpnProtocols }}
+    - {{ . | quote }}
+    {{- end }}
+{{- end }}
