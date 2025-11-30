@@ -5,10 +5,13 @@ metadata:
   name: {{ include "n8n-mcp-wrapper.fullname" . }}
   labels:
     {{- include "n8n-mcp-wrapper.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- if .Values.ingress.annotations }}
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- end }}
+    {{- if .Values.tlsOption.enabled }}
+    traefik.ingress.kubernetes.io/router.tls.options: {{ printf "%s-%s@kubernetescrd" (.Values.tlsOption.namespace | default .Release.Namespace) .Values.tlsOption.name }}
+    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
