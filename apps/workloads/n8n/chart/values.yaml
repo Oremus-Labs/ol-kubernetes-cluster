@@ -100,12 +100,16 @@ n8n:
         storageClass: longhorn
         accessModes:
           - ReadWriteOnce
+    auth:
+      existingSecret: n8n-redis
+      existingSecretPasswordKey: redis-password
 
   postgresql:
     enabled: true
     auth:
       username: n8n
       database: n8n
+      existingSecret: n8n-postgresql
     primary:
       persistence:
         enabled: true
