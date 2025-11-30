@@ -142,7 +142,7 @@ gitSync:
     knownHosts: known_hosts
   apiSecret:
     name: n8n-sync-secrets
-    key: n8n-api-key
+    key: N8N_API_KEY
     onepassword:
       itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/qm4pvmmnxizyvwz5bgepzulihu"
   apiUrl: http://n8n.n8n.svc.cluster.local:5678
