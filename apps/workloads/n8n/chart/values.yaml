@@ -30,6 +30,7 @@ n8n:
       N8N_HOST: n8n.oremuslabs.app
       N8N_PROTOCOL: https
       N8N_SECURE_COOKIE: "true"
+      N8N_PERSONAL_API_DISABLED: "false"
     resources:
       requests:
         cpu: 250m

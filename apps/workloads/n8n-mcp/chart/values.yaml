@@ -1,0 +1,84 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/czlonkowski/n8n-mcp
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+service:
+  type: ClusterIP
+  port: 3000
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+podAnnotations: {}
+podLabels: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  host: n8n-mcp.oremuslabs.app
+  tls:
+    secretName: n8n-mcp-tls
+
+certificate:
+  enabled: true
+  secretName: n8n-mcp-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  hosts:
+    - n8n-mcp.oremuslabs.app
+
+logging:
+  level: info
+  telemetryDisabled: true
+
+authSecret:
+  name: n8n-sync-secrets
+  key: n8n-api-key
+
+apiSecret:
+  name: n8n-sync-secrets
+  key: n8n-api-key
+
+n8nApi:
+  url: http://n8n.n8n.svc.cluster.local:5678
+  timeout: 30000
+  maxRetries: 2
+
+extraEnv: []
+extraEnvFrom: []
+extraVolumeMounts: []
+extraVolumes: []
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 30
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 15

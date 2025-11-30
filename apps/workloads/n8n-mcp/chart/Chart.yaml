@@ -1,0 +1,5 @@
+apiVersion: v2
+name: n8n-mcp-wrapper
+description: Deploy the n8n MCP HTTP server with Oremus Labs defaults
+version: 0.1.0
+type: application

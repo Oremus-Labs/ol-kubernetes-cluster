@@ -67,6 +67,12 @@ spec:
         path: apps/workloads/github-mcp/chart
         targetRevision: main
         imageTag: "3.12-slim"
+      - name: n8n-mcp
+        namespace: n8n-mcp
+        project: workloads
+        path: apps/workloads/n8n-mcp/chart
+        targetRevision: main
+        imageTag: "latest"
       - name: n8n
         namespace: n8n
         project: workloads

@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "n8n-mcp-wrapper.fullname" . }}
+  labels:
+    {{- include "n8n-mcp-wrapper.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "n8n-mcp-wrapper.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "n8n-mcp-wrapper.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "n8n-mcp-wrapper.serviceAccountName" . }}
+      containers:
+        - name: n8n-mcp
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: MCP_MODE
+              value: "http"
+            - name: USE_FIXED_HTTP
+              value: "true"
+            - name: PORT
+              value: {{ printf "%d" (int .Values.service.port) | quote }}
+            - name: HOST
+              value: "0.0.0.0"
+            - name: TRUST_PROXY
+              value: "1"
+            - name: LOG_LEVEL
+              value: {{ .Values.logging.level | quote }}
+            - name: N8N_MCP_TELEMETRY_DISABLED
+              value: {{ (ternary "true" "false" .Values.logging.telemetryDisabled) | quote }}
+            - name: PUBLIC_URL
+              value: {{ printf "https://%s" .Values.ingress.host | quote }}
+            - name: AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.authSecret.name }}
+                  key: {{ .Values.authSecret.key }}
+            - name: N8N_API_URL
+              value: {{ .Values.n8nApi.url | quote }}
+            - name: N8N_API_TIMEOUT
+              value: {{ printf "%d" (int .Values.n8nApi.timeout) | quote }}
+            - name: N8N_API_MAX_RETRIES
+              value: {{ printf "%d" (int .Values.n8nApi.maxRetries) | quote }}
+            - name: N8N_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.apiSecret.name }}
+                  key: {{ .Values.apiSecret.key }}
+            {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.extraEnvFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- if .Values.extraVolumeMounts }}
+          volumeMounts:
+            {{- range .Values.extraVolumeMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              {{- if .subPath }}
+              subPath: {{ .subPath }}
+              {{- end }}
+              {{- if hasKey . "readOnly" }}
+              readOnly: {{ .readOnly }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+      {{- if .Values.extraVolumes }}
+      volumes:
+        {{- toYaml .Values.extraVolumes | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
