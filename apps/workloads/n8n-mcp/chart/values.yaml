@@ -51,6 +51,12 @@ logging:
   level: info
   telemetryDisabled: true
 
+onepassword:
+  apiSecret:
+    create: true
+    name: n8n-sync-secrets
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/qm4pvmmnxizyvwz5bgepzulihu"
+
 authSecret:
   name: n8n-sync-secrets
   key: n8n-api-key
