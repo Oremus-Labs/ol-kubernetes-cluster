@@ -59,15 +59,18 @@ spec:
                     secretKeyRef:
                       name: {{ .Values.gitSync.apiSecret.name | quote }}
                       key: {{ .Values.gitSync.apiSecret.key | quote }}
+              {{- with .Values.gitSync.pushRef }}
+                - name: N8N_PUSH_REF
+                  value: {{ . | quote }}
+              {{- end }}
               command:
                 - /bin/sh
                 - -c
                 - |
                   set -euo pipefail
-                  apk add --no-cache bash curl jq >/dev/null
                   cd /workdir/repo
-                  chmod +x ci/import_all.sh
-                  N8N_API_URL="${N8N_API_URL}" N8N_API_KEY="${N8N_API_KEY}" ci/import_all.sh workflows
+                  npm ci --omit=dev --ignore-scripts
+                  npm run import
               volumeMounts:
                 - name: repo
                   mountPath: /workdir

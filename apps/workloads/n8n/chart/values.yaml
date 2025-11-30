@@ -134,7 +134,8 @@ gitSync:
   repo: https://github.com/Oremus-Labs/ol-n8n.git
   branch: main
   gitSyncImage: registry.k8s.io/git-sync/git-sync:v4.4.3
-  runnerImage: alpine:3.20
+  runnerImage: node:20-alpine
+  pushRef: git-sync
   gitSecret:
     name: ""              # optional: if empty, git-sync clones via HTTPS without secrets
     sshKey: id_ed25519
