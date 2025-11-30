@@ -55,6 +55,7 @@ logging:
 tlsOption:
   enabled: true
   name: n8n-mcp-http1
+  namespace: traefik
   minVersion: VersionTLS12
   alpnProtocols:
     - http/1.1

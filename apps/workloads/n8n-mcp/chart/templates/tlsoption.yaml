@@ -3,7 +3,7 @@ apiVersion: traefik.io/v1alpha1
 kind: TLSOption
 metadata:
   name: {{ .Values.tlsOption.name }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Values.tlsOption.namespace | default .Release.Namespace }}
   labels:
     {{- include "n8n-mcp-wrapper.labels" . | nindent 4 }}
 spec:
