@@ -1,0 +1,19 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: deep-research-orchestrator
+  namespace: traefik
+  annotations:
+    traefik.io/ingress-controller: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`deep-research.oremuslabs.app`)
+      services:
+        - name: deep-research-orchestrator
+          namespace: deep-research
+          port: 8080
+  tls:
+    secretName: oremuslabs-app-wildcard-tls

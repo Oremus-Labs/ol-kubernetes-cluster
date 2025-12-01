@@ -6,6 +6,7 @@ resources:
   - op-connect.yaml
   - minio-api.yaml
   - minio-console.yaml
+  - deep-research-orchestrator.yaml
   - headlamp.yaml
   - oauth2-proxy-middleware-lite.yaml
   - oauth2-proxy.yaml

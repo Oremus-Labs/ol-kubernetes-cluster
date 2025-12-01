@@ -3,12 +3,20 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
-  tag: "aa188b125ac7842b28eb5b445bdcdaa1a8ef6360"
+  tag: "8a5400d8e9ca7e64f4bf1b7c1f888cecc2d2f1c9"
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
   port: 8080
+
+monitoring:
+  enabled: true
+  namespace: ""
+  labels: {}
+  path: /metrics
+  interval: 30s
+  scrapeTimeout: 10s
 
 runtime:
   maxContext: 131072
