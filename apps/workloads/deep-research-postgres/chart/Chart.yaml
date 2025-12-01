@@ -1,0 +1,6 @@
+apiVersion: v2
+name: deep-research-postgres
+description: PostgreSQL storage for Deep Research
+version: 0.1.0
+appVersion: "1.0.0"
+type: application

@@ -1,0 +1,15 @@
+fullnameOverride: ""
+
+persistence:
+  enabled: true
+  size: 200Gi
+  storageClass: ""
+  nodeSelector:
+    # Ensure data resides on node 10.10.10.3 (configure via storageClass/node affinity as cluster allows).
+    kubernetes.io/hostname: ""
+
+qdrantSecret:
+  create: true
+  name: deep-research-qdrant
+  onepassword:
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/kqtkzlisbd7n7ldy24ptpzx4gu"

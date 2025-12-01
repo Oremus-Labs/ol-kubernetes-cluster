@@ -1,0 +1,15 @@
+fullnameOverride: ""
+
+persistence:
+  enabled: true
+  size: 100Gi
+  storageClass: ""
+  nodeSelector:
+    # Pin PVC to node 10.10.10.3 via storageClass or node affinity documented here.
+    kubernetes.io/hostname: ""
+
+postgresSecret:
+  create: true
+  name: deep-research-postgres
+  onepassword:
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/uhmq76x2vtqb6lpfregzsne25e"

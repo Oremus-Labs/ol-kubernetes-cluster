@@ -1,0 +1,56 @@
+fullnameOverride: ""
+image:
+  repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
+  tag: dev
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+onepasswordItems:
+  orchestratorAuth:
+    create: true
+    name: deep-research-orchestrator-auth
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/orkt2cdj664kobzu4alnuf7dn4"
+  n8nAuth:
+    create: true
+    name: deep-research-n8n-auth
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/rjjkue6jm524vwcxpqyvox6wmi"
+  llm:
+    create: true
+    name: deep-research-llm
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/cehc6pwqvs7rdmfztwlyjcsxd4"
+  embedding:
+    create: true
+    name: deep-research-embedding-auth
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/hpc2jztu7q6hiytellqy3tttcy"
+  qdrant:
+    create: true
+    name: deep-research-qdrant-auth
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/kqtkzlisbd7n7ldy24ptpzx4gu"
+  search:
+    create: true
+    name: deep-research-search
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/5olwtnw3o6nxlbanvqlkuthpjy"
+  minio:
+    create: true
+    name: deep-research-minio
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/uev6stlmhndefk4lsjk2lcb7ze"
+  firecrawl:
+    create: true
+    name: deep-research-firecrawl-mcp
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/2wnhd3bg2g5crblcwr5ktivdim"
+  duckduckgo:
+    create: true
+    name: deep-research-duckduckgo-mcp
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/yozfqjo5tia32m7t3hybxs7cea"

@@ -1,0 +1,10 @@
+fullnameOverride: ""
+
+replicaCount: 1
+resources: {}
+
+embeddingSecret:
+  create: true
+  name: deep-research-embedding
+  onepassword:
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/hpc2jztu7q6hiytellqy3tttcy"

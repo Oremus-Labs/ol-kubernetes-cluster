@@ -79,6 +79,30 @@ spec:
         path: apps/workloads/n8n/chart
         targetRevision: main
         imageTag: "1.121.3"
+      - name: deep-research-postgres
+        namespace: deep-research
+        project: workloads
+        path: apps/workloads/deep-research-postgres/chart
+        targetRevision: main
+        imageTag: latest
+      - name: deep-research-qdrant
+        namespace: deep-research
+        project: workloads
+        path: apps/workloads/deep-research-qdrant/chart
+        targetRevision: main
+        imageTag: latest
+      - name: deep-research-embedding
+        namespace: deep-research
+        project: workloads
+        path: apps/workloads/deep-research-embedding/chart
+        targetRevision: main
+        imageTag: latest
+      - name: deep-research-orchestrator
+        namespace: deep-research
+        project: workloads
+        path: apps/workloads/deep-research-orchestrator/chart
+        targetRevision: main
+        imageTag: dev
   template:
     metadata:
       name: workloads-{{name}}
