@@ -30,6 +30,9 @@ worker:
   warmNotesLimit: 6
   warmImportanceMin: 3
 
+features:
+  longformEnabled: false
+
 resources:
   requests:
     cpu: 100m

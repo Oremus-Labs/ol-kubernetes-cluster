@@ -117,6 +117,8 @@ spec:
               value: {{ .Values.worker.warmNotesLimit | quote }}
             - name: WARM_NOTES_IMPORTANCE_MIN
               value: {{ .Values.worker.warmImportanceMin | quote }}
+            - name: LONGFORM_ENABLED
+              value: {{ .Values.features.longformEnabled | quote }}
             - name: PGHOST
               value: {{ .Values.database.host | quote }}
             - name: PGPORT
