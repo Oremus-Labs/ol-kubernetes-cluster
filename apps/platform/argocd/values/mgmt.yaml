@@ -10,6 +10,9 @@ configs:
     url: https://argocd.oremuslabs.app
     timeout.reconciliation: 60s
     admin.enabled: "true"
+    # Automation login for Codex CLI flows – allows API tokens + password auth
+    accounts.codex-cli: login,apiKey
+    accounts.codex-cli.enabled: "true"
     ui.applicationset.enabled: "true"
     # Allow Argo CD to manage Endpoints/EndpointSlices so external proxies can be created.
     # Keep only the non-network exclusions we actually need.
@@ -185,6 +188,8 @@ configs:
       p, role:readonly, applicationsets/*, get, *, allow
       p, role:readonly, applicationset, get, *, allow
       g, 144a37fa-cc9d-4fc9-bf8a-a09999818504, role:readonly
+      # Codex automation account -> full admin
+      g, codex-cli, role:admin
 
 controller:
   replicas: 1
