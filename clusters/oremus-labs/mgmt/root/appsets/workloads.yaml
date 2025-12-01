@@ -96,7 +96,7 @@ spec:
         project: workloads
         path: apps/workloads/deep-research-embedding/chart
         targetRevision: main
-        imageTag: "0.2.3"
+        imageTag: "cpu-latest"
       - name: deep-research-orchestrator
         namespace: deep-research
         project: workloads
