@@ -84,19 +84,19 @@ spec:
         project: workloads
         path: apps/workloads/deep-research-postgres/chart
         targetRevision: main
-        imageTag: latest
+        imageTag: "15.8"
       - name: deep-research-qdrant
         namespace: deep-research
         project: workloads
         path: apps/workloads/deep-research-qdrant/chart
         targetRevision: main
-        imageTag: latest
+        imageTag: v1.11.0
       - name: deep-research-embedding
         namespace: deep-research
         project: workloads
         path: apps/workloads/deep-research-embedding/chart
         targetRevision: main
-        imageTag: latest
+        imageTag: "0.2.3"
       - name: deep-research-orchestrator
         namespace: deep-research
         project: workloads

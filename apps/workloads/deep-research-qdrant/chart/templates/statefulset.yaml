@@ -61,12 +61,8 @@ spec:
           volumeMounts:
             - name: qdrant-storage
               mountPath: /qdrant/storage
-  volumeClaimTemplates:
-    - metadata:
-        name: qdrant-storage
-      spec:
-        accessModes: {{ .Values.persistence.accessModes }}
-        storageClassName: {{ .Values.persistence.storageClass }}
-        resources:
-          requests:
-            storage: {{ .Values.persistence.size }}
+      volumes:
+        - name: qdrant-storage
+          hostPath:
+            path: {{ .Values.storage.path }}
+            type: DirectoryOrCreate

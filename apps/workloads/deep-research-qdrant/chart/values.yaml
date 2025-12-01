@@ -10,12 +10,9 @@ service:
   apiPort: 6333
   grpcPort: 6334
 
-persistence:
-  enabled: true
-  size: 300Gi
-  storageClass: longhorn
-  accessModes:
-    - ReadWriteOnce
+storage:
+  path: /mnt/ol/deep-research/qdrant
+  size: 300Gi # Original PVC sizing retained for reference
 
 resources:
   requests:
