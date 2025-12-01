@@ -102,13 +102,13 @@ spec:
         project: workloads
         path: apps/workloads/deep-research-orchestrator/chart
         targetRevision: main
-        imageTag: "cl3-job-controls"
+        imageTag: "cl3-job-controls2"
       - name: deep-research-ui
         namespace: deep-research
         project: workloads
         path: apps/workloads/deep-research-ui/chart
         targetRevision: main
-        imageTag: "cl3-job-controls"
+        imageTag: "cl3-job-controls2"
   template:
     metadata:
       name: workloads-{{name}}
