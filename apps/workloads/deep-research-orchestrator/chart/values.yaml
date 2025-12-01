@@ -2,13 +2,23 @@ fullnameOverride: ""
 replicaCount: 1
 
 image:
-  repository: hashicorp/http-echo
-  tag: "0.2.3"
+  repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
+  tag: "2ecb2fb"
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
   port: 8080
+
+runtime:
+  maxContext: 131072
+  maxLlmTokens: 4000
+
+worker:
+  maxConcurrentJobs: 1
+  maxSteps: 8
+  maxJobSeconds: 3600
+  maxNotesForSynth: 64
 
 resources:
   requests:

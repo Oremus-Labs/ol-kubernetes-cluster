@@ -18,9 +18,6 @@ spec:
         - name: orchestrator
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args:
-            - "-text=Deep Research orchestrator placeholder"
-            - "-listen=:{{ .Values.service.port }}"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -104,6 +101,18 @@ spec:
               value: {{ .Values.embedding.url | quote }}
             - name: QDRANT_URL
               value: {{ .Values.qdrant.url | quote }}
+            - name: MAX_CONTEXT
+              value: {{ .Values.runtime.maxContext | quote }}
+            - name: MAX_LLM_TOKENS
+              value: {{ .Values.runtime.maxLlmTokens | quote }}
+            - name: MAX_CONCURRENT_JOBS
+              value: {{ .Values.worker.maxConcurrentJobs | quote }}
+            - name: MAX_STEPS
+              value: {{ .Values.worker.maxSteps | quote }}
+            - name: MAX_JOB_SECONDS
+              value: {{ .Values.worker.maxJobSeconds | quote }}
+            - name: MAX_NOTES_FOR_SYNTH
+              value: {{ .Values.worker.maxNotesForSynth | quote }}
             - name: PGHOST
               value: {{ .Values.database.host | quote }}
             - name: PGPORT
@@ -128,13 +137,13 @@ spec:
 {{- end }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: http
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: http
             initialDelaySeconds: 10
             periodSeconds: 20
