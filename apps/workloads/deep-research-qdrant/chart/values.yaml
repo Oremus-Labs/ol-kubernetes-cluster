@@ -12,7 +12,7 @@ service:
 
 storage:
   path: /mnt/ol/deep-research/qdrant
-  size: 300Gi # Original PVC sizing retained for reference
+  size: 200Gi # Initial host-mounted capacity; expand by adding drives if needed
 
 resources:
   requests:

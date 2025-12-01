@@ -11,7 +11,7 @@ service:
 
 storage:
   path: /mnt/ol/deep-research/postgres
-  size: 200Gi # Original PVC size reference when using dedicated disk
+  size: 100Gi # Initial host-mounted capacity; expand by adding drives if needed
 
 resources:
   requests:
