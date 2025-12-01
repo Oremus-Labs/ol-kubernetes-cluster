@@ -30,8 +30,8 @@ qdrant:
 
 n8n:
   baseUrl: http://n8n.n8n.svc.cluster.local:5678
-  webSearchPath: /webhook/dr-web-search
-  fetchUrlPath: /webhook/dr-fetch-url
+  webSearchPath: /webhook/T3DDusLZiAw2rz24/webhook/dr-web-search
+  fetchUrlPath: /webhook/CrDDfMd93zOECM5V/webhook/dr-fetch-url
 
 minio:
   bucket: deep-research
