@@ -102,7 +102,7 @@ spec:
         project: workloads
         path: apps/workloads/deep-research-orchestrator/chart
         targetRevision: main
-        imageTag: "dev-20251201111338"
+        imageTag: "dev-20251201123923"
   template:
     metadata:
       name: workloads-{{name}}
