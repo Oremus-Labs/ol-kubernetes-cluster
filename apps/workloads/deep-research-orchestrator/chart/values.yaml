@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
-  tag: "cl3-clickable-citations-b"
+  tag: "cl3-job-controls"
   pullPolicy: IfNotPresent
 
 service:
