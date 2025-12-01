@@ -52,6 +52,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.postgresSecret.name }}
                   key: POSTGRES_DB
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           readinessProbe:
             exec:
               command:
@@ -72,7 +74,7 @@ spec:
 {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: data
-              mountPath: /var/lib/postgresql/data
+              mountPath: /var/lib/postgresql
       volumes:
         - name: data
           hostPath:
