@@ -1,0 +1,142 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "deep-research-orchestrator.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "deep-research-orchestrator.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "deep-research-orchestrator.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "deep-research-orchestrator.fullname" . }}
+    spec:
+      containers:
+        - name: orchestrator
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "-text=Deep Research orchestrator placeholder"
+            - "-listen=:{{ .Values.service.port }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+          env:
+            - name: PORT
+              value: {{ .Values.service.port | quote }}
+            - name: ORCH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.orchestratorAuth.name }}
+                  key: ORCH_API_KEY
+            - name: N8N_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.n8nAuth.name }}
+                  key: N8N_API_KEY
+            - name: LLM_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.llm.name }}
+                  key: LLM_BASE_URL
+            - name: LLM_MODEL_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.llm.name }}
+                  key: LLM_MODEL_NAME
+            - name: EMBEDDING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.embedding.name }}
+                  key: EMBEDDING_API_KEY
+            - name: QDRANT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.qdrant.name }}
+                  key: QDRANT_API_KEY
+            - name: SEARCH_API_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.search.name }}
+                  key: SEARCH_API_BASE_URL
+            - name: FIRECRAWL_MCP_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.firecrawl.name }}
+                  key: FIRECRAWL_MCP_SERVER
+            - name: DUCKDUCKGO_MCP_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.duckduckgo.name }}
+                  key: DUCKDUCKGO_MCP_SERVER
+            - name: MINIO_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.minio.name }}
+                  key: MINIO_ENDPOINT
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.minio.name }}
+                  key: MINIO_ACCESS_KEY
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.minio.name }}
+                  key: MINIO_SECRET_KEY
+            - name: MINIO_BUCKET
+              value: {{ .Values.minio.bucket | quote }}
+            - name: MINIO_USE_SSL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItems.minio.name }}
+                  key: MINIO_USE_SSL
+            - name: N8N_BASE_URL
+              value: {{ .Values.n8n.baseUrl | quote }}
+            - name: N8N_WEB_SEARCH_PATH
+              value: {{ .Values.n8n.webSearchPath | quote }}
+            - name: N8N_FETCH_URL_PATH
+              value: {{ .Values.n8n.fetchUrlPath | quote }}
+            - name: EMBEDDING_URL
+              value: {{ .Values.embedding.url | quote }}
+            - name: QDRANT_URL
+              value: {{ .Values.qdrant.url | quote }}
+            - name: PGHOST
+              value: {{ .Values.database.host | quote }}
+            - name: PGPORT
+              value: {{ .Values.database.port | quote }}
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: deep-research-postgres
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: deep-research-postgres
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: deep-research-postgres
+                  key: POSTGRES_DB
+{{- if .Values.additionalEnv }}
+{{ toYaml .Values.additionalEnv | indent 12 }}
+{{- end }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+{{- toYaml .Values.resources | nindent 12 }}
