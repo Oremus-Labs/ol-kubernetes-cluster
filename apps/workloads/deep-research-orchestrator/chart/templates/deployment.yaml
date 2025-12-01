@@ -113,6 +113,10 @@ spec:
               value: {{ .Values.worker.maxJobSeconds | quote }}
             - name: MAX_NOTES_FOR_SYNTH
               value: {{ .Values.worker.maxNotesForSynth | quote }}
+            - name: WARM_NOTES_LIMIT
+              value: {{ .Values.worker.warmNotesLimit | quote }}
+            - name: WARM_NOTES_IMPORTANCE_MIN
+              value: {{ .Values.worker.warmImportanceMin | quote }}
             - name: PGHOST
               value: {{ .Values.database.host | quote }}
             - name: PGPORT

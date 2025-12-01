@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
-  tag: "68f4991d27fd7cde7633800d9c2af60589c70112"
+  tag: "5c752af1518ef102c60d916ede0dc33a37aa100b"
   pullPolicy: IfNotPresent
 
 service:
@@ -19,6 +19,8 @@ worker:
   maxSteps: 8
   maxJobSeconds: 3600
   maxNotesForSynth: 64
+  warmNotesLimit: 6
+  warmImportanceMin: 3
 
 resources:
   requests:
