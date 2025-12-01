@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
-  tag: "dev-20251201123923"
+  tag: "heartbeat-rescue"
   pullPolicy: IfNotPresent
 
 service:
@@ -29,6 +29,9 @@ worker:
   maxNotesForSynth: 64
   warmNotesLimit: 6
   warmImportanceMin: 3
+  rescueHeartbeatSeconds: 600
+  rescueStartSeconds: 120
+  rescueGraceSeconds: 300
 
 features:
   longformEnabled: true
