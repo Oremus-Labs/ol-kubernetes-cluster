@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
-  tag: "667e663af5b5ef7447b5c95f5ba586a9a940db31"
+  tag: "1ac198e8a396779db8a66b2e0e117d24ad8947f1"
   pullPolicy: IfNotPresent
 
 service:
