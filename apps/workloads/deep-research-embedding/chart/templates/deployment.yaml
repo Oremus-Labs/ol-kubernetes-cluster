@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "deep-research-embedding.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "deep-research-embedding.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "deep-research-embedding.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "deep-research-embedding.fullname" . }}
+    spec:
+      containers:
+        - name: embedding
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "-text=Embedding service placeholder for {{ .Values.env.model }}"
+            - "-listen=:{{ .Values.service.port }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+          env:
+            - name: EMBEDDING_MODEL_NAME
+              value: {{ .Values.env.model | quote }}
+            - name: EMBEDDING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.embeddingSecret.name }}
+                  key: EMBEDDING_API_KEY
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+{{- toYaml .Values.resources | nindent 12 }}

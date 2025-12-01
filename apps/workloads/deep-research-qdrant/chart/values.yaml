@@ -1,12 +1,35 @@
 fullnameOverride: ""
 
+image:
+  repository: qdrant/qdrant
+  tag: v1.11.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  apiPort: 6333
+  grpcPort: 6334
+
 persistence:
   enabled: true
-  size: 200Gi
-  storageClass: ""
-  nodeSelector:
-    # Ensure data resides on node 10.10.10.3 (configure via storageClass/node affinity as cluster allows).
-    kubernetes.io/hostname: ""
+  size: 300Gi
+  storageClass: longhorn
+  accessModes:
+    - ReadWriteOnce
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 2Gi
+  limits:
+    cpu: 4000m
+    memory: 8Gi
+
+nodeSelector:
+  kubernetes.io/hostname: pluto
+
+tolerations: []
+affinity: {}
 
 qdrantSecret:
   create: true

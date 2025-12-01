@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "deep-research-qdrant.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "deep-research-qdrant.fullname" . }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.service.apiPort }}
+      targetPort: http
+    - name: grpc
+      port: {{ .Values.service.grpcPort }}
+      targetPort: grpc
+  selector:
+    app.kubernetes.io/name: {{ include "deep-research-qdrant.fullname" . }}

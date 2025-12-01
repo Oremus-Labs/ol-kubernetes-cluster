@@ -1,7 +1,26 @@
 fullnameOverride: ""
 
 replicaCount: 1
-resources: {}
+
+image:
+  repository: hashicorp/http-echo
+  tag: "0.2.3"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+env:
+  model: "BAAI/bge-base-en-v1.5"
 
 embeddingSecret:
   create: true
