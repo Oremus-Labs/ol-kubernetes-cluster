@@ -9,6 +9,6 @@ spec:
   ports:
     - name: http
       port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.service.targetPort | default .Values.service.port }}
   selector:
     app.kubernetes.io/name: {{ include "deep-research-embedding.fullname" . }}

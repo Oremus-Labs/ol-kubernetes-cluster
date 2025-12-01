@@ -18,29 +18,32 @@ spec:
         - name: embedding
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args:
-            - "-text=Embedding service placeholder for {{ .Values.env.model }}"
-            - "-listen=:{{ .Values.service.port }}"
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.service.targetPort | default .Values.service.port }}
           env:
-            - name: EMBEDDING_MODEL_NAME
+            - name: MODEL_ID
               value: {{ .Values.env.model | quote }}
-            - name: EMBEDDING_API_KEY
+{{- if .Values.env.revision }}
+            - name: REVISION
+              value: {{ .Values.env.revision | quote }}
+{{- end }}
+            - name: HUGGINGFACE_HUB_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.embeddingSecret.name }}
                   key: EMBEDDING_API_KEY
+            - name: PORT
+              value: {{ .Values.service.targetPort | default .Values.service.port | quote }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: http
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: http
             initialDelaySeconds: 10
             periodSeconds: 20

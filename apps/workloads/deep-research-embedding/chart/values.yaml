@@ -3,13 +3,14 @@ fullnameOverride: ""
 replicaCount: 1
 
 image:
-  repository: hashicorp/http-echo
-  tag: "0.2.3"
+  repository: ghcr.io/huggingface/text-embeddings-inference
+  tag: "cpu-latest"
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
   port: 8080
+  targetPort: 80
 
 resources:
   requests:
@@ -21,6 +22,7 @@ resources:
 
 env:
   model: "BAAI/bge-base-en-v1.5"
+  revision: ""
 
 embeddingSecret:
   create: true
