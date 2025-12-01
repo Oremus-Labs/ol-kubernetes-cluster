@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
-  tag: "heartbeat-resume"
+  tag: "heartbeat-cleanup"
   pullPolicy: IfNotPresent
 
 service:
