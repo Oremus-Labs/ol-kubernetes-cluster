@@ -102,13 +102,13 @@ spec:
         project: workloads
         path: apps/workloads/deep-research-orchestrator/chart
         targetRevision: main
-        imageTag: "heartbeat-cleanup"
+        imageTag: "cl3-clickable-citations"
       - name: deep-research-ui
         namespace: deep-research
         project: workloads
         path: apps/workloads/deep-research-ui/chart
         targetRevision: main
-        imageTag: "ui-phase-b5"
+        imageTag: "cl3-clickable-citations"
   template:
     metadata:
       name: workloads-{{name}}
