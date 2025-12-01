@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "deep-research-ui.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "deep-research-ui.fullname" . }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: {{ include "deep-research-ui.fullname" . }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: http

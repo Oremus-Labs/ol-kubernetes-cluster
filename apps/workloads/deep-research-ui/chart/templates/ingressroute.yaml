@@ -1,0 +1,24 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "deep-research-ui.fullname" . }}
+  namespace: {{ .Values.namespace }}
+spec:
+  entryPoints:
+{{- range .Values.ingress.entryPoints }}
+    - {{ . }}
+{{- end }}
+  routes:
+    - kind: Rule
+      match: Host(`{{ .Values.ingress.host }}`)
+{{- if .Values.ingress.middleware }}
+      middlewares:
+        - name: {{ .Values.ingress.middleware }}
+          namespace: traefik
+{{- end }}
+      services:
+        - name: {{ include "deep-research-ui.fullname" . }}
+          namespace: {{ .Values.namespace }}
+          port: {{ .Values.service.port }}
+  tls:
+    secretName: {{ .Values.ingress.tlsSecret }}

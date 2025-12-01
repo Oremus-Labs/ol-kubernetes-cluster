@@ -1,0 +1,30 @@
+namespace: deep-research
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
+  tag: dev
+  pullPolicy: IfNotPresent
+
+service:
+  port: 8080
+
+ingress:
+  host: deep-research-ui.oremuslabs.app
+  tlsSecret: oremuslabs-app-wildcard-tls
+  middleware: ""
+  entryPoints:
+    - websecure
+
+onepasswordItem:
+  create: true
+  name: deep-research-ui
+  onepassword:
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/deep-research-ui"
+
+resources: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

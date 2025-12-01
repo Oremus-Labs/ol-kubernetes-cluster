@@ -1,0 +1,6 @@
+apiVersion: v2
+name: deep-research-ui
+description: Front-end for the Deep Research orchestrator
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

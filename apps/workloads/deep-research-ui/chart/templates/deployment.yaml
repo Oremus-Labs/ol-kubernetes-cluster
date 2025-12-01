@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "deep-research-ui.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "deep-research-ui.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "deep-research-ui.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "deep-research-ui.fullname" . }}
+    spec:
+      containers:
+        - name: ui
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - node
+            - dist/uiServer.js
+          env:
+            - name: PORT
+              value: {{ .Values.service.port | quote }}
+            - name: HOST
+              value: "0.0.0.0"
+            - name: DEEP_RESEARCH_API_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItem.name }}
+                  key: DEEP_RESEARCH_API_BASE
+            - name: DEEP_RESEARCH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.onepasswordItem.name }}
+                  key: DEEP_RESEARCH_API_KEY
+            - name: LOG_LEVEL
+              value: info
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+{{- toYaml .Values.resources | nindent 12 }}
+{{- if .Values.nodeSelector }}
+      nodeSelector:
+{{- toYaml .Values.nodeSelector | nindent 8 }}
+{{- end }}
+{{- if .Values.tolerations }}
+      tolerations:
+{{- toYaml .Values.tolerations | nindent 8 }}
+{{- end }}
+{{- if .Values.affinity }}
+      affinity:
+{{- toYaml .Values.affinity | nindent 8 }}
+{{- end }}
