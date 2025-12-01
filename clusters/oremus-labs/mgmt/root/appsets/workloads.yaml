@@ -102,7 +102,7 @@ spec:
         project: workloads
         path: apps/workloads/deep-research-orchestrator/chart
         targetRevision: main
-        imageTag: "heartbeat-rescue"
+        imageTag: "heartbeat-resume"
       - name: deep-research-ui
         namespace: deep-research
         project: workloads
