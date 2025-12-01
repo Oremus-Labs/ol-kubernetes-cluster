@@ -31,7 +31,7 @@ worker:
   warmImportanceMin: 3
 
 features:
-  longformEnabled: false
+  longformEnabled: true
 
 resources:
   requests:
