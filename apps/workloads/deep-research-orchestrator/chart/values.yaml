@@ -29,7 +29,7 @@ qdrant:
   url: http://deep-research-qdrant.deep-research.svc.cluster.local:6333
 
 n8n:
-  baseUrl: http://n8n.n8n.svc.cluster.local:5678
+  baseUrl: http://n8n-webhook.n8n.svc.cluster.local:5678
   webSearchPath: /webhook/T3DDusLZiAw2rz24/webhook/dr-web-search
   fetchUrlPath: /webhook/CrDDfMd93zOECM5V/webhook/dr-fetch-url
 
