@@ -37,13 +37,13 @@ spec:
               value: {{ .Values.service.targetPort | default .Values.service.port | quote }}
           readinessProbe:
             httpGet:
-              path: /healthz
+              path: /health
               port: http
             initialDelaySeconds: 90
             periodSeconds: 15
           livenessProbe:
             httpGet:
-              path: /healthz
+              path: /health
               port: http
             initialDelaySeconds: 180
             periodSeconds: 30
