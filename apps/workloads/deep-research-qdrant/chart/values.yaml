@@ -23,7 +23,7 @@ resources:
     memory: 8Gi
 
 nodeSelector:
-  kubernetes.io/hostname: pluto
+  kubernetes.io/hostname: neptune
 
 tolerations: []
 affinity: {}

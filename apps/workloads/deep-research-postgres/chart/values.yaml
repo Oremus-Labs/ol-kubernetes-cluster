@@ -22,8 +22,8 @@ resources:
     memory: 4Gi
 
 nodeSelector:
-  # Pin workload to node 10.10.10.3 (hostname: pluto) so PVC lands on the large local disk.
-  kubernetes.io/hostname: pluto
+  # Pin workload to node 10.10.10.6 (hostname: neptune) for x86_64 execution and host-mounted storage.
+  kubernetes.io/hostname: neptune
 
 tolerations: []
 affinity: {}
