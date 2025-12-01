@@ -11,7 +11,7 @@ service:
   port: 8080
 
 monitoring:
-  enabled: true
+  enabled: false
   namespace: ""
   labels: {}
   path: /metrics
