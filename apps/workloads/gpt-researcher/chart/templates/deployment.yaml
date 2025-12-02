@@ -28,14 +28,12 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
           readinessProbe:
-            httpGet:
-              path: /health
+            tcpSocket:
               port: http
             initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
-            httpGet:
-              path: /health
+            tcpSocket:
               port: http
             initialDelaySeconds: 20
             periodSeconds: 20
