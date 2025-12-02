@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
-  tag: "gs-phase3b"
+  tag: "gs-phase3c"
   pullPolicy: IfNotPresent
 
 service:
@@ -24,15 +24,15 @@ runtime:
 
 worker:
   maxConcurrentJobs: 1
-  maxSteps: 8
+  maxSteps: 5
   maxJobSeconds: 3600
   maxNotesForSynth: 64
-  maxIterations: 2
+  maxIterations: 1
   iterationTokenBudget: 12000
   warmNotesLimit: 6
   warmImportanceMin: 3
   hybridRetrieval:
-    enabled: true
+    enabled: false
     limit: 3
   rescueHeartbeatSeconds: 600
   rescueStartSeconds: 120
