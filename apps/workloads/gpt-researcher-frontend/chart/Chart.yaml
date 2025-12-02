@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gpt-researcher-frontend
+description: Next.js frontend for GPT Researcher
+version: 0.1.0
+appVersion: "nextjs-v1"
+type: application

@@ -12,7 +12,7 @@ service:
   type: ClusterIP
 
 ingress:
-  host: researcher.oremuslabs.app
+  host: researcher-api.oremuslabs.app
   tlsSecret: oremuslabs-app-wildcard-tls
   entryPoints:
     - websecure

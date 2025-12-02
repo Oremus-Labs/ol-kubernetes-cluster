@@ -85,6 +85,12 @@ spec:
         path: apps/workloads/gpt-researcher/chart
         targetRevision: main
         imageTag: "latest"
+      - name: gpt-researcher-frontend
+        namespace: gpt-researcher
+        project: workloads
+        path: apps/workloads/gpt-researcher-frontend/chart
+        targetRevision: main
+        imageTag: "nextjs-v1"
   template:
     metadata:
       name: workloads-{{name}}
