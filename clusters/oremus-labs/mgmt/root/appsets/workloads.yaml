@@ -79,36 +79,12 @@ spec:
         path: apps/workloads/n8n/chart
         targetRevision: main
         imageTag: "1.121.3"
-      - name: deep-research-postgres
-        namespace: deep-research
+      - name: gpt-researcher
+        namespace: gpt-researcher
         project: workloads
-        path: apps/workloads/deep-research-postgres/chart
+        path: apps/workloads/gpt-researcher/chart
         targetRevision: main
-        imageTag: "15.8"
-      - name: deep-research-qdrant
-        namespace: deep-research
-        project: workloads
-        path: apps/workloads/deep-research-qdrant/chart
-        targetRevision: main
-        imageTag: v1.11.0
-      - name: deep-research-embedding
-        namespace: deep-research
-        project: workloads
-        path: apps/workloads/deep-research-embedding/chart
-        targetRevision: main
-        imageTag: "cpu-latest"
-      - name: deep-research-orchestrator
-        namespace: deep-research
-        project: workloads
-        path: apps/workloads/deep-research-orchestrator/chart
-        targetRevision: main
-        imageTag: "gs-phase2clar2"
-      - name: deep-research-ui
-        namespace: deep-research
-        project: workloads
-        path: apps/workloads/deep-research-ui/chart
-        targetRevision: main
-        imageTag: "gs-phase2clar2"
+        imageTag: "latest"
   template:
     metadata:
       name: workloads-{{name}}

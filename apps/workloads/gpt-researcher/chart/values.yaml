@@ -1,0 +1,40 @@
+namespace: gpt-researcher
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/assafelovic/gpt-researcher
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  port: 8000
+  type: ClusterIP
+
+ingress:
+  host: researcher.oremuslabs.app
+  tlsSecret: oremuslabs-app-wildcard-tls
+  entryPoints:
+    - websecure
+
+env:
+  - name: HOST
+    value: "0.0.0.0"
+  - name: PORT
+    value: "8000"
+  - name: WORKERS
+    value: "4"
+  - name: OPENAI_API_KEY
+    value: "placeholder-key"
+  - name: OPENAI_BASE_URL
+    value: "http://gpt-oss.oremuslabs.app/v1"
+  - name: TAVILY_API_KEY
+    value: "placeholder"
+  - name: NEXT_PUBLIC_GPTR_API_URL
+    value: "https://researcher.oremuslabs.app"
+
+resources: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
