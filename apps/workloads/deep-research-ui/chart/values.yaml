@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
-  tag: "gs-phase3d"
+  tag: "gs-phase2clar"
   pullPolicy: IfNotPresent
 
 service:
