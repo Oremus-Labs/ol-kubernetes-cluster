@@ -30,6 +30,10 @@ env:
     value: "http://10.10.10.8:8080/v1"
   - name: NEXT_PUBLIC_GPTR_API_URL
     value: "https://researcher.oremuslabs.app"
+  - name: SMART_LLM
+    value: "openai:ai/gpt-oss:120B-ctx131k"
+  - name: FAST_LLM
+    value: "openai:ai/gpt-oss:120B-ctx131k"
 
 resources: {}
 
