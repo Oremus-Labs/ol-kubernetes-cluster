@@ -28,8 +28,6 @@ env:
     value: "placeholder-key"
   - name: OPENAI_BASE_URL
     value: "http://10.10.10.8:8080/v1"
-  - name: TAVILY_API_KEY
-    value: "placeholder"
   - name: NEXT_PUBLIC_GPTR_API_URL
     value: "https://researcher.oremuslabs.app"
 
@@ -38,3 +36,14 @@ resources: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
+
+firecrawl:
+  serverUrl: "http://firecrawl-api.firecrawl.svc.cluster.local:3002"
+  apiKey: ""
+
+onepasswordItems:
+  tavily:
+    create: true
+    name: gpt-researcher-tavily
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/aexze6iyzalox4o4ebsoakopvm"

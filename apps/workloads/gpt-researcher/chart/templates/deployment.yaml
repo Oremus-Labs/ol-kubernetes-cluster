@@ -24,6 +24,21 @@ spec:
             - name: {{ .name }}
               value: {{ .value | quote }}
 {{- end }}
+          {{- with .Values.onepasswordItems.tavily }}
+          {{- if and .create .onepassword.itemPath }}
+            - name: TAVILY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .name | default (printf "%s-%s" (include "gpt-researcher.fullname" $) "tavily") }}
+                  key: API_KEY
+          {{- end }}
+          {{- end }}
+            - name: FIRECRAWL_SERVER_URL
+              value: {{ .Values.firecrawl.serverUrl | quote }}
+          {{- if .Values.firecrawl.apiKey }}
+            - name: FIRECRAWL_API_KEY
+              value: {{ .Values.firecrawl.apiKey | quote }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
