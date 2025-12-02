@@ -27,7 +27,7 @@ env:
   - name: OPENAI_API_KEY
     value: "placeholder-key"
   - name: OPENAI_BASE_URL
-    value: "http://gpt-oss.oremuslabs.app/v1"
+    value: "http://10.10.10.8:8080/v1"
   - name: TAVILY_API_KEY
     value: "placeholder"
   - name: NEXT_PUBLIC_GPTR_API_URL
