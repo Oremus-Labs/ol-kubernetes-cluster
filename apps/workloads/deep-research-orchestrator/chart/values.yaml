@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/oremus-labs/ol-deep-research-orchestrator
-  tag: "cl3-citations3"
+  tag: "gs-phase1b"
   pullPolicy: IfNotPresent
 
 service:
