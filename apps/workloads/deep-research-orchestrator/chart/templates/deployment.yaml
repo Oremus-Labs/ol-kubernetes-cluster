@@ -121,6 +121,10 @@ spec:
               value: {{ .Values.worker.warmNotesLimit | quote }}
             - name: WARM_NOTES_IMPORTANCE_MIN
               value: {{ .Values.worker.warmImportanceMin | quote }}
+            - name: HYBRID_RETRIEVAL_ENABLED
+              value: {{ .Values.worker.hybridRetrieval.enabled | quote }}
+            - name: HYBRID_RETRIEVAL_LIMIT
+              value: {{ .Values.worker.hybridRetrieval.limit | quote }}
             - name: RESCUE_HEARTBEAT_SECONDS
               value: {{ .Values.worker.rescueHeartbeatSeconds | quote }}
             - name: RESCUE_START_SECONDS

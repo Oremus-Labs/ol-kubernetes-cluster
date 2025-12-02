@@ -102,13 +102,13 @@ spec:
         project: workloads
         path: apps/workloads/deep-research-orchestrator/chart
         targetRevision: main
-        imageTag: "gs-phase2"
+        imageTag: "gs-phase3b"
       - name: deep-research-ui
         namespace: deep-research
         project: workloads
         path: apps/workloads/deep-research-ui/chart
         targetRevision: main
-        imageTag: "gs-phase2"
+        imageTag: "gs-phase3b"
   template:
     metadata:
       name: workloads-{{name}}

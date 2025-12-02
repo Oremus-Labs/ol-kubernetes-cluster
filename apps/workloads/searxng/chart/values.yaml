@@ -35,6 +35,14 @@ searxng:
             - html
             - json
 
+        engines:
+          - name: brave
+            disabled: true
+          - name: duckduckgo
+            disabled: true
+          - name: wikipedia
+            disabled: true
+
     limiter:
       enabled: false
 
