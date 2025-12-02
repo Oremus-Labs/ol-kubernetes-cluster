@@ -34,6 +34,8 @@ env:
     value: "openai:ai/gpt-oss:120B-ctx131k"
   - name: FAST_LLM
     value: "openai:ai/gpt-oss:120B-ctx131k"
+  - name: STRATEGIC_LLM
+    value: "openai:ai/gpt-oss:120B-ctx131k"
 
 resources: {}
 
