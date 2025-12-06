@@ -1,0 +1,41 @@
+{{- $root := . -}}
+{{- $route := $root.Values.traefik.ingressRoute -}}
+{{- if and $route $route.enabled $route.host }}
+{{- $entryPoints := default (list "websecure") $route.entryPoints -}}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "mcpo.fullname" $root }}
+  namespace: {{ include "mcpo.namespace" $root }}
+  labels:
+    {{- include "mcpo.labels" $root | nindent 4 }}
+  {{- with $route.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  entryPoints:
+    {{- range $entryPoints }}
+    - {{ . }}
+    {{- end }}
+  routes:
+    - kind: Rule
+      match: Host(`{{ $route.host }}`)
+      {{- with $route.middlewares }}
+      middlewares:
+        {{- range . }}
+        - name: {{ required "traefik middleware name is required when defining middlewares" .name }}
+          namespace: {{ default "traefik" .namespace }}
+        {{- end }}
+      {{- end }}
+      services:
+        - name: {{ include "mcpo.fullname" $root }}
+          namespace: {{ include "mcpo.namespace" $root }}
+          port: {{ $root.Values.service.port }}
+  {{- with $route.tls }}
+  tls:
+    {{- if .secretName }}
+    secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+{{- end }}

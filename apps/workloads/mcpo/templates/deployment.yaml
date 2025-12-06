@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mcpo.fullname" . }}
+  namespace: {{ include "mcpo.namespace" . }}
+  labels:
+    {{- include "mcpo.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "mcpo.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- $podAnnotations := include "mcpo.podAnnotations" . }}
+      {{- if $podAnnotations }}
+      annotations:
+        {{- $podAnnotations | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "mcpo.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "mcpo.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: mcpo
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - |
+              set -eu
+              ARGS="--config {{ .Values.config.path }}"
+              {{- if .Values.config.hotReload }}
+              ARGS="$ARGS --hot-reload"
+              {{- end }}
+              if [ -n "${MCPO_API_KEY:-}" ]; then
+                ARGS="$ARGS --api-key ${MCPO_API_KEY}"
+              fi
+              exec mcpo $ARGS
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          {{- $hasApiKey := or .Values.security.apiKey .Values.security.existingSecret }}
+          {{- if or $hasApiKey (gt (len .Values.env.extra) 0) }}
+          env:
+            {{- if or .Values.security.apiKey .Values.security.existingSecret }}
+            - name: MCPO_API_KEY
+              {{- if .Values.security.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.security.existingSecret | quote }}
+                  key: {{ .Values.security.existingSecretKey | default "MCPO_API_KEY" | quote }}
+              {{- else }}
+              value: {{ .Values.security.apiKey | quote }}
+              {{- end }}
+            {{- end }}
+            {{- range .Values.env.extra }}
+            - {{- toYaml . | nindent 14 }}
+            {{- end }}
+          {{- end }}
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/mcpo
+              readOnly: true
+            {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ default (printf "%s-config" (include "mcpo.fullname" .)) .Values.config.existingConfigMap }}
+      {{- with .Values.volumes }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

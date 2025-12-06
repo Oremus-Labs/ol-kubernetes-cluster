@@ -1,0 +1,169 @@
+# Namespace override (defaults to Release namespace or global.namespaces.core when provided)
+targetNamespace: ""
+
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 70
+
+image:
+  repository: ghcr.io/open-webui/mcpo
+  tag: "git-91e8f94"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext:
+  runAsNonRoot: false
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  port: 8000
+  annotations: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: mcpo.oremuslabs.app
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+traefik:
+  ingressRoute:
+    enabled: true
+    host: mcpo.oremuslabs.app
+    entryPoints:
+      - websecure
+    annotations:
+      traefik.io/ingress-controller: traefik
+    tls:
+      secretName: oremuslabs-app-wildcard-tls
+
+security:
+  apiKey: ""
+  existingSecret: mcpo-api-key
+  existingSecretKey: credential
+
+onepasswordItems:
+  apiKey:
+    create: true
+    name: mcpo-api-key
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/jjx2e6wo25vv5j4a4l6znmlpfu"
+
+config:
+  path: /etc/mcpo/config.json
+  hotReload: true
+  existingConfigMap: ""
+  mcpServers:
+    docker:
+      type: streamable-http
+      service:
+        name: docker-mcp
+        namespaceOverride: docker-mcp
+        port: 8080
+        path: /mcp
+    duckduckgo:
+      type: streamable-http
+      service:
+        name: duckduckgo-mcp
+        namespaceOverride: duckduckgo-mcp
+        port: 8080
+        path: /mcp
+    filesystem:
+      type: streamable-http
+      service:
+        name: filesystem-mcp
+        namespaceOverride: filesystem-mcp
+        port: 8080
+        path: /mcp
+    firecrawl:
+      type: streamable-http
+      service:
+        name: firecrawl-mcp
+        namespaceOverride: firecrawl
+        port: 8080
+        path: /mcp
+    github:
+      type: streamable-http
+      service:
+        name: github-mcp
+        namespaceOverride: github-mcp
+        port: 8080
+        path: /mcp
+    kubernetes:
+      type: streamable-http
+      service:
+        name: kubernetes-mcp-server
+        namespaceOverride: kubernetes-mcp
+        port: 8080
+        path: /mcp
+    n8n:
+      type: streamable-http
+      service:
+        name: n8n-mcp
+        namespaceOverride: n8n-mcp
+        port: 8080
+        path: /mcp
+
+env:
+  extra: []
+
+resources: {}
+
+livenessProbe:
+  httpGet:
+    path: /docs
+    port: http
+  initialDelaySeconds: 20
+  periodSeconds: 15
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+readinessProbe:
+  httpGet:
+    path: /docs
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 15
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+pdb:
+  enabled: false
+  minAvailable: 1
+
+networkPolicy:
+  enabled: false
+  extraEgress: []
+
+volumes: []
+volumeMounts: []
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

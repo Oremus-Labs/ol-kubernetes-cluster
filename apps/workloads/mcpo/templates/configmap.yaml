@@ -1,0 +1,50 @@
+{{- if not .Values.config.existingConfigMap }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ printf "%s-config" (include "mcpo.fullname" .) }}
+  namespace: {{ include "mcpo.namespace" . }}
+  labels:
+    {{- include "mcpo.labels" . | nindent 4 }}
+{{ $root := . }}
+{{ $global := default (dict) .Values.global }}
+{{ $nsMap := default (dict) $global.namespaces }}
+{{ $servers := deepCopy (default (dict) .Values.config.mcpServers) }}
+{{- range $name, $server := $servers }}
+  {{- if and (not (hasKey $server "url")) (hasKey $server "service") }}
+    {{- $svc := $server.service -}}
+    {{- $component := default $name $svc.component -}}
+    {{- $nsKey := default "core" $svc.namespaceKey -}}
+    {{- $nsName := coalesce $svc.namespaceOverride (get $nsMap $nsKey) $root.Release.Namespace -}}
+    {{- $portVal := default 8000 $svc.port -}}
+    {{- $port := int $portVal -}}
+    {{- $path := "" -}}
+    {{- if $svc.path }}
+      {{- $raw := $svc.path -}}
+      {{- if hasPrefix $raw "/" }}
+        {{- $path = $raw -}}
+      {{- else }}
+        {{- $path = printf "/%s" $raw -}}
+      {{- end }}
+      {{- $clean := regexReplaceAll "^/+" $path "" -}}
+      {{- $path = printf "/%s" $clean -}}
+    {{- end }}
+    {{- $svcName := "" -}}
+    {{- if $svc.name }}
+      {{- $svcName = $svc.name -}}
+    {{- else if $component }}
+      {{- $svcName = printf "%s-%s" $root.Release.Name $component -}}
+    {{- else }}
+      {{- $svcName = include "mcpo.fullname" $root -}}
+    {{- end }}
+    {{- $scheme := default "http" $svc.scheme -}}
+    {{- $url := printf "%s://%s.%s.svc.cluster.local:%d%s" $scheme $svcName $nsName $port $path -}}
+    {{- $_ := set (get $servers $name) "url" $url -}}
+    {{- $_ := unset (get $servers $name) "service" -}}
+  {{- end }}
+{{- end }}
+{{- $config := dict "mcpServers" $servers -}}
+data:
+  config.json: |
+    {{- toJson $config | nindent 4 }}
+{{- end }}

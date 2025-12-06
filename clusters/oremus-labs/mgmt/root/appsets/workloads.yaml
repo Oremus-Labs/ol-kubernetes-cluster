@@ -91,6 +91,12 @@ spec:
         path: apps/workloads/gpt-researcher-frontend/chart
         targetRevision: main
         imageTag: "nextjs-v1"
+      - name: mcpo
+        namespace: mcpo
+        project: workloads
+        path: apps/workloads/mcpo/chart
+        targetRevision: main
+        imageTag: "git-91e8f94"
   template:
     metadata:
       name: workloads-{{name}}
