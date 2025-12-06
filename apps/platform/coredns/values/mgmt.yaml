@@ -1,7 +1,7 @@
 fullnameOverride: coredns
 image:
   repository: coredns/coredns
-replicaCount: 1
+replicaCount: 3
 priorityClassName: system-cluster-critical
 serviceAccount:
   create: true
@@ -10,6 +10,16 @@ serviceAccount:
     addonmanager.kubernetes.io/mode: Reconcile
 podAnnotations:
   addonmanager.kubernetes.io/mode: Reconcile
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: k8s-app
+          operator: In
+          values:
+          - coredns
+      topologyKey: kubernetes.io/hostname
 resources:
   limits:
     cpu: 100m
@@ -101,3 +111,5 @@ servers:
 tolerations:
 - key: "CriticalAddonsOnly"
   operator: "Exists"
+podDisruptionBudget:
+  minAvailable: 2
