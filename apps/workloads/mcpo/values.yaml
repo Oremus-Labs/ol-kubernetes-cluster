@@ -83,7 +83,7 @@ config:
     docker:
       type: streamable-http
       service:
-        name: docker-mcp
+        name: docker-mcp-docker-mcp-wrapper
         namespaceOverride: docker-mcp
         port: 8080
         path: /mcp
@@ -111,7 +111,7 @@ config:
     github:
       type: streamable-http
       service:
-        name: github-mcp
+        name: github-mcp-github-mcp-wrapper
         namespaceOverride: github-mcp
         port: 8080
         path: /mcp
@@ -125,7 +125,7 @@ config:
     n8n:
       type: streamable-http
       service:
-        name: n8n-mcp
+        name: n8n-mcp-n8n-mcp-wrapper
         namespaceOverride: n8n-mcp
         port: 8080
         path: /mcp
