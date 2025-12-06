@@ -94,7 +94,7 @@ spec:
       - name: mcpo
         namespace: mcpo
         project: workloads
-        path: apps/workloads/mcpo/chart
+        path: apps/workloads/mcpo
         targetRevision: main
         imageTag: "git-91e8f94"
   template:
