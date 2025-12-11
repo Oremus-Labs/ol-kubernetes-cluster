@@ -27,16 +27,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - /bin/sh
-            - -c
-          args:
-            - >
-              set -euo pipefail;
-              npx -y @masx200/mcp-streamable-http-bridge@2.6.0
-              --config /config/settings.json
-              --host 0.0.0.0
-              --port {{ .Values.service.port }}
-              --path-prefix /mcp
+            - node
+            - /config/bridge.js
           env:
             - name: BITBUCKET_USERNAME
               value: {{ .Values.bitbucket.username | quote }}
@@ -55,6 +47,12 @@ spec:
               value: {{ ternary "true" "false" .Values.bitbucket.enableDangerousTools | quote }}
             - name: BITBUCKET_LOG_DISABLE
               value: {{ ternary "true" "false" .Values.bitbucket.logDisable | quote }}
+            - name: MCP_COMMAND
+              value: "node"
+            - name: MCP_ARGS
+              value: '["dist/index.js"]'
+            - name: MCP_WORKDIR
+              value: "/app"
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

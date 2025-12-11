@@ -5,18 +5,209 @@ metadata:
   labels:
     {{- include "bitbucket-mcp-wrapper.labels" . | nindent 4 }}
 data:
-  settings.json: |
-    {
-      "host": "0.0.0.0",
-      "port": {{ .Values.service.port }},
-      "pathPrefix": "/mcp",
-      "mcpServers": {
-        "bitbucket": {
-          "command": "node",
-          "args": ["dist/index.js"],
-          "cwd": "/app",
-          "transport": "stdio",
-          "type": "stdio"
-        }
+  bridge.js: |
+    #!/usr/bin/env node
+    import http from 'http';
+    import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+    import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+    import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+    import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+    import {
+      CallToolRequestSchema,
+      ListToolsRequestSchema,
+      ListPromptsRequestSchema,
+      GetPromptRequestSchema,
+      ListResourcesRequestSchema,
+      ListResourceTemplatesRequestSchema,
+      ReadResourceRequestSchema,
+      SetLevelRequestSchema,
+    } from '@modelcontextprotocol/sdk/types.js';
+
+    const PORT = parseInt(process.env.PORT || '3000', 10);
+    const HOST = process.env.HOST || '0.0.0.0';
+    const COMMAND = process.env.MCP_COMMAND || 'node';
+    const ARGS = process.env.MCP_ARGS ? JSON.parse(process.env.MCP_ARGS) : ['dist/index.js'];
+    const WORKDIR = process.env.MCP_WORKDIR || '/app';
+
+    async function start() {
+      console.log('[bridge] starting Bitbucket MCP bridge');
+      const stdioTransport = new StdioClientTransport({
+        command: COMMAND,
+        args: ARGS,
+        cwd: WORKDIR,
+        env: process.env,
+      });
+
+      const client = new Client(
+        { name: 'bitbucket-bridge-client', version: '1.0.0' },
+        {
+          capabilities: {
+            tools: {},
+            prompts: {},
+            resources: {},
+            logging: {},
+          },
+        },
+      );
+
+      client.onerror = (err) => {
+        console.error('[bridge] client error', err);
+      };
+
+      client.onclose = () => {
+        console.error('[bridge] client connection closed');
+        process.exit(1);
+      };
+
+      await client.connect(stdioTransport);
+      console.log('[bridge] connected to Bitbucket MCP via stdio');
+
+      function buildServer() {
+        const srv = new Server(
+          { name: 'bitbucket-mcp-http', version: '1.0.0' },
+          {
+            capabilities: {
+              tools: {},
+              prompts: {},
+              resources: {},
+              logging: {},
+            },
+          },
+        );
+
+        srv.setRequestHandler(ListToolsRequestSchema, async (req) => {
+          return client.listTools(req.params);
+        });
+
+        srv.setRequestHandler(CallToolRequestSchema, async (req) => {
+          return client.callTool(req.params);
+        });
+
+        srv.setRequestHandler(ListPromptsRequestSchema, async (req) => {
+          return client.listPrompts(req.params);
+        });
+
+        srv.setRequestHandler(GetPromptRequestSchema, async (req) => {
+          return client.getPrompt(req.params);
+        });
+
+        srv.setRequestHandler(ListResourcesRequestSchema, async (req) => {
+          return client.listResources(req.params);
+        });
+
+        srv.setRequestHandler(ReadResourceRequestSchema, async (req) => {
+          return client.readResource(req.params);
+        });
+
+        srv.setRequestHandler(ListResourceTemplatesRequestSchema, async (req) => {
+          return client.listResourceTemplates(req.params);
+        });
+
+        srv.setRequestHandler(SetLevelRequestSchema, async (req) => {
+          return client.setLoggingLevel(req.params.level);
+        });
+
+        return srv;
       }
+
+      const server = http.createServer(async (req, res) => {
+        if (!req.url) {
+          res.writeHead(400).end('bad request');
+          return;
+        }
+
+        if (req.url === '/healthz') {
+          res.writeHead(200, { 'content-type': 'application/json' });
+          return res.end(JSON.stringify({ status: 'ok' }));
+        }
+
+        if (!req.url.startsWith('/mcp')) {
+          res.writeHead(404).end('not found');
+          return;
+        }
+
+        if (!['GET', 'POST', 'DELETE'].includes(req.method || '')) {
+          res.writeHead(405).end('method not allowed');
+          return;
+        }
+
+        const mcpServer = buildServer();
+        const transport = new StreamableHTTPServerTransport({});
+
+        try {
+          await mcpServer.connect(transport);
+          let body = undefined;
+          if (req.method === 'POST') {
+            body = await readBody(req);
+            if (body && body.length > 0) {
+              try {
+                body = JSON.parse(body);
+              } catch (err) {
+                console.error('[bridge] failed to parse body', err);
+                res.writeHead(400).end(
+                  JSON.stringify({
+                    jsonrpc: '2.0',
+                    error: { code: -32700, message: 'Invalid JSON body' },
+                    id: null,
+                  }),
+                );
+                transport.close();
+                mcpServer.close();
+                return;
+              }
+            } else {
+              body = {};
+            }
+          }
+
+          res.on('close', () => {
+            transport.close();
+            mcpServer.close();
+          });
+          res.on('finish', () => {
+            transport.close();
+            mcpServer.close();
+          });
+
+          await transport.handleRequest(req, res, body);
+        } catch (err) {
+          console.error('[bridge] transport error', err);
+          if (!res.headersSent) {
+            res.writeHead(500).end(
+              JSON.stringify({
+                jsonrpc: '2.0',
+                error: { code: -32603, message: 'Internal error' },
+                id: null,
+              }),
+            );
+          }
+          transport.close();
+          mcpServer.close();
+        }
+      });
+
+      server.listen(PORT, HOST, () => {
+        console.log(`[bridge] listening on http://${HOST}:${PORT}/mcp`);
+      });
+
+      process.on('SIGINT', () => {
+        console.log('[bridge] shutting down');
+        server.close(() => process.exit(0));
+      });
     }
+
+    function readBody(req) {
+      return new Promise((resolve, reject) => {
+        let data = '';
+        req.on('data', (chunk) => {
+          data += chunk;
+        });
+        req.on('end', () => resolve(data));
+        req.on('error', reject);
+      });
+    }
+
+    start().catch((err) => {
+      console.error('[bridge] fatal error', err);
+      process.exit(1);
+    });
