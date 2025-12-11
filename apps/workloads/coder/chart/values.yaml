@@ -1,13 +1,10 @@
 namespace: coder
 
-image:
-  tag: "2.29.1"
-
 coder:
   coder:
     image:
       repository: ghcr.io/coder/coder
-      tag: "2.29.1"
+      tag: "v2.29.1"
       pullPolicy: IfNotPresent
     envUseClusterAccessURL: false
     env:
