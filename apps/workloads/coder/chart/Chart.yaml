@@ -1,0 +1,9 @@
+apiVersion: v2
+name: coder-wrapper
+description: Wrapper chart that installs the upstream Coder Helm chart with Oremus Labs defaults
+version: 0.1.0
+type: application
+dependencies:
+  - name: coder
+    version: 2.29.1
+    repository: https://helm.coder.com/v2

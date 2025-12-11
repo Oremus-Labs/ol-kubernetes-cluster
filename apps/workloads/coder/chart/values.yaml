@@ -1,0 +1,87 @@
+namespace: coder
+
+image:
+  tag: "2.29.1"
+
+coder:
+  image:
+    repository: ghcr.io/coder/coder
+    tag: "2.29.1"
+    pullPolicy: IfNotPresent
+  envUseClusterAccessURL: false
+  env:
+    - name: CODER_PG_CONNECTION_URL
+      valueFrom:
+        secretKeyRef:
+          name: coder-db-url
+          key: url
+    - name: CODER_ACCESS_URL
+      value: "https://coder.oremuslabs.app"
+  ingress:
+    enable: false
+  service:
+    enable: true
+    type: ClusterIP
+
+postgres:
+  enabled: true
+  image:
+    repository: postgres
+    tag: "16.4"
+    pullPolicy: IfNotPresent
+  serviceName: coder-postgres
+  servicePort: 5432
+  storage:
+    size: 20Gi
+    className: longhorn
+    accessModes:
+      - ReadWriteOnce
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  credentialsSecret:
+    name: coder-postgres
+    create: true
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/3miijrvvj4vyniqqxguo7pnwki"
+    keys:
+      user: POSTGRES_USER
+      password: POSTGRES_PASSWORD
+      database: POSTGRES_DB
+  urlSecret:
+    name: coder-db-url
+    key: url
+    create: true
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/cr6kbsp4clsitloxuvviihxfgy"
+
+ingressRoute:
+  enabled: true
+  host: coder.oremuslabs.app
+  serviceName: coder
+  servicePort: 80
+  entryPoints:
+    - websecure
+  tlsSecret: oremuslabs-app-wildcard-tls
+  middlewares: []
+
+certificate:
+  enabled: true
+  secretName: oremuslabs-app-wildcard-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  hosts:
+    - "*.oremuslabs.app"
+    - oremuslabs.app
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}

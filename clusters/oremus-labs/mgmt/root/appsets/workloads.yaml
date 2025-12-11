@@ -49,6 +49,12 @@ spec:
         path: apps/workloads/docker-mcp/chart
         targetRevision: main
         imageTag: latest
+      - name: coder
+        namespace: coder
+        project: workloads
+        path: apps/workloads/coder/chart
+        targetRevision: main
+        imageTag: "2.29.1"
       - name: duckduckgo-mcp
         namespace: duckduckgo-mcp
         project: workloads
