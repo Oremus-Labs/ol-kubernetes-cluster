@@ -51,7 +51,7 @@ bitbucket:
     name: bitbucket-mcp-token
     key: ACCESS_TOKEN
     onepassword:
-      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/lzhlo4lsolirrwzt3b2ow6tg5i"
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/ybvtyicq567mj2s4nhvegwkuue"
 
 resources:
   requests:
