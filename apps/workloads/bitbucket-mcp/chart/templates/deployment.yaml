@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bitbucket-mcp-wrapper.fullname" . }}
+  labels:
+    {{- include "bitbucket-mcp-wrapper.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "bitbucket-mcp-wrapper.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "bitbucket-mcp-wrapper.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "bitbucket-mcp-wrapper.serviceAccountName" . }}
+      containers:
+        - name: bitbucket-mcp
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: BITBUCKET_USERNAME
+              value: {{ .Values.bitbucket.username | quote }}
+            - name: BITBUCKET_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.bitbucket.tokenSecret.name }}
+                  key: {{ .Values.bitbucket.tokenSecret.key }}
+            - name: BITBUCKET_URL
+              value: {{ .Values.bitbucket.url | quote }}
+            {{- if .Values.bitbucket.workspace }}
+            - name: BITBUCKET_WORKSPACE
+              value: {{ .Values.bitbucket.workspace | quote }}
+            {{- end }}
+            - name: BITBUCKET_ENABLE_DANGEROUS
+              value: {{ ternary "true" "false" .Values.bitbucket.enableDangerousTools | quote }}
+            - name: BITBUCKET_LOG_DISABLE
+              value: {{ ternary "true" "false" .Values.bitbucket.logDisable | quote }}
+            {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.extraEnvFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

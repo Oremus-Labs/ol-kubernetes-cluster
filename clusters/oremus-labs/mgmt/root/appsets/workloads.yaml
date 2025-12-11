@@ -97,6 +97,12 @@ spec:
         path: apps/workloads/jenkins/chart
         targetRevision: main
         imageTag: "lts-jdk21"
+      - name: bitbucket-mcp
+        namespace: bitbucket-mcp
+        project: workloads
+        path: apps/workloads/bitbucket-mcp/chart
+        targetRevision: main
+        imageTag: "latest"
       - name: mcpo
         namespace: mcpo
         project: workloads

@@ -115,6 +115,13 @@ config:
         namespaceOverride: github-mcp
         port: 8080
         path: /mcp
+    bitbucket:
+      type: streamable-http
+      service:
+        name: bitbucket-mcp-bitbucket-mcp-wrapper
+        namespaceOverride: bitbucket-mcp
+        port: 3000
+        path: /mcp
     kubernetes:
       type: streamable-http
       service:

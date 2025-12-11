@@ -1,0 +1,79 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/oremus-labs/bitbucket-mcp
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+service:
+  type: ClusterIP
+  port: 3000
+
+podAnnotations: {}
+podLabels: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  host: bitbucket-mcp.oremuslabs.app
+  tls:
+    secretName: oremuslabs-app-wildcard-tls
+
+certificate:
+  enabled: true
+  secretName: oremuslabs-app-wildcard-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  hosts:
+    - "*.oremuslabs.app"
+    - oremuslabs.app
+
+bitbucket:
+  url: https://api.bitbucket.org/2.0
+  workspace: ""
+  username: steven.buglione@oremuslabs.app
+  enableDangerousTools: false
+  logDisable: true
+  tokenSecret:
+    create: true
+    name: bitbucket-mcp-token
+    key: ACCESS_TOKEN
+    onepassword:
+      itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/w73vdcn6nffe7t3njtuoesivz4"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 300m
+    memory: 512Mi
+
+extraEnv: []
+extraEnvFrom: []
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 30
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 15

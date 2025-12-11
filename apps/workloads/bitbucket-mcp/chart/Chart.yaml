@@ -1,0 +1,5 @@
+apiVersion: v2
+name: bitbucket-mcp-wrapper
+description: Wrapper chart to deploy the Bitbucket MCP server via HTTP
+version: 0.1.0
+type: application
