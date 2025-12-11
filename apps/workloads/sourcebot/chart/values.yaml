@@ -46,6 +46,11 @@ sourcebot:
             env: GITHUB_TOKEN
           orgs:
             - Oremus-Labs
+      models:
+        - provider: openai-compatible
+          displayName: Local VLLM
+          model: oremus-labs-local
+          baseUrl: http://10.10.10.8:8080/v1
       settings: {}
     additionalEnv: []
 
