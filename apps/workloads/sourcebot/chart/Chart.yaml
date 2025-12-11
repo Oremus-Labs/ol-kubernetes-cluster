@@ -1,0 +1,9 @@
+apiVersion: v2
+name: sourcebot-wrapper
+description: Wrapper chart that installs the upstream Sourcebot Helm chart with Oremus Labs defaults
+version: 0.1.0
+type: application
+dependencies:
+  - name: sourcebot
+    version: 0.1.9
+    repository: https://sourcebot-dev.github.io/sourcebot-helm-chart

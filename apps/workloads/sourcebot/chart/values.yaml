@@ -1,0 +1,58 @@
+sourcebot:
+  sourcebot:
+    replicaCount: 1
+    image:
+      pullPolicy: IfNotPresent
+    ingress:
+      enabled: true
+      className: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      hosts:
+        - host: sourcebot.oremuslabs.app
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - sourcebot.oremuslabs.app
+          secretName: oremuslabs-app-wildcard-tls
+    persistence:
+      enabled: true
+      size: 50Gi
+      storageClass: longhorn
+      accessModes:
+        - ReadWriteOnce
+    service:
+      type: ClusterIP
+      port: 3000
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+    additionalEnv: []
+
+  postgresql:
+    deploy: true
+    auth:
+      username: sourcebot
+      database: sourcebot
+      existingSecret: sourcebot-secrets
+      secretKeys:
+        userPasswordKey: postgresql-password
+        adminPasswordKey: postgresql-password
+    primary:
+      persistence:
+        enabled: true
+        size: 20Gi
+        storageClass: longhorn
+
+  redis:
+    deploy: true
+    auth:
+      username: default
+      existingSecret: sourcebot-secrets
+      existingSecretPasswordKey: redis-password

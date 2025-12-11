@@ -1,0 +1,6 @@
+dependencies:
+- name: sourcebot
+  repository: https://sourcebot-dev.github.io/sourcebot-helm-chart
+  version: 0.1.9
+digest: sha256:3b77876eb555986566422c3ebda632a0cbab03b3d56ee6a9b103c13623e590cd
+generated: "2025-12-10T23:01:10.5741401-05:00"

@@ -25,6 +25,12 @@ spec:
         path: apps/workloads/searxng/chart
         targetRevision: main
         imageTag: latest
+      - name: sourcebot
+        namespace: sourcebot
+        project: workloads
+        path: apps/workloads/sourcebot/chart
+        targetRevision: main
+        imageTag: latest
       - name: open-webui
         namespace: open-webui
         project: workloads
