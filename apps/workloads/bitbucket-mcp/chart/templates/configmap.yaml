@@ -5,13 +5,13 @@ metadata:
   labels:
     {{- include "bitbucket-mcp-wrapper.labels" . | nindent 4 }}
 data:
-  bridge.js: |
+  bridge.mjs: |
     #!/usr/bin/env node
     import http from 'http';
-    import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-    import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-    import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-    import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+    import { Client } from '/app/node_modules/@modelcontextprotocol/sdk/dist/client/index.js';
+    import { StdioClientTransport } from '/app/node_modules/@modelcontextprotocol/sdk/dist/client/stdio.js';
+    import { Server } from '/app/node_modules/@modelcontextprotocol/sdk/dist/server/index.js';
+    import { StreamableHTTPServerTransport } from '/app/node_modules/@modelcontextprotocol/sdk/dist/server/streamableHttp.js';
     import {
       CallToolRequestSchema,
       ListToolsRequestSchema,
@@ -21,7 +21,7 @@ data:
       ListResourceTemplatesRequestSchema,
       ReadResourceRequestSchema,
       SetLevelRequestSchema,
-    } from '@modelcontextprotocol/sdk/types.js';
+    } from '/app/node_modules/@modelcontextprotocol/sdk/dist/types.js';
 
     const PORT = parseInt(process.env.PORT || '3000', 10);
     const HOST = process.env.HOST || '0.0.0.0';

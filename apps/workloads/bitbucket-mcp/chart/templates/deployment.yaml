@@ -28,7 +28,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - node
-            - /config/bridge.js
+            - /config/bridge.mjs
           env:
             - name: BITBUCKET_USERNAME
               value: {{ .Values.bitbucket.username | quote }}
@@ -53,6 +53,8 @@ spec:
               value: '["dist/index.js"]'
             - name: MCP_WORKDIR
               value: "/app"
+            - name: NODE_PATH
+              value: "/app/node_modules"
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
