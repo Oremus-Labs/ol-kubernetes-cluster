@@ -8,10 +8,10 @@ data:
   bridge.mjs: |
     #!/usr/bin/env node
     import http from 'http';
-    import { Client } from '/app/node_modules/@modelcontextprotocol/sdk/dist/client/index.js';
-    import { StdioClientTransport } from '/app/node_modules/@modelcontextprotocol/sdk/dist/client/stdio.js';
-    import { Server } from '/app/node_modules/@modelcontextprotocol/sdk/dist/server/index.js';
-    import { StreamableHTTPServerTransport } from '/app/node_modules/@modelcontextprotocol/sdk/dist/server/streamableHttp.js';
+    import { Client } from '/app/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js';
+    import { StdioClientTransport } from '/app/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js';
+    import { Server } from '/app/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js';
+    import { StreamableHTTPServerTransport } from '/app/node_modules/@modelcontextprotocol/sdk/dist/esm/server/streamableHttp.js';
     import {
       CallToolRequestSchema,
       ListToolsRequestSchema,
@@ -21,7 +21,7 @@ data:
       ListResourceTemplatesRequestSchema,
       ReadResourceRequestSchema,
       SetLevelRequestSchema,
-    } from '/app/node_modules/@modelcontextprotocol/sdk/dist/types.js';
+    } from '/app/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js';
 
     const PORT = parseInt(process.env.PORT || '3000', 10);
     const HOST = process.env.HOST || '0.0.0.0';
