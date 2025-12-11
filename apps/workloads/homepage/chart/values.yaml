@@ -55,7 +55,7 @@ config:
         - Sourcebot:
             href: https://sourcebot.oremuslabs.app
             description: Code understanding assistant
-            icon: robot
+            icon: phantombot
     - Storage:
         - Longhorn:
             href: https://longhorn.oremuslabs.app
