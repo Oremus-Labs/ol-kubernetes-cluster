@@ -47,7 +47,7 @@ bitbucket:
   enableDangerousTools: false
   logDisable: true
   tokenSecret:
-    create: true
+    create: false
     name: bitbucket-mcp-token
     key: ACCESS_TOKEN
     onepassword:
@@ -64,16 +64,5 @@ resources:
 extraEnv: []
 extraEnvFrom: []
 
-livenessProbe:
-  httpGet:
-    path: /health
-    port: http
-  initialDelaySeconds: 10
-  periodSeconds: 30
-
-readinessProbe:
-  httpGet:
-    path: /health
-    port: http
-  initialDelaySeconds: 5
-  periodSeconds: 15
+livenessProbe: null
+readinessProbe: null
