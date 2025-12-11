@@ -33,6 +33,20 @@ sourcebot:
       limits:
         cpu: 2000m
         memory: 4Gi
+    additionalEnvSecrets:
+      - envName: GITHUB_TOKEN
+        secretName: sourcebot-github-token
+        secretKey: credential
+    config:
+      $schema: https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json
+      connections:
+        oremus-labs-github:
+          type: github
+          token:
+            env: GITHUB_TOKEN
+          orgs:
+            - Oremus-Labs
+      settings: {}
     additionalEnv: []
 
   postgresql:
@@ -56,3 +70,9 @@ sourcebot:
       username: default
       existingSecret: sourcebot-secrets
       existingSecretPasswordKey: redis-password
+
+githubTokenSecret:
+  create: true
+  name: sourcebot-github-token
+  onepassword:
+    itemPath: "vaults/fekk46izlezqrgocthhcn4xwp4/items/t2jgbevjw6a645f4amgw73ay5u"
