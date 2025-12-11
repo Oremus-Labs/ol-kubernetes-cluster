@@ -91,6 +91,12 @@ spec:
         path: apps/workloads/gpt-researcher-frontend/chart
         targetRevision: main
         imageTag: "nextjs-v1"
+      - name: jenkins
+        namespace: jenkins
+        project: workloads
+        path: apps/workloads/jenkins/chart
+        targetRevision: main
+        imageTag: "lts-jdk21"
       - name: mcpo
         namespace: mcpo
         project: workloads

@@ -1,0 +1,67 @@
+namespace: jenkins
+
+ingressRoute:
+  enabled: true
+  host: jenkins.oremuslabs.app
+  entryPoints:
+    - websecure
+  tlsSecret: oremuslabs-app-wildcard-tls
+  servicePort: 8080
+  middlewares: []
+
+certificate:
+  enabled: true
+  secretName: oremuslabs-app-wildcard-tls
+  issuerRef:
+    name: cloudflare-dns
+    kind: ClusterIssuer
+  commonName: "*.oremuslabs.app"
+  hosts:
+    - "*.oremuslabs.app"
+    - oremuslabs.app
+
+jenkins:
+  fullnameOverride: jenkins
+  namespaceOverride: ""
+  controller:
+    numExecutors: 2
+    serviceType: ClusterIP
+    servicePort: 8080
+    targetPort: 8080
+    ingress:
+      enabled: false
+    jenkinsUrl: https://jenkins.oremuslabs.app
+    jenkinsUrlProtocol: https
+    image:
+      registry: docker.io
+      repository: jenkins/jenkins
+      tag: lts-jdk21
+      pullPolicy: IfNotPresent
+    installLatestPlugins: false
+    installPlugins:
+      - kubernetes:4392.v19cea_fdb_5913
+      - workflow-aggregator:608.v67378e9d3db_1
+      - git:5.8.0
+      - configuration-as-code:2006.v001a_2ca_6b_574
+    initializeOnce: true
+    javaOpts: "-Xms1024m -Xmx2048m"
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+    serviceAnnotations: {}
+    podAnnotations: {}
+    enableServiceLinks: false
+  persistence:
+    enabled: true
+    existingClaim: ""
+    storageClass: longhorn
+    accessMode: ReadWriteOnce
+    size: 50Gi
+    annotations:
+      helm.sh/resource-policy: keep
+  agent:
+    enabled: false

@@ -1,0 +1,21 @@
+{{- if .Values.certificate.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: oremuslabs-app-wildcard
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  secretName: {{ .Values.certificate.secretName }}
+  issuerRef:
+    name: {{ .Values.certificate.issuerRef.name }}
+    kind: {{ .Values.certificate.issuerRef.kind }}
+  {{- if .Values.certificate.commonName }}
+  commonName: {{ .Values.certificate.commonName | quote }}
+  {{- end }}
+  dnsNames:
+  {{- range .Values.certificate.hosts }}
+    - {{ . | quote }}
+  {{- end }}
+{{- end }}
