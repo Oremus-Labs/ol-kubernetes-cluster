@@ -44,6 +44,18 @@ config:
             href: https://router.oremuslabs.app
             description: Edge router
             icon: router
+        - Jenkins:
+            href: https://jenkins.oremuslabs.app
+            description: CI/CD automation server
+            icon: jenkins
+        - Coder:
+            href: https://coder.oremuslabs.app
+            description: Dev workspaces
+            icon: code
+        - Sourcebot:
+            href: https://sourcebot.oremuslabs.app
+            description: Code understanding assistant
+            icon: robot
     - Storage:
         - Longhorn:
             href: https://longhorn.oremuslabs.app
